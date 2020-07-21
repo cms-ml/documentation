@@ -19,7 +19,7 @@ jobs:
         run: docker pull cmsml/documentation
 
       - name: Build 🔧
-        run: docker run --rm -t -v `pwd`:/root/documentation cmsml/documentation
+        run: ./docker/run.sh build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.7

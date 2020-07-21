@@ -1,5 +1,8 @@
 FROM python:3.8
 
+# ports
+EXPOSE 8000
+
 # minimal software stack
 RUN apt-get update; apt-get clean
 RUN apt-get install -y nano less htop git; apt-get clean
@@ -13,8 +16,8 @@ Run pip install mkdocs-material
 Run pip install mkdocs-markdownextradata-plugin
 
 # fetch the repository and change the workdir
-RUN git clone https://github.com/cms-ml/documentation.git /root/documentation
-WORKDIR /root/documentation
+RUN git clone https://github.com/cms-ml/documentation.git /documentation
+WORKDIR /documentation
 
 # default command
 CMD ["mkdocs", "build", "--strict"]
