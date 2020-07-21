@@ -1,0 +1,26 @@
+site_name: CMS Machine Learning Group Documentation
+site_url: https://cms-ml.github.io/documentation
+
+docs_dir: content
+edit_uri: blob/master/content
+
+repo_name: View repository
+repo_url: https://github.com/cms-ml/documentation
+
+use_directory_urls: false
+
+theme:
+  name: material
+
+plugins:
+  - markdownextradata
+  - search
+
+markdown_extensions:
+  - admonition
+
+extra:
+  FOO: BAR
+
+nav:
+  - Test title: index.md

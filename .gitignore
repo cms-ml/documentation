@@ -1,0 +1,6 @@
+*.log
+*.DS_Store
+*.sublime-*
+*.egg-info
+__pycache__
+site

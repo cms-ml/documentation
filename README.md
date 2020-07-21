@@ -1,2 +1,1 @@
-# documentation
-Common documentation of the CMS ML group
+# Documentation of the CMS ML group
