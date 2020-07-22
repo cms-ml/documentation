@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-# This script builds or serves the documentation inside a docker container.
+# This script builds and/or serves the documentation inside a docker container.
 # Arguments:
 #  1. The mode. Must be 'build', 'serve', or 'bash'. Defaults to 'build'.
+#  2. The host port of the server when mode is 'serve'. Defaults to 8000.
 
 action() {
     local this_file="$( [ ! -z "$ZSH_VERSION" ] && echo "${(%):-%x}" || echo "${BASH_SOURCE[0]}" )"
@@ -26,7 +27,7 @@ action() {
         docker_cmd="bash"
         docker_args="$docker_args -ti"
     else
-        2>&1 echo "unknown mode '$mode', abort"
+        2>&1 echo "unknown mode '$mode'"
         return "1"
     fi
 

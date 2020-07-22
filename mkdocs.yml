@@ -1,26 +1,50 @@
-site_name: CMS Machine Learning Group Documentation
+site_name: CMS Machine Learning Documentation
 site_url: https://cms-ml.github.io/documentation
+site_description: Documentation of the CMS Machine Learning Group
+site_author: CMS Machine Learning Group
 
 docs_dir: content
+site_dir: site
 edit_uri: blob/master/content
 
-repo_name: View repository
+repo_name: cms-ml/documentation
 repo_url: https://github.com/cms-ml/documentation
 
 use_directory_urls: false
+copyright: Copyright &copy; 2020 CMS Machine Learning Group
 
 theme:
   name: material
+  logo: images/logo.png
+  favicon: images/favicon.png
+  features:
+    - tabs
+  palette:
+    scheme: preference
+    primary: indigo
+    accent: orange
 
 plugins:
+  - search:
+      min_search_length: 2
+  - minify:
+      minify_html: true
   - markdownextradata
-  - search
+  - git-revision-date-localized
 
 markdown_extensions:
   - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
 
 extra:
   FOO: BAR
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/cms-ml
 
 nav:
-  - Test: index.md
+  - Home: index.md
+  - Inference: inference

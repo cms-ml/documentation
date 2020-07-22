@@ -14,6 +14,9 @@ RUN pip install --upgrade pip
 Run pip install mkdocs
 Run pip install mkdocs-material
 Run pip install mkdocs-markdownextradata-plugin
+Run pip install mkdocs-git-revision-date-localized-plugin
+Run pip install mkdocs-awesome-pages-plugin
+Run pip install mkdocs-minify-plugin
 
 # fetch the repository and change the workdir
 RUN git clone https://github.com/cms-ml/documentation.git /documentation

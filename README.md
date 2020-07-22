@@ -1,4 +1,4 @@
-# Documentation of the CMS ML group
+# CMS Machine Learning Documentation
 
 [![Build and Deploy](https://github.com/cms-ml/documentation/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/cms-ml/documentation/actions?query=workflow%3A%22Build+and+Deploy%22)
 
@@ -18,10 +18,10 @@ mkdocs build --strict
 which creates a directory `site/` containing static HTML pages. To start a server to browse the pages, run
 
 ```shell
-mkdocs serve -a localhost:8000
+mkdocs serve --dev-addr localhost:8000
 ```
 
-and open your webbrowser at [http://localhost:8000](http://localhost:8000).
+and open your webbrowser at [http://localhost:8000](http://localhost:8000). By default, all pages are *automatically rebuilt and reloaded* when a source file is updated.
 
 To avoid installing the dependencies on your local machine, you can also use the dedicated `cmsml/documentation` docker image. Run
 
@@ -29,13 +29,13 @@ To avoid installing the dependencies on your local machine, you can also use the
 ./docker/run.sh build
 ```
 
-*within the root directory* of the repository to build the documentation, and
+to build the documentation, and
 
 ```shell
 ./docker/run.sh serve [PORT]
 ```
 
-to build and start a server. Just as above, the default port is 8000.
+to build and start the server process. Just as above, the default port is 8000 and updates of source files will automatically trigger rebuilding and reloading pages.
 
 
 ### Development
