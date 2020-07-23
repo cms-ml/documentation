@@ -17,8 +17,6 @@ theme:
   name: material
   logo: images/logo.png
   favicon: images/favicon.png
-  features:
-    - tabs
   palette:
     scheme: preference
     primary: indigo
@@ -33,18 +31,71 @@ plugins:
   - git-revision-date-localized
 
 markdown_extensions:
-  - admonition
-  - codehilite:
-      guess_lang: false
-  - toc:
+  - markdown.extensions.admonition
+  - markdown.extensions.attr_list
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
       permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 extra:
   FOO: BAR
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/cms-ml
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/orgs/cmsml/repositories
+    - icon: fontawesome/solid/comment-dots
+      link: https://hypernews.cern.ch/HyperNews/CMS/get/machine-learning.html
+    - icon: fontawesome/solid/envelope
+      link: mailto:hn-cms-machine-learning@cern.ch
 
 nav:
   - Home: index.md
-  - Inference: inference
+  - Starter Guide:
+    - Introduction: starter/introduction.md
+  - Optimization:
+    - Model Optimization: optimization/introduction.md
+  - Inference:
+    - Direct Inference:
+      - TensorFlow 1: inference/tensorflow1.md
+      - TensorFlow 2: inference/tensorflow2.md
+      - ONNX Runtime: inference/onnx.md
+      - XGBoost: inference/xgboost.md
+      - hls4ml: inference/hls4ml.md
+    - Inference as a Service:
+      - Sonic/Triton: inference/sonic_triton.md
+    - Performance: inference/performance.md
