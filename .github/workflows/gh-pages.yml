@@ -22,8 +22,22 @@ jobs:
         run: ./docker/run.sh build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.5.7
-        with:
+        env:
+          PAGES_BRANCH: gh-pages
+          SITE_DIR: site
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: site
+        run: |
+          git clone -b $PAGES_BRANCH https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git gh-pages-deployment-folder
+          mv $SITE_DIR/* gh-pages-deployment-folder/
+
+          cd gh-pages-deployment-folder
+          git config user.name $GITHUB_ACTOR
+          git config user.email $GITHUB_ACTOR@users.noreply.github.com
+
+          git status --porcelain
+          git add --all .
+          git commit -m "Deploying from @ $GITHUB_SHA 🚀"
+
+          git lfs migrate export --include="*"
+
+          git push -f

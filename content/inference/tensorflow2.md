@@ -151,7 +151,7 @@ in your `plugins/BuildFile.xml`. If you are working on a file in the using the i
 ```
 
 
-### Single-threaded inferece
+### Single-threaded inference
 
 Todo.
 
@@ -172,8 +172,8 @@ Todo.
 - [cmsml package](https://cmsml.readthedocs.io)
 - [TensorFlow C++ API](https://www.tensorflow.org/api_docs/cc)
     - [`tensorflow::Tensor`](https://www.tensorflow.org/api_docs/cc/class/tensorflow/tensor)
-    - [`tensorflow::ClientSession`](https://www.tensorflow.org/api_docs/cc/class/tensorflow/client-session)
     - [`tensorflow::Operation`](https://www.tensorflow.org/api_docs/cc/class/tensorflow/operation)
+    - [`tensorflow::ClientSession`](https://www.tensorflow.org/api_docs/cc/class/tensorflow/client-session)
 - [`tf.function`](https://www.tensorflow.org/guide/function)
 - [TensorFlow 2 tutorial](https://indico.cern.ch/event/882992/contributions/3721506/attachments/1994721/3327402/TensorFlow_2_Workshop_CERN_2020.pdf)
 - [Keras API](https://keras.io/api)
