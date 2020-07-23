@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git clone -b $PAGES_BRANCH https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git gh-pages-deployment-folder
-          rsync -q -av --checksum --progress $SITE_DIR/. gh-pages-deployment-folder --exclude .ssh --exclude .git --exclude .github
+          rsync -q -av --checksum --progress $SITE_DIR/. gh-pages-deployment-folder --exclude .ssh --exclude .git --exclude .github --exclude '*.gz'
 
           cd gh-pages-deployment-folder
           git config user.name $GITHUB_ACTOR
