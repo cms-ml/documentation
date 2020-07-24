@@ -24,10 +24,6 @@
      <lastmod>2020-07-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://cms-ml.github.io/documentation/inference/mxnet.html</loc>
-     <lastmod>2020-07-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/xgboost.html</loc>
      <lastmod>2020-07-24</lastmod>
      <changefreq>daily</changefreq>
@@ -40,7 +36,7 @@
      <lastmod>2020-07-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://cms-ml.github.io/documentation/inference/checks.html</loc>
+     <loc>https://cms-ml.github.io/documentation/inference/checklist.html</loc>
      <lastmod>2020-07-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
