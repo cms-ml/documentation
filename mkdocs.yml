@@ -21,6 +21,8 @@ theme:
     scheme: preference
     primary: indigo
     accent: orange
+  features:
+    - instant
 
 plugins:
   - search:
@@ -69,7 +71,7 @@ markdown_extensions:
   - pymdownx.tilde
 
 extra_javascript:
-  - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - https://unpkg.com/mermaid@8.6/dist/mermaid.min.js
 
 extra:
   FOO: BAR
@@ -88,14 +90,17 @@ nav:
   - Starter Guide:
     - Introduction: starter/introduction.md
   - Optimization:
-    - Model Optimization: optimization/introduction.md
+    - Model optimization: optimization/introduction.md
   - Inference:
-    - Direct Inference:
-      - TensorFlow 1: inference/tensorflow1.md
+    - Direct inference:
       - TensorFlow 2: inference/tensorflow2.md
-      - ONNX Runtime: inference/onnx.md
+      - TensorFlow 1: inference/tensorflow1.md
+      - ONNX: inference/onnx.md
+      - MXNet: inference/mxnet.md
       - XGBoost: inference/xgboost.md
       - hls4ml: inference/hls4ml.md
-    - Inference as a Service:
+    - Inference as a service:
       - Sonic/Triton: inference/sonic_triton.md
+    - Integration checks: inference/checks.md
+    - Successful integrations: inference/integrations.md
     - Performance: inference/performance.md

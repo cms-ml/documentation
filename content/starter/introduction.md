@@ -1,3 +1,3 @@
-# Starter Guide Introdction
+# Starter guide introdction
 
 Todo.

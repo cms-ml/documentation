@@ -1,3 +1,3 @@
-# Model Optimization
+# Model optimization
 
 Todo.

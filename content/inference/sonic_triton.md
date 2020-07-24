@@ -1,3 +1,3 @@
-# Direct inference with TensorFlow 1
+# Service-based inference with Triton/Sonic
 
 Todo.

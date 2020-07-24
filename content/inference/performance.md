@@ -1,3 +1,3 @@
-# Performance of Inference tools
+# Performance of inference tools
 
 ![](../images/deepjet_performance_comparison.png)
