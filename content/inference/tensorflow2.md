@@ -85,7 +85,8 @@ Instructions on how to transform and save your model are shown below, depending 
     cmsml.tensorflow.save_graph("graph.pb", model, variables_to_constants=True)
     ```
 
-    TODO: Determine input and output tensor names.
+    Following the Keras naming conventions for certain layers, the input will be named `"input"` while the output is named `"sequential/output/Softmax"`.
+    To cross check the names, you can save the graph in text format by using the extension `".pb.txt"`.
 
 === "tf.function"
 
@@ -108,7 +109,7 @@ Instructions on how to transform and save your model are shown below, depending 
 
         # define your "complex" model here
         h = tf.add(tf.matmul(x, W), b)
-        y = tf.tanh(h, name="output")
+        y = tf.tanh(h, name="y")
 
         return y
     ```
@@ -131,6 +132,9 @@ Instructions on how to transform and save your model are shown below, depending 
     cmsml.tensorflow.save_graph("graph.pb", cmodel, variables_to_constants=True)
     ```
 
+    The input will be named `"x"` while the output is named `"y"`.
+    To cross check the names, you can save the graph in text format by using the extension `".pb.txt"`.
+
     ??? hint "Different method: Frozen signatures"
         Instead of creating a polymorphic `tf.function` and extracting a concrete one in a second step, you can directly define an input signature upon definition.
 
@@ -142,8 +146,6 @@ Instructions on how to transform and save your model are shown below, depending 
 
         This attaches a graph object to `model` but disables signature tracing since the input signature is frozen.
         However, you can directly pass it to [`cmsml.tensorflow.save_graph`](https://cmsml.readthedocs.io/en/latest/api/tensorflow.html#cmsml.tensorflow.save_graph).
-
-    TODO: Determine input and output tensor names.
 
 
 ## Inference in CMSSW
@@ -280,7 +282,7 @@ delete graphDef;
 
 ### Multi-threaded inference
 
-Compared to the single-threaded implementation [above](#single-threaded inference), the multi-threaded version has one major difference: ==the `Graph` is no longer a member of a particular module instance, but rather shared between all instances in all threads==.
+Compared to the single-threaded implementation [above](#single-threaded-inference), the multi-threaded version has one major difference: ==the `Graph` is no longer a member of a particular module instance, but rather shared between all instances in all threads==.
 This is possible since the `Graph` is actually a constant object that does not change over the course of the inference process.
 All volatile, device dependent information is kept in a `Session` which we keep instantiating per module instance.
 The `Graph` on the other hand is stored in a `#!cpp edm::GlobalCache<T>`.
@@ -325,6 +327,7 @@ public:
 ```
 
 Implement `initializeGlobalCache` and `globalEndJob` to control the behavior of how the cache object is created and destroyed.
+
 See the [full example](#full-example_1) below for details.
 
 
@@ -417,6 +420,8 @@ delete cacheData->graphDef;
 Depending on the use case, the following approaches can optimize the inference performance.
 It could be worth checking them out in your algorithm.
 
+Further optimization approaches can be found in the [integration checklist](checklist.md).
+
 
 #### Reusing tensors
 
@@ -444,7 +449,7 @@ tensor.matrix<float>()(b, i) = float(f);
 ```
 
 However, doing this for a large input tensor might entail some overhead.
-Since the data is actually contiguous in memory (C-style "row-major" memory ordering), a faster yet less explicit way of interacting with tensor data is using a pointer.
+Since the data is actually contiguous in memory (C-style "row-major" memory ordering), a faster (though less explicit) way of interacting with tensor data is using a pointer.
 
 
 ```cpp
@@ -456,7 +461,7 @@ Now, the tensor data can be filled using simple and fast pointer arithmetic.
 
 ```cpp hl_lines="5"
 // fill tensor data using pointer arithmethic
-// memory ordering is row-major, so the most outer loop corresponds the the 0th dimension
+// memory ordering is row-major, so the most outer loop corresponds dimension 0
 for (size_t b = 0; b < batchSize; b++) {
     for (size_t i = 0; i < nFeatures; i++, d++) {  // note the d++
         *d = float(i);

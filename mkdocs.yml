@@ -96,11 +96,10 @@ nav:
       - TensorFlow 2: inference/tensorflow2.md
       - TensorFlow 1: inference/tensorflow1.md
       - ONNX: inference/onnx.md
-      - MXNet: inference/mxnet.md
       - XGBoost: inference/xgboost.md
       - hls4ml: inference/hls4ml.md
     - Inference as a service:
       - Sonic/Triton: inference/sonic_triton.md
-    - Integration checks: inference/checks.md
+    - Integration checklist: inference/checklist.md
     - Successful integrations: inference/integrations.md
     - Performance: inference/performance.md
