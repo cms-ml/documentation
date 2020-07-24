@@ -7,7 +7,7 @@ The integration into the software stack can be found in [cmsdist/tensorflow.spec
 The current version is 2.1.0 and, at the moment, only supports inference on CPU.
 GPU support is planned for the integration of version 2.2.
 
-See the guide on [inference with TensorFlow 1](tensorflow1.md) or earlier versions.
+See the guide on [inference with TensorFlow 1](tensorflow1.md) for earlier versions.
 
 
 ## Software setup
@@ -85,7 +85,7 @@ Instructions on how to transform and save your model are shown below, depending 
     cmsml.tensorflow.save_graph("graph.pb", model, variables_to_constants=True)
     ```
 
-    TODO(marcel): Determine input and output tensor names.
+    TODO: Determine input and output tensor names.
 
 === "tf.function"
 
@@ -143,19 +143,19 @@ Instructions on how to transform and save your model are shown below, depending 
         This attaches a graph object to `model` but disables signature tracing since the input signature is frozen.
         However, you can directly pass it to [`cmsml.tensorflow.save_graph`](https://cmsml.readthedocs.io/en/latest/api/tensorflow.html#cmsml.tensorflow.save_graph).
 
-    TODO(marcel): Determine input and output tensor names.
+    TODO: Determine input and output tensor names.
 
 
 ## Inference in CMSSW
 
 The inference can be implemented to run in a [single thread](#single-threaded-inference).
-In general, this does not mean that the module cannot be executed with multiple threads (`#!shell cmsRun --numTreads <N> <CFG_FILE>`), but rather that its performance in terms of evaluation time and especially memory consumption is likely to be suboptimal.
+In general, this does not mean that the module cannot be executed with multiple threads (`#!shell cmsRun --numThreads <N> <CFG_FILE>`), but rather that its performance in terms of evaluation time and especially memory consumption is likely to be suboptimal.
 Therefore, for modules to be integrated into CMSSW, ==the [multi-threaded implementation](#multi-threaded-inference) is strongly recommended==.
 
 
 ### CMSSW module setup
 
-If you are aiming to use the TensorFlow interface in a CMSSW ==plugin==, make sure to include
+If you aim to use the TensorFlow interface in a CMSSW ==plugin==, make sure to include
 
 ```xml linenums="1"
 <use name="PhysicsTools/TensorFlow" />
@@ -197,12 +197,12 @@ Thus, the overall inference approach is **1)** include the interface, **2)** ini
 
 ##### 2. Initialize objects
 
-```cpp linenums="2"
+```cpp linenums="1"
 // configure logging to show warnings (see table below)
 tensorflow::setLogging("2");
 
 // load the graph definition
-tensorflow::GraphDef* graphDef = tensorflow::loadGraphDef(graphPath);
+tensorflow::GraphDef* graphDef = tensorflow::loadGraphDef("/path/to/constantgraph.pb");
 
 // create a session
 tensorflow::Session* session = tensorflow::createSession(graphDef);
@@ -210,7 +210,7 @@ tensorflow::Session* session = tensorflow::createSession(graphDef);
 
 ##### 3. Inference
 
-```cpp linenums="20"
+```cpp linenums="1"
 // create an input tensor
 // (example: single batch of 10 values)
 tensorflow::Tensor input(tensorflow::DT_FLOAT, { 1, 10 });
@@ -234,7 +234,7 @@ std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
 
 ##### 4. Cleanup
 
-```cpp linenums="39"
+```cpp linenums="1"
 tensorflow::closeSession(session);
 delete graphDef;
 ```
@@ -312,7 +312,7 @@ struct MyCache {
 
 Use it in the `#!cpp edm::GlobalCache` template argument and adjust the plugin accordingly.
 
-```cpp linenums="1" hl_lines="3 6 7"
+```cpp linenums="1"
 class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
 public:
     explicit GraphLoadingMT(const edm::ParameterSet&, const CacheData*);
@@ -330,7 +330,7 @@ See the [full example](#full-example_1) below for details.
 
 ##### 3. Initialize objects
 
-```cpp linenums="2"
+```cpp linenums="1"
 // configure logging to show warnings (see table below)
 tensorflow::setLogging("2");
 
@@ -340,7 +340,7 @@ tensorflow::Session* session = tensorflow::createSession(cacheData->graphDef);
 
 ##### 4. Inference
 
-```cpp linenums="20"
+```cpp linenums="1"
 // create an input tensor
 // (example: single batch of 10 values)
 tensorflow::Tensor input(tensorflow::DT_FLOAT, { 1, 10 });
@@ -364,7 +364,7 @@ std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
 
 ##### 5. Cleanup
 
-```cpp linenums="39"
+```cpp linenums="1"
 // per module instance
 tensorflow::closeSession(session_);
 
@@ -440,7 +440,7 @@ To read and manipulate particular elements, you can directly call this object wi
 ```cpp
 // matrix returns a 2D representation
 // set element (b,i) to f
-input.matrix<float>()(b, i) = float(f);
+tensor.matrix<float>()(b, i) = float(f);
 ```
 
 However, doing this for a large input tensor might entail some overhead.
@@ -449,7 +449,7 @@ Since the data is actually contiguous in memory (C-style "row-major" memory orde
 
 ```cpp
 // get the pointer to the first tensor element
-float* d = input.flat<float>().data();
+float* d = tensor.flat<float>().data();
 ```
 
 Now, the tensor data can be filled using simple and fast pointer arithmetic.
