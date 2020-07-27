@@ -470,6 +470,45 @@ for (size_t b = 0; b < batchSize; b++) {
 ```
 
 
+#### Inter- and intra-operation parallelism
+
+!!! danger "Debugging and local processing only"
+    Parallelism between (inter) and within (intra) operations can greatly improve the inference performance.
+    However, this allows TensorFlow to manage and schedule threads on its own, possibly interfering with the thread model inherent to CMSSW.
+    For inference code that is to be officially integrated, you should ==avoid== inter- and intra-op parallelism and rather adhere to the examples shown above.
+
+You can configure the amount of inter- and infra-op threads via the second argument of the `#!cpp tensorflow::createSession` method.
+
+=== "Simple"
+
+    ```cpp linenums="1"
+    tensorflow::Session* session = tensorflow::createSession(graphDef, nThreads);
+    ```
+
+=== "Verbose"
+
+    ```cpp linenums="1"
+    tensorflow::SessionOptions sessionOptions;
+    sessionOptions.config.set_intra_op_parallelism_threads(nThreads);
+    sessionOptions.config.set_inter_op_parallelism_threads(nThreads);
+
+    tensorflow::Session* session = tensorflow::createSession(graphDef, sessionOptions);
+    ```
+
+Then, when calling `#!cpp tensorflow::run`, pass the internal name of the TensorFlow threadpool, i.e. `"tensorflow"`, as the last argument.
+
+```cpp linenums="1"
+std::vector<tensorflow::Tensor> outputs;
+tensorflow::run(
+    session,
+    { { inputTensorName, input } },
+    { outputTensorName },
+    &outputs,
+    "tensorflow"
+);
+```
+
+
 ## Miscellaneous
 
 ### Logging
