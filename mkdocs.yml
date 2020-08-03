@@ -101,5 +101,5 @@ nav:
     - Inference as a service:
       - Sonic/Triton: inference/sonic_triton.md
     - Integration checklist: inference/checklist.md
-    - Successful integrations: inference/integrations.md
     - Performance: inference/performance.md
+    - Successful integrations: inference/integrations.md

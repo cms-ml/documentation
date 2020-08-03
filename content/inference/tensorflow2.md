@@ -35,19 +35,31 @@ python -c "import cmsml; print(cmsml.__version__)"
 ```
 
 and compare to the [released tags](https://github.com/cms-ml/cmsml/tags).
-If you want to install a newer version, you can simply do that via pip
+If you want to install a newer version from either the [master branch of the cmsml repository](https://github.com/cms-ml/cmsml) or the [Python package index (PyPI)](https://pypi.org/project/cmsml), you can simply do that via pip.
 
-```shell
-# into your user directory (usually ~/.local)
-pip install --upgrade --user cmsml
+=== "master"
 
-# _or_
+    ```shell
+    # into your user directory (usually ~/.local)
+    pip install --upgrade --user git+https://github.com/cms-ml/cmsml
 
-# into a custom directory
-pip install --upgrade --install-option="--prefix=CUSTOM_DIRECTORY" cmsml
-```
+    # _or_
 
-to a location of your choice.
+    # into a custom directory
+    pip install --upgrade --prefix "CUSTOM_DIRECTORY" git+https://github.com/cms-ml/cmsml
+    ```
+
+=== "PyPI"
+
+    ```shell
+    # into your user directory (usually ~/.local)
+    pip install --upgrade --user cmsml
+
+    # _or_
+
+    # into a custom directory
+    pip install --upgrade --prefix "CUSTOM_DIRECTORY" cmsml
+    ```
 
 
 ## Saving your model
@@ -144,7 +156,7 @@ Instructions on how to transform and save your model are shown below, depending 
             ...
         ```
 
-        This attaches a graph object to `model` but disables signature tracing since the input signature is frozen.
+        This disables signature tracing since the input signature is frozen.
         However, you can directly pass it to [`cmsml.tensorflow.save_graph`](https://cmsml.readthedocs.io/en/latest/api/tensorflow.html#cmsml.tensorflow.save_graph).
 
 
