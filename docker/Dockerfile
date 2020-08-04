@@ -11,12 +11,12 @@ RUN apt-get install -y nano less htop git; apt-get clean
 RUN pip install --upgrade pip
 
 # python software stack
-Run pip install mkdocs
-Run pip install mkdocs-material
-Run pip install mkdocs-markdownextradata-plugin
-Run pip install mkdocs-git-revision-date-localized-plugin
-Run pip install mkdocs-awesome-pages-plugin
-Run pip install mkdocs-minify-plugin
+RUN pip install --no-cache-dir mkdocs
+RUN pip install --no-cache-dir mkdocs-material
+RUN pip install --no-cache-dir mkdocs-markdownextradata-plugin
+RUN pip install --no-cache-dir mkdocs-git-revision-date-localized-plugin
+RUN pip install --no-cache-dir mkdocs-awesome-pages-plugin
+RUN pip install --no-cache-dir mkdocs-minify-plugin
 
 # fetch the repository and change the workdir
 RUN git clone https://github.com/cms-ml/documentation.git /documentation

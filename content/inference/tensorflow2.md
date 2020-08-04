@@ -5,7 +5,7 @@ TensorFlow 2 is available since CMSSW\_11\_1\_X ([cmssw#28711](https://github.co
 The integration into the software stack can be found in [cmsdist/tensorflow.spec](https://github.com/cms-sw/cmsdist/blob/latest/tensorflow.spec) and the interface is located in [cmssw/PhysicsTools/TensorFlow](https://github.com/cms-sw/cmssw/tree/master/PhysicsTools/TensorFlow).
 
 The current version is 2.1.0 and, at the moment, only supports inference on CPU.
-GPU support is planned for the integration of version 2.2.
+GPU support is planned for the integration of version 2.3.
 
 See the guide on [inference with TensorFlow 1](tensorflow1.md) for earlier versions.
 
