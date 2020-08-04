@@ -7,9 +7,8 @@ on:
       - "v*"
 
 jobs:
-  documentation:
+  cmsml/documentation:
     runs-on: ubuntu-latest
-    name: cmsml/documentation:latest
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
