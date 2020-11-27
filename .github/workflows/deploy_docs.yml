@@ -38,6 +38,4 @@ jobs:
           git add --all .
           git commit -m "Deploying from @ $GITHUB_SHA 🚀"
 
-          git lfs migrate export --include="*"
-
           git push -f
