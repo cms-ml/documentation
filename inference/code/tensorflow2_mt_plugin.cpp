@@ -22,7 +22,7 @@ struct CacheData {
 class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
 public:
   explicit MyPlugin(const edm::ParameterSet&, const CacheData*);
-  ~MyPlugin();
+  ~MyPlugin(){};
 
   static void fillDescriptions(edm::ConfigurationDescriptions&);
 
