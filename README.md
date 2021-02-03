@@ -1,6 +1,6 @@
 # CMS Machine Learning Documentation
 
-[![Build and Deploy](https://github.com/cms-ml/documentation/workflows/Deploy%20documentation/badge.svg)](https://github.com/cms-ml/documentation/actions?query=workflow%3A%22Deploy+documentation%22)
+[![Deploy documentation](https://github.com/cms-ml/documentation/workflows/Deploy%20documentation/badge.svg)](https://github.com/cms-ml/documentation/actions?query=workflow%3A%22Deploy+documentation%22) [![Deploy images](https://github.com/cms-ml/documentation/workflows/Deploy%20images/badge.svg)](https://github.com/cms-ml/documentation/actions?query=workflow%3A%22Deploy+images%22)
 
 The documentation is located at [cms-ml.github.io/documentation](https://cms-ml.github.io/documentation).
 

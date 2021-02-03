@@ -14,7 +14,7 @@
 class MyPlugin : public edm::one::EDAnalyzer<> {
 public:
   explicit MyPlugin(const edm::ParameterSet&);
-  ~MyPlugin();
+  ~MyPlugin(){};
 
   static void fillDescriptions(edm::ConfigurationDescriptions&);
 

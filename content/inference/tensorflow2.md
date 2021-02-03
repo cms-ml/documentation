@@ -556,3 +556,7 @@ Forwarding logs to the `MessageLogger` service is not possible yet.
     - [`tensorflow::ClientSession`](https://www.tensorflow.org/api_docs/cc/class/tensorflow/client-session)
 - Keras
     - [API](https://keras.io/api)
+
+---
+
+Authors: [Marcel Rieger](mailto:marcel.rieger@cern.ch)
