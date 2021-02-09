@@ -37,7 +37,7 @@ void MyPlugin::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   desc.add<std::string>("graphPath");
   desc.add<std::string>("inputTensorName");
   desc.add<std::string>("outputTensorName");
-  descriptions.addDefault(desc);
+  descriptions.addWithDefaultLabel(desc);
 }
 
 MyPlugin::MyPlugin(const edm::ParameterSet& config)
