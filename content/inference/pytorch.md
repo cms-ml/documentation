@@ -1,5 +1,9 @@
 # PyTorch Inference
+<<<<<<< HEAD
 PyTorch is an open source ML library developed by Facebook's AI Research lab. Initially released in late-2016, PyTorch is a relatively new tool, but has become increasingly popular among ML researchers (in fact, [some analyses](http://horace.io/pytorch-vs-tensorflow/) suggest it's becoming more popular than TensorFlow in academic communities!). PyTorch is written in idiomatic Python, so its syntax is easy to parse for experienced Python programmers. Additionally, it is highly compatible with graphics processing units (GPUs), which can substantially accelerate many deep learning workflows. To date PyTorch has not been integrated into CMSSW. Trained PyTorch models may be evaluated in CMSSW via ONNX Runtime, but model construction and training workflows must currently exist outside of CMSSW. Given the considerable interest in PyTorch within the HEP/ML community, we have reason to believe it will soon be available, so stay tuned! 
+=======
+PyTorch is an open source ML library developed by Facebook's AI Research lab. Initially released in late-2016, PyTorch is a relatively new tool, but has become increasingly popular among ML researchers (in fact, [some analyses](http://horace.io/pytorch-vs-tensorflow/) suggest it's becoming more popular than TensorFlow in academic communities!). PyTorch is written in idiomatic Python, such that its syntax is easy to parse for experienced Python programmers. Additionally, it is highly compatible with graphics processing units (GPUs), which can substantially accelerate many deep learning workflows. To date PyTorch has not been integrated into CMSSW. Trained PyTorch models may be evaluated in CMSSW via ONNX Runtime, but model construction and training workflows must currently exist outside of CMSSW. Given the considerable interest in PyTorch within the HEP/ML community, we have reason to believe it will soon be available, so stay tuned! 
+>>>>>>> c1e2766... adding initial pytorch documentation
 
 ## Introductory References
 
@@ -10,6 +14,7 @@ PyTorch is an open source ML library developed by Facebook's AI Research lab. In
 - [CODAS-HEP](https://codas-hep.org/)
 
 ## The Basics
+<<<<<<< HEAD
 The following documentation surrounds a set of code snippets designed to highlight some important ML features made available in PyTorch. In the following sections, we'll break down snippets from this script, highlighting specifically the PyTorch objects in it. 
 
 ### Tensors 
@@ -398,3 +403,23 @@ A Graph Attention Network (GAN) is available via Triton in CMSSW, and can be acc
 
 ## Training Tips
 - When instantiating a `DataLoader`, `shuffle=True` should be enabled for training data but not for validation and testing data. At each training epoch, this will vary the order of data objects in each batch; accordingly, it is not efficient to load the full dataset (in its original ordering) into GPU  memory before training. Instead, enable `num_workers>1`; this allows the `DataLoader` to load batches to the GPU as they're prepared. Note that this launches muliple processerson the CPU. For more information, see a corresponding [discussion](https://discuss.pytorch.org/t/keras-trains-significantly-faster-than-pytorch-for-simple-network/124303/5) in the PyTorch forum. 
+=======
+
+### Tensors 
+The fundamental PyTorch object is the tensor. At a glance, tensors behave similarly to NumPy arrays. For example, they are broadcasted, concatenated, and sliced in exactly the same way. However, tensors have been ''upgraded'' from Numpy arrays in two key ways:
+1) Tensors have native GPU support. If a GPU is available at runtime, tensors can be transferred from CPU to GPU, where computations such as matrix operations are substantially faster. 
+2) Tensors support automatic gradient (audograd) calculations, such that operations on tensors flagged with `requires_grad=True` are automatically tracked. The flow of tracked tensor operations defines a *computation graph* in which nodes are tensors and edges are functions mapping input tensors to output tensors. Gradients are calculated numerically via autograd by walking through this computation graph. 
+
+### Neural Networks 
+The PyTorch *nn* package specifies a set of modules that correspond to different neural network (NN) components and operations. For example, the `torch.nn.Linear` module defines a linear transform with learnable parameters and the `torch.nn.Flatten   ` module flattens two contiguous tensor dimensions. The `torch.nn.Sequential` module contains a set of modules such as `torch.nn.Linear` and `torch.nn.Sequential`, chaining them together to form the forward pass of a forward network. 
+
+### Custom NNs 
+
+
+## Working Examples 
+
+
+## PyTorch at CMS 
+
+
+>>>>>>> c1e2766... adding initial pytorch documentation
