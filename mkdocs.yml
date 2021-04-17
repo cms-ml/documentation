@@ -95,6 +95,7 @@ nav:
     - Direct inference:
       - TensorFlow 2: inference/tensorflow2.md
       - TensorFlow 1: inference/tensorflow1.md
+      - PyTorch: inference/pytorch.md
       - ONNX: inference/onnx.md
       - XGBoost: inference/xgboost.md
       - hls4ml: inference/hls4ml.md
