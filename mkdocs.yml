@@ -68,6 +68,7 @@ markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.tasklist:
       custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.tilde
 
 extra_javascript:
@@ -103,3 +104,5 @@ nav:
     - Integration checklist: inference/checklist.md
     - Performance: inference/performance.md
     - Successful integrations: inference/integrations.md
+  - Validation:
+      - Checklist: validation/checklist.md
