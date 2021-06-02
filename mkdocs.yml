@@ -98,8 +98,16 @@ nav:
       - Feature importance: optimization/importance.md
       - Data augmentation: optimization/data_augmentation.md
     - Validation:
-      - Overtraining: validation/overtraining.md
-      - Cross validation: validation/cross_validation.md
+      - Introduction: validation/intro.md
+      - Before training:
+        - Domains: validation/before/domains.md
+        - Features: validation/before/features.md
+        - Inputs: validation/before/inputs.md
+        - Model: validation/before/model.md
+        - Metrics & Losses: validation/before/metrics.md
+      - Throughout training: validation/throughout/throughout.md
+      - After training: validation/after/after.md
+      - Checklist: validation/checklist.md
     - Inference:
       - Direct inference:
         - TensorFlow 1: inference/tensorflow1.md
