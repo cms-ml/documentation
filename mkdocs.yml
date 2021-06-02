@@ -105,4 +105,13 @@ nav:
     - Performance: inference/performance.md
     - Successful integrations: inference/integrations.md
   - Validation:
+      - Introduction: validation/intro.md
+      - Before training:
+        - Domains: validation/before-domains.md
+        - Features: validation/before-features.md
+        - Inputs: validation/before-inputs.md
+        - Model: validation/before-model.md
+        - Metrics & Losses: validation/before-metrics.md
+      - Throughout training: validation/throughout.md
+      - After training: validation/after.md
       - Checklist: validation/checklist.md
