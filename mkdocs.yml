@@ -69,7 +69,8 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
-
+  - pymdownx.arithmatex:
+      generic: true
 extra_javascript:
   - https://unpkg.com/mermaid@8.6/dist/mermaid.min.js
 
@@ -91,6 +92,8 @@ nav:
     - Introduction: starter/introduction.md
   - Optimization:
     - Model optimization: optimization/introduction.md
+    - Bayesian Optimization: optimization/bayes.md
+
   - Inference:
     - Direct inference:
       - TensorFlow 2: inference/tensorflow2.md
@@ -98,6 +101,8 @@ nav:
       - ONNX: inference/onnx.md
       - XGBoost: inference/xgboost.md
       - hls4ml: inference/hls4ml.md
+      - Bayesian NN: bayes_nn/bayes.md
+
     - Inference as a service:
       - Sonic/Triton: inference/sonic_triton.md
     - Integration checklist: inference/checklist.md
