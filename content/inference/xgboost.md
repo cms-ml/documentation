@@ -32,23 +32,38 @@ cd "$CMSSW_VERSION/src"
 cmsenv
 scram b
 ```
-It is not necessary to convert an XGBoost model into a [`cmsml`](https://github.com/cms-ml/cmsml) model. The trained XGBoost model can be obtained as the example shows below.
+It is not necessary to convert an XGBoost model into a [`cmsml`](https://github.com/cms-ml/cmsml) model. 
 
-## Preparing Model
-The training process of a XGBoost model can be done outside of CMSSW. We provide a python script for illustration.
+## Example: Classification of points from joint-Gaussian distribution.
+
+In this specific example, you will use XGBoost to classify data points generated from two 8-dimension joint-Gaussian distribution. 
+
+| Feature Index  | 0 | 1 | 2 | 3 | 4 | 5  | 6  | 7 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+|   μ~1~    |      |      |      |      |      |      |      |      |
+|   μ~2~   |      |      |      |      |      |      |      |      |
+|   σ~1/2~ =  σ  |      |      |      |      |      |      |      |      |
+|   (μ~1~ - μ~2~) / σ   |      |      |      |      |      |      |      |      |
+
+
+### Preparing Model
+The training process of a XGBoost model can be done outside of CMSSW. We provide a python script for illustration. 
 ```python
 # importing necessary models
 import numpy as np
 import pandas as pd 
-from xgboost import XGBRegressor
+from xgboost import XGBRegressor # Or XGBClassifier
 import matplotlib.pyplot as plt
 import pandas as pd
 
 # specify parameters via map
-param = {'max_depth':2, ,'learning_rate':0.1}
+param = {'n_estimators':50}
 xgb = XGBRegressor(param)
 
 # using Pandas.DataFrame data-format, other available format are XGBoost's DMatrix and numpy.ndarray
+
+train_data = pd.read_csv("path/to/the/data") # The training data is located in 
+
 # supposing the data are well prepared and named as train_Variable, train_Score and test_Variable, test_Score.
 
 xgb.fit(train_Variable, train_Score) # Training
