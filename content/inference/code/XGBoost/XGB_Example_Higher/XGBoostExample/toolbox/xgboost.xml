@@ -1,0 +1,10 @@
+<tool name="xgboost" version="1.3.3">
+  <lib name="xgboost"/>
+  <client>
+    <environment name="LIBDIR" default="/cvmfs/cms.cern.ch/$SCRAM_ARCH/external/xgboost/1.3.3/lib64"/>
+    <environment name="INCLUDE" default="/cvmfs/cms.cern.ch/$SCRAM_ARCH/external/xgboost/1.3.3/include/"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="PATH" value="$INCLUDE" type="path"/>
+  
+</tool>
