@@ -44,20 +44,20 @@ The training process of a XGBoost model can be done outside of CMSSW. We provide
 # importing necessary models
 import numpy as np
 import pandas as pd 
-from xgboost import XGBRegressor # Or XGBClassifier
+from xgboost import XGBClassifier # Or XGBRegressor for Logistic Regression
 import matplotlib.pyplot as plt
 import pandas as pd
 
 # specify parameters via map
 param = {'n_estimators':50}
-xgb = XGBRegressor(param)
+xgb = XGBClassifier(param)
 
 # using Pandas.DataFrame data-format, other available format are XGBoost's DMatrix and numpy.ndarray
 
 train_data = pd.read_csv("path/to/the/data") # The training dataset is code/XGBoost/Train_data.csv
 
 train_Variable = train_data['0', '1', '2', '3', '4', '5', '6', '7']
-train_Score = train_data['Type']
+train_Score = train_data['Type'] # Score should be integer, 0, 1, (2 and larger for multiclass)
 
 test_data = pd.read_csv("path/to/the/data") # The testing dataset is code/XGBoost/Test_data.csv
 
@@ -68,11 +68,13 @@ test_Score = test_data['Type']
 
 xgb.fit(train_Variable, train_Score) # Training
 
-xgb.predict(test_Variable) # Infering
+xgb.predict(test_Variable) # Outputs are integers
+
+xgb.predict_proba(test_Variable) # Output scores , output structre: [prob for 0, prob for 1,...]
 
 xgb.save_model("\Path\To\Where\You\Want\ModelName.model") # Saving model
 ```
-The saved model `ModelName.model` is thus available for python and C/C++ api to load.
+The saved model `ModelName.model` is thus available for python and C/C++ api to load. Please use the XGBoost major version consistently (see [Caveat](#caveat)).
 
 While training with data from different datasets, proper treatment of weights are necessary for better model performance. Please refer to [Official Recommendation](https://xxxx) for more details.
 
@@ -153,9 +155,7 @@ The addtional effort is to add corresponding xml file(s) to `$CMSSW_BASE/toolbox
 3. For using XGBoost as a plugin of CMSSW, it is necessary to add
 ```xml
 <use name="xgboost"/>
-<export>
-  <lib name="1"/>
-</export>
+<flags EDM_PLUGIN="1"/>
 ```
 in your `plugins/BuildFile.xml`. If you are using the interface inside the `src/` or `interface/` directory of your module, make sure to create a global `BuildFile.xml` file next to theses directories, containing (at least):
 ```xml
@@ -164,82 +164,205 @@ in your `plugins/BuildFile.xml`. If you are using the interface inside the `src/
   <lib   name="1"/>
 </export>
 ```
-   
+
+4. The `libxgboost.so` would be too large to load for `cmsRun` job, please using the following commands for pre-loading:
+```shell
+export LD_PRELOAD=$CMSSW_BASE/external/$SCRAM_ARCH/lib/libxgboost.so
+```
 ### Basic Usage of C API
-The C API can be used as following:
+In order to use `c_api` of XGBoost to load model and operate inference, one should construct necessaries objects:
+
+1. Files to include
 ```c
-#include <memory>
-#include <string>
-#include <vector>
-#include <tuple>
-#include <iostream>
-
-#include <xgboost/c_api.h>
-
-std::string model_file
-
-vars_ = vars;
-//---load the model
-XGBoosterCreate(NULL, 0, &booster_);
-XGBoosterLoadModel(booster_, model_file.c_str());
-
-float values[1][vars_->size()];
-
-int ivar=0;
-for(auto& var : *vars_)
-{
-    values[0][ivar] = std::get<1>(var);
-    ++ivar;
-}
-//---preparing data
-DMatrixHandle dvalues;
-XGDMatrixCreateFromMat(reinterpret_cast<float*>(values), 1, vars_->size(), 0., &dvalues);
-
-bst_ulong out_len=0;
-const float* score;
-
-auto ret = XGBoosterPredict(booster_, dvalues, 0, 0, &out_len, &score);
-
-XGDMatrixFree(dvalues);
-//---load the model
-std::vector<float> results;
-if(ret==0)
-{
-    for(unsigned int ic=0; ic<out_len; ++ic)
-        results.push_back(score[ic]);
-} 
-    
+#include <xgboost/c_api.h> 
 ```
 
+2. `BoosterHandle`: worker of XGBoost
+```c
+// Declare Object
+BoosterHandle booster_;
+// Allocate memory in C style
+XGBoosterCreate(NULL,0,&booster_);
+// Load Model
+XGBoosterLoadModel(booster_,model_path.c_str()); // second argument should be a const char *.
+```
+
+3. `DMatrixHandle`: handle to dmatrix, the data format of XGBoost
+```c
+float TestData[2000][8] // Suppose 2000 data points, each data point has 8 dimension
+// Assign data to the "TestData" 2d array ... 
+// Declare object
+DMatrixHandle data_;
+// Allocate memory and use external float array to initialize
+XGDMatrixCreateFromMat((float *)TestData,2000,8,-1,&data_); // The first argument takes in float * namely 1d float array only, 2nd & 3rd: shape of input, 4th: value to replace missing ones
+```
+
+4. `XGBoosterPredict`: function for inference
+```c
+bst_ulong outlen; // bst_ulong is a typedef of unsigned long
+const float *f; // array to store predictions
+XGBoosterPredict(booster_,data_,0,0,&out_len,&f);// lower version API
+// XGBoosterPredict(booster_,data_,0,0,0,&out_len,&f);// higher version API
+/*
+lower version (ver.<1) API
+XGB_DLL int XGBoosterPredict(	
+BoosterHandle 	handle,
+DMatrixHandle 	dmat,
+int 	option_mask, // 0 for normal output, namely reporting scores
+int 	training, // 0 for prediction
+bst_ulong * 	out_len,
+const float ** 	out_result 
+)
+
+higher version (ver.>=1) API
+XGB_DLL int XGBoosterPredict(	
+BoosterHandle 	handle,
+DMatrixHandle 	dmat,
+int 	option_mask, // 0 for normal output, namely reporting scores
+int ntree_limit, // how many trees for prediction, set to 0 means no limit
+int 	training, // 0 for prediction
+bst_ulong * 	out_len,
+const float ** 	out_result 
+)
+*/
+```
+
+### Full Example
+
+??? hint "Click to expand full example"
+
+    The example assumes the following directory structure:
+
+    ```
+    MySubsystem/MyModule/
+    │
+    ├── plugins/
+    │   ├── XGBoostExample.cc
+    │   └── BuildFile.xml
+    │
+    ├── python/
+    │   └── xgboost_cfg.py
+    │
+    ├── toolbox/ (storing necessary xml(s) to be copied to toolbox/ of $CMSSW_BASE)
+    │   └── xgboost.xml
+    │   └── rabit.xml (lower version only)
+    │
+    └── data/
+        └── Test_data.csv
+        └── lowVer.model / highVer.model 
+    ```
+    Please also note that in order to operate inference in an event-by-event way, please put `XGBoosterPredict` in `analyze` rather than `beginJob`.
+
+    === "plugins/XGBoostExample.cc for lower version XGBoost"
+
+        ```cpp linenums="1" hl_lines="2"
+        --8<-- "content/inference/code/XGBoost/XGB_Example_Lower/XGBoostExample/plugins/XGBoostExample.cc"
+        ```
+
+    === "plugins/BuildFile.xml for lower version XGBoost"
+
+        ```xml linenums="1"
+        --8<-- "content/inference/code/XGBoost/XGB_Example_Lower/XGBoostExample/plugins/BuildFile.xml"
+        ```
+
+    === "python/xgboost_cfg.py for lower version XGBoost"
+
+        ```python linenums="1"
+        --8<-- "content/inference/code/XGBoost/XGB_Example_Lower/XGBoostExample/python/xgboost_cfg.py"
+        ```
+    === "plugins/XGBoostExample.cc for higher version XGBoost"
+
+        ```cpp linenums="1" hl_lines="2"
+        --8<-- "content/inference/code/XGBoost/XGB_Example_Higher/XGBoostExample/plugins/XGBoostExample.cc"
+        ```
+
+    === "plugins/BuildFile.xml for higher version XGBoost"
+
+        ```xml linenums="1"
+        --8<-- "content/inference/code/XGBoost/XGB_Example_Higher/XGBoostExample/plugins/BuildFile.xml"
+        ```
+
+    === "python/xgboost_cfg.py for higher version XGBoost"
+
+        ```python linenums="1"
+        --8<-- "content/inference/code/XGBoost/XGB_Example_Higher/XGBoostExample/python/xgboost_cfg.py"
+        ```
 ## Python Usage
 
-To import XGBoost's python interface, using the snippet as
+To use XGBoost's python interface, using the snippet below **under CMSSW environment**
 ```python  
 # importing necessary models
 import numpy as np
 import pandas as pd 
-from xgboost import XGBRegressor
+from xgboost import XGBClassifier
 import matplotlib.pyplot as plt
 import pandas as pd
 
 
-xgb = XGBRegressor()
+xgb = XGBClassifier()
 xgb.load_model('ModelName.model')
 
-xgb.predict(Variable_to_use)
-
+# After loading model, usage is the same as discussed in the model preparation section.
 ```
 
 ## Caveat
 
 It is worth mentioning that both behavior and APIs of different XGBoost version can have difference. 
 
-1. When using `c_api` for C/C++ inference, for **ver.<1**, the API is `XGBoosterPredict(booster_, dvalues, 0, 0, &out_len, &score)`, while for **ver.>=1** the API changes to 
-`XGBoosterPredict(booster_, dvalues, 0, 0, 0, &out_len, &score)`.
+1. When using `c_api` for C/C++ inference, for **ver.<1**, the API is `XGB_DLL int XGBoosterPredict(BoosterHandle 	handle, DMatrixHandle 	dmat,int 	option_mask, int 	training, bst_ulong * out_len,const float ** 	out_result)`, while for **ver.>=1** the API changes to 
+`XGB_DLL int XGBoosterPredict(BoosterHandle 	handle, DMatrixHandle 	dmat,int 	option_mask, unsigned int ntree_limit, int 	training, bst_ulong * out_len,const float ** 	out_result)`.
 
 2. Model from **ver.>=1** **cannot be used** for **ver.<1**.
+
+Other important issue for C/C++ user is that DMatrix **only** takes in single precision floats (`float`), **not** double precision floats (`double`).
+
 ## Appendix: Tips for XGBoost users
 
 ### Importance Plot
 
+XGBoost uses [F-score](https://en.wikipedia.org/wiki/F-score) to describe feature importance quantatitively. XGBoost's python API provides a nice tool,`plot_importance`, to plot the feature importance conveniently **after finishing train**. 
+
+```python
+# Once the training is done, the plot_importance function can thus be used to plot the feature importance.
+from xgboost import plot_importance # Import the function
+
+plot_importance(xgb) # suppose the xgboost object is named "xgb"
+plt.savefig("importance_plot.pdf") # plot_importance is based on matplotlib, so the plot can be saved use plt.savefig()
+```
+![image](../images/inference/xgboost/importance_plot.png)
+The importance plot is consistent with our expectation, as in our toy-model, the data points differ by most on the feature "7". (see [toy model setup](#example-classification-of-points-from-joint-gaussian-distribution)).
 ### ROC Curve and AUC
+The [receiver operating characteristic (ROC)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) and auccrency (AUC) are key quantities to describe the model performance. For XGBoost, ROC curve and auc score can be easily obtained with the help of [sci-kit learn (sklearn)](https://scikit-learn.org/) functionals, which is also in CMSSW software.
+```python
+from sklearn.metrics import roc_auc_score,roc_curve,auc
+# ROC and AUC should be obtained on test set
+# Suppose the ground truth is 'y_test', and the output score is named as 'y_score'
+
+fpr, tpr, _ = roc_curve(y_test, y_score)
+roc_auc = auc(fpr, tpr)
+
+plt.figure()
+lw = 2
+plt.plot(fpr, tpr, color='darkorange',
+         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
+plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic example')
+plt.legend(loc="lower right")
+# plt.show() # display the figure when not using jupyter display
+plt.savefig("roc.png") # resulting plot is shown below
+```
+![image](../images/inference/xgboost/roc.png)
+
+## Reference of XGBoost
+1. XGBoost Wiki: https://en.wikipedia.org/wiki/XGBoost
+2. XGBoost Github Repo.: https://github.com/dmlc/xgboost
+3. XGBoost offical api tutorial
+   1. Latest, Python: https://xgboost.readthedocs.io/en/latest/python/index.html
+   2. Latest, C/C++: https://xgboost.readthedocs.io/en/latest/tutorials/c_api_tutorial.html
+   3. Older (0.80), Python: https://xgboost.readthedocs.io/en/release_0.80/python/index.html
+   4. No Tutorial for older version C/C++ api, source code: https://github.com/dmlc/xgboost/blob/release_0.80/src/c_api/c_api.cc
+
