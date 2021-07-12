@@ -102,4 +102,5 @@ nav:
       - Sonic/Triton: inference/sonic_triton.md
     - Integration checklist: inference/checklist.md
     - Performance: inference/performance.md
-    - Successful integrations: inference/integrations.md
+    - Successful integrations:
+      - ParticleNet: inference/particlenet.md
