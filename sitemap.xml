@@ -4,19 +4,31 @@
      <lastmod>2021-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://cms-ml.github.io/documentation/starter/introduction.html</loc>
-     <lastmod>2021-07-30</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://cms-ml.github.io/documentation/optimization/introduction.html</loc>
      <lastmod>2021-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://cms-ml.github.io/documentation/inference/tensorflow2.html</loc>
+     <loc>https://cms-ml.github.io/documentation/optimization/importance.html</loc>
+     <lastmod>2021-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/optimization/data_augmentation.html</loc>
+     <lastmod>2021-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/overtraining.html</loc>
+     <lastmod>2021-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/cross_validation.html</loc>
      <lastmod>2021-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/tensorflow1.html</loc>
+     <lastmod>2021-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/inference/tensorflow2.html</loc>
      <lastmod>2021-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -33,6 +45,14 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/sonic_triton.html</loc>
+     <lastmod>2021-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/inference/standalone.html</loc>
+     <lastmod>2021-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/inference/swan_aws.html</loc>
      <lastmod>2021-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
