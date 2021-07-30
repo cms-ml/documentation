@@ -1,0 +1,1379 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Documentation of the CMS Machine Learning Group"><link rel=canonical href=https://cms-ml.github.io/documentation/inference/particlenet.html><meta name=author content="CMS Machine Learning Group"><link rel="shortcut icon" href=../images/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-5.5.3"><title>ParticleNet - CMS Machine Learning Documentation</title><link rel=stylesheet href=../assets/stylesheets/main.947af8d5.min.css><link rel=stylesheet href=../assets/stylesheets/palette.7f672a1f.min.css><meta name=theme-color content=#3f51b5><link href=https://fonts.gstatic.com rel=preconnect crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style></head> <body dir=ltr data-md-color-scheme=preference data-md-color-primary=indigo data-md-color-accent=orange> <script>matchMedia("(prefers-color-scheme: dark)").matches&&document.body.setAttribute("data-md-color-scheme","slate")</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#particlenet class=md-skip> Skip to content </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header-nav md-grid" aria-label=Header> <a href=https://cms-ml.github.io/documentation title="CMS Machine Learning Documentation" class="md-header-nav__button md-logo" aria-label="CMS Machine Learning Documentation"> <img src=../images/logo.png alt=logo> </a> <label class="md-header-nav__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header-nav__title data-md-component=header-title> <div class=md-header-nav__ellipsis> <span class="md-header-nav__topic md-ellipsis"> CMS Machine Learning Documentation </span> <span class="md-header-nav__topic md-ellipsis"> ParticleNet </span> </div> </div> <label class="md-header-nav__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear data-md-component=search-reset tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header-nav__source> <a href=https://github.com/cms-ml/documentation/ title="Go to repository" class=md-source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg> </div> <div class=md-source__repository> cms-ml/documentation </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=https://cms-ml.github.io/documentation title="CMS Machine Learning Documentation" class="md-nav__button md-logo" aria-label="CMS Machine Learning Documentation"> <img src=../images/logo.png alt=logo> </a> CMS Machine Learning Documentation </label> <div class=md-nav__source> <a href=https://github.com/cms-ml/documentation/ title="Go to repository" class=md-source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg> </div> <div class=md-source__repository> cms-ml/documentation </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../index.html title=Home class=md-nav__link> Home </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=nav-2 type=checkbox id=nav-2> <label class=md-nav__link for=nav-2> Starter Guide <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg> </span> </label> <nav class=md-nav aria-label="Starter Guide" data-md-level=1> <label class=md-nav__title for=nav-2> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Starter Guide </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../starter/introduction.html title=Introduction class=md-nav__link> Introduction </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=nav-3 type=checkbox id=nav-3> <label class=md-nav__link for=nav-3> Optimization <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg> </span> </label> <nav class=md-nav aria-label=Optimization data-md-level=1> <label class=md-nav__title for=nav-3> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Optimization </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../optimization/introduction.html title="Model optimization" class=md-nav__link> Model optimization </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=nav-4 type=checkbox id=nav-4 checked> <label class=md-nav__link for=nav-4> Inference <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg> </span> </label> <nav class=md-nav aria-label=Inference data-md-level=1> <label class=md-nav__title for=nav-4> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Inference </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=nav-4-1 type=checkbox id=nav-4-1> <label class=md-nav__link for=nav-4-1> Direct inference <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg> </span> </label> <nav class=md-nav aria-label="Direct inference" data-md-level=2> <label class=md-nav__title for=nav-4-1> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Direct inference </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=tensorflow2.html title="TensorFlow 2" class=md-nav__link> TensorFlow 2 </a> </li> <li class=md-nav__item> <a href=tensorflow1.html title="TensorFlow 1" class=md-nav__link> TensorFlow 1 </a> </li> <li class=md-nav__item> <a href=onnx.html title=ONNX class=md-nav__link> ONNX </a> </li> <li class=md-nav__item> <a href=xgboost.html title=XGBoost class=md-nav__link> XGBoost </a> </li> <li class=md-nav__item> <a href=hls4ml.html title=hls4ml class=md-nav__link> hls4ml </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=nav-4-2 type=checkbox id=nav-4-2> <label class=md-nav__link for=nav-4-2> Inference as a service <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg> </span> </label> <nav class=md-nav aria-label="Inference as a service" data-md-level=2> <label class=md-nav__title for=nav-4-2> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Inference as a service </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=sonic_triton.html title=Sonic/Triton class=md-nav__link> Sonic/Triton </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=checklist.html title="Integration checklist" class=md-nav__link> Integration checklist </a> </li> <li class=md-nav__item> <a href=performance.html title=Performance class=md-nav__link> Performance </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=nav-4-5 type=checkbox id=nav-4-5 checked> <label class=md-nav__link for=nav-4-5> Successful integrations <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg> </span> </label> <nav class=md-nav aria-label="Successful integrations" data-md-level=2> <label class=md-nav__title for=nav-4-5> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Successful integrations </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" data-md-toggle=toc type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> ParticleNet <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg> </span> </label> <a href=particlenet.html title=ParticleNet class="md-nav__link md-nav__link--active"> ParticleNet </a> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Table of contents </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#introduction-to-particlenet class=md-nav__link> Introduction to ParticleNet </a> <nav class=md-nav aria-label="Introduction to ParticleNet"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-general-discription class=md-nav__link> 1. General discription </a> </li> <li class=md-nav__item> <a href=#2-advantage class=md-nav__link> 2. Advantage </a> </li> <li class=md-nav__item> <a href=#3-applications-and-other-related-work class=md-nav__link> 3. Applications and other related work </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#introduction-to-weaver-and-model-implementations class=md-nav__link> Introduction to Weaver and model implementations </a> <nav class=md-nav aria-label="Introduction to Weaver and model implementations"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-build-models-in-weaver class=md-nav__link> 1. Build models in Weaver </a> </li> <li class=md-nav__item> <a href=#2-start-training class=md-nav__link> 2. Start training! </a> </li> <li class=md-nav__item> <a href=#3-evaluation-of-models class=md-nav__link> 3. Evaluation of models </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#tuning-the-particlenet-model class=md-nav__link> Tuning the ParticleNet model </a> <nav class=md-nav aria-label="Tuning the ParticleNet model"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-choices-on-the-optimizer-and-the-learning-rate class=md-nav__link> 1. Choices on the optimizer and the learning rate </a> </li> <li class=md-nav__item> <a href=#2-optimize-the-model class=md-nav__link> 2. Optimize the model </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </span> Table of contents </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#introduction-to-particlenet class=md-nav__link> Introduction to ParticleNet </a> <nav class=md-nav aria-label="Introduction to ParticleNet"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-general-discription class=md-nav__link> 1. General discription </a> </li> <li class=md-nav__item> <a href=#2-advantage class=md-nav__link> 2. Advantage </a> </li> <li class=md-nav__item> <a href=#3-applications-and-other-related-work class=md-nav__link> 3. Applications and other related work </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#introduction-to-weaver-and-model-implementations class=md-nav__link> Introduction to Weaver and model implementations </a> <nav class=md-nav aria-label="Introduction to Weaver and model implementations"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-build-models-in-weaver class=md-nav__link> 1. Build models in Weaver </a> </li> <li class=md-nav__item> <a href=#2-start-training class=md-nav__link> 2. Start training! </a> </li> <li class=md-nav__item> <a href=#3-evaluation-of-models class=md-nav__link> 3. Evaluation of models </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#tuning-the-particlenet-model class=md-nav__link> Tuning the ParticleNet model </a> <nav class=md-nav aria-label="Tuning the ParticleNet model"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-choices-on-the-optimizer-and-the-learning-rate class=md-nav__link> 1. Choices on the optimizer and the learning rate </a> </li> <li class=md-nav__item> <a href=#2-optimize-the-model class=md-nav__link> 2. Optimize the model </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content> <article class="md-content__inner md-typeset"> <a href=https://github.com/cms-ml/documentation/blob/master/content/inference/particlenet.md title="Edit this page" class="md-content__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg> </a> <h1 id=particlenet>ParticleNet<a class=headerlink href=#particlenet title="Permanent link">&para;</a></h1> <p>ParticleNet [<a href=https://arxiv.org/abs/1902.08570>arXiv:1902.08570</a>] is an advanced neural network architecture that has many applications in CMS, including heavy flavour jet tagging, jet mass regression, etc. The network is fed by various low-level point-like objects as input, e.g., the particle-flow candidates, to predict a feature of a jet.</p> <figure> <img src=images/particlenet_full_arch.png> <figcaption>The full architecture of the ParticleNet model. We'll walk through the details in the following sections.</figcaption> </figure> <p>On this page, we introduce several user-specific aspects of the ParticleNet model. We cover the following items in four sections:</p> <ol> <li> <p><strong><a href=#introduction-to-particlenet>An introduction to ParticleNet</a></strong>, including</p> <ul> <li>a general description of ParticleNet,</li> <li>the advantages brought from the architecture by concept,</li> <li>a sketch of ParticleNet applications in CMS and other relevant works.</li> </ul> </li> <li> <p><strong><a href=#introduction-to-weaver-and-model-implementations>An introduction to <code>Weaver</code> and model implementations</a></strong>, introduced in a step-by-step manner:</p> <ul> <li>building three network models and understand them from the technical side; using the out-of-the-box commands to run these examples on a benchmark task. The three networks are (1) a simple feed-forward NN, (2) a DeepAK8 model (based on 1D CNN), and eventually (3) the ParticleNet model (based on DGCNN).</li> <li>making the comparison plots.</li> </ul> <p><mark>This section is friendly to the ML newcomers. The goal is to help readers understand the underlying structure of the "ParticleNet".</mark></p> </li> <li> <p><strong><a href=#tuning-the-particlenet-model>Tuning the ParticleNet model</a></strong>, including</p> <ul> <li>tips for readers who are using/modifying the ParticleNet model to achieve a better performance</li> </ul> <p><mark>This section can be helpful in practice. It provides tips on model training, tunning, validation, etc. It targets the situations when readers apply their own ParticleNet (or ParticleNet-like) model to the custom task.</mark></p> </li> </ol> <!-- 4. **[Integration of ParticleNet](#inference-of-particlenet-in-cmssw)**, including
+    - how the ParticleNet model is integrated in `cmssw`. --> <hr> <p>Corresponding persons:</p> <ul> <li>Huilin Qu, Loukas Gouskos (original developers of ParticleNet)</li> <li>Congqiao Li (author of the page)</li> </ul> <hr> <h2 id=introduction-to-particlenet>Introduction to ParticleNet<a class=headerlink href=#introduction-to-particlenet title="Permanent link">&para;</a></h2> <h3 id=1-general-discription>1. General discription<a class=headerlink href=#1-general-discription title="Permanent link">&para;</a></h3> <p>ParticleNet is a graph neural net (GNN) model. The key ingredient of ParticleNet is the graph convolutional operation, i.e., the edge convolution (EdgeConv) and the dynamic graph CNN (DGCNN) method [<a href=https://arxiv.org/abs/1801.07829>arXiv:1801.07829</a>] applied on the "point cloud" data structure.</p> <p>We will disassemble the ParticleNet model and provide a detailed exploration in the next section, but here we briefly explain the key features of the model.</p> <p>Intuitively, ParticleNet treats all candidates inside an object as a "point cloud", which is a permutational-invariant set of points (e.g. a set of PF candidates), each carrying a feature vector (<em>η</em>, <em>φ</em>, <em>p</em><sub>T</sub>, charge, etc.). The DGCNN uses the EdgeConv operation to exploit their spatial correlations (two-dimensional on the <em>η</em>-<em>φ</em> plain) by finding the <em>k</em>-nearest neighbours of each point and generate a new latent graph layer where points are scattered on a high-dimensional latent space. This is a graph-type analogue of the classical 2D convolution operation, which acts on a regular 2D grid (e.g., a picture) using a 3×3 local patch to explore the relations of a single-pixel with its 8 nearest pixels, then generates a new 2D grid.</p> <figure> <img src=images/convolution_cartoon.png width=60%> <figcaption>The cartoon illustrates the convolutional operation acted on the regular grid and on the point cloud (plot from <a href=https://indico.cern.ch/event/745718/contributions/3202526/attachments/1753880/2842817/jet_as_particle_cloud_ml4jets_20181115_hqu.pdf>ML4Jets 2018</a> talk).</figcaption> </figure> <p>As a consequence, the EdgeConv operation transforms the graph to a new graph, which has a changed spatial relationship among points. It then acts on the second graph to produce the third graph, showing the stackability of the convolution operation. This illustrates the "dynamic" property as the graph topology changes after each EdgeConv layer.</p> <h3 id=2-advantage>2. Advantage<a class=headerlink href=#2-advantage title="Permanent link">&para;</a></h3> <p>By concept, the advantage of the network may come from exploiting the permutational-invariant symmetry of the points, which is intrinsic to our physics objects. This symmetry is held naturally in a point cloud representation.</p> <p>In a recent study on jet physics or event-based analysis using ML techniques, there are increasing interest to explore the point cloud data structure. We explain here conceptually why a "point cloud" representation outperforms the classical ones, including the variable-length 2D vector structure passing to a 1D CNN or any type of RNN, and imaged-based representation passing through a 2D CNN. By using the 1D CNN, the points (PF candidates) are more often ordered by <em>p</em><sub>T</sub> to fix on the 1D grid. Only correlations with neighbouring points with similar <em>p</em><sub>T</sub> are learned by the network with a convolution operation. The Long Short-Term Memory (LSTM) type recurrent neural network (RNN) provides the flexibility to feed in a variant-length sequence and has a "memory" mechanism to cooperate the information it learns from an early node to the latest node. The concern is that such ordering of the sequence is somewhat artificial, and not an underlying property that an NN must learn to accomplish the classification task. As a comparison, in the task of the natural language processing where LSTM has a huge advantage, the order of words are important characteristic of a language itself (reflects the "grammar" in some circumstances) and is a feature the NN must learn to master the language. The imaged-based data explored by a 2D CNN stems from the image recognition task. A jet image with proper standardization is usually performed before feeding into the network. In this sense, it lacks local features which the 2D local patch is better at capturing, e.g. the ear of the cat that a local patch can capture by scanning over the entire image. The jet image is appearing to hold the features globally (e.g. two-prong structure for W-tagging). The sparsity of data is another concern in that it introduces redundant information to present a jet on the regular grid, making the network hard to capture the key properties.</p> <h3 id=3-applications-and-other-related-work>3. Applications and other related work<a class=headerlink href=#3-applications-and-other-related-work title="Permanent link">&para;</a></h3> <p>Here we briefly summarize the applications and ongoing works on ParticleNet. Public CMS results include</p> <ul> <li>large-<em>R</em> jet with <em>R</em>=0.8 tagging (for W/Z/H/t) using ParticleNet [<a href=https://cds.cern.ch/record/2707946/files/DP2020_002.pdf>CMS-DP-2020/002</a>]</li> <li>regression on the large-<em>R</em> jet mass based on the ParticleNet model [<a href=https://cds.cern.ch/record/2777006/files/DP2021_017.pdf>CMS-DP-2020/002</a>]</li> </ul> <p>ParticleNet architecture is also applied on small radius <em>R</em>=0.4 jets for the b/c-tagging and quark/gluon classification (see <a href=https://indico.cern.ch/event/956305/contributions/4027291/attachments/2111830/3552486/ParticleNet_AK4_JMAR_20200929_H_Qu.pdf>this talk (CMS internal)</a>). A recent ongoing work applies the ParticleNet architecture in heavy flavour tagging at HLT (see <a href=https://indico.cern.ch/event/1037711/contributions/4357618/attachments/2242179/3801855/Raffaele_10_05_2021.pdf>this talk (CMS internal)</a>). The ParticleNet model is recently updated to ParticleNeXt and see further improvement (see the <a href=https://indico.cern.ch/event/980214/contributions/4413544/attachments/2277334/3868991/ParticleNeXt_ML4Jets2021_H_Qu.pdf>ML4Jets 2021 talk</a>).</p> <p>Recent works in the joint field of HEP and ML also shed light on exploiting the point cloud data structure and GNN-based architectures. We see very active progress in recent years. Here list some useful materials for the reader's reference.</p> <ul> <li>Some pheno-based work are summarized in the HEP × ML <a href=https://iml-wg.github.io/HEPML-LivingReview/ >living review</a>, especially in the "graph" and "sets" categories.</li> <li>An overview of GNN applications to CMS [<a href=https://indico.cern.ch/event/952419/ >CMS ML forum (CMS internal)</a>]</li> <li>At the time of writing, various novel GNN-based models are explored and introduced in the recent <a href="https://indico.cern.ch/event/980214/timetable/?view=standard">ML4Jets2021</a> meeting.</li> </ul> <h2 id=introduction-to-weaver-and-model-implementations>Introduction to <code>Weaver</code> and model implementations<a class=headerlink href=#introduction-to-weaver-and-model-implementations title="Permanent link">&para;</a></h2> <p><a href=https://github.com/hqucms/weaver><code>Weaver</code></a> is a machine learning R&amp;D framework for high energy physics (HEP) applications. It trains the neural net with PyTorch and is capable of exporting the model to the ONNX format for fast inference. A detailed guide is presented on <code>Weaver</code> README page.</p> <p>Now we walk through three solid examples to get you familiar with <code>Weaver</code>. We use the benchmark of the top tagging task [<a href=https://arxiv.org/abs/1707.08966>arXiv:1707.08966</a>] in the following example. Some useful information can be found in the "top tagging" section in the <a href=https://iml.web.cern.ch/public-datasets>IML public datasets webpage</a> (the <a href=https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit>gDoc</a>).</p> <p>Our goal is to do some warm-up with <code>Weaver</code>, and more importantly, to explore from a technical side the neural net architectures, from a simple multi-layer perceptron (MLP) model, to a more complicated "DeepAK8 tagger" model based on 1D CNN with ResNet, and eventually to the "ParticleNet model" which is based on DGCNN. We will dig deeper into their implementations in <code>Weaver</code> and try to illustrate as many details as possible. Finally, we compare their performance and see if we can reproduce the benchmark record with the model. Please clone the repo <a href=https://github.com/colizz/weaver-benchmark><code>weaver-benchmark</code></a> and we'll get started.</p> <h3 id=1-build-models-in-weaver>1. Build models in <code>Weaver</code><a class=headerlink href=#1-build-models-in-weaver title="Permanent link">&para;</a></h3> <p>When implementing a new training in <code>Weaver</code>, two key elements are crucial: the model and the data configuration file. The model configuration file includes a <code>get_model</code> function that returns a <code>torch.nn.Module</code> type model and a dictionary of model info used to export an ONNX-format model. The data configuration is a YAML file describing how to process the input data. Please see the <code>Weaver</code> README for details.</p> <p>Before moving on, we need a preprocessing of the benchmark datasets. The original sample is an H5 file including branches like energy <code>E_i</code> and 3-momenta <code>PX_i</code>, <code>PY_i</code>, <code>PZ_i</code> for each jet constituent <em>i</em> (<em>i</em>=0, ..., 199) inside a jet. All branches are in the 1D flat structure. We reconstruct the data in a way that the jet features are 2D vectors (e.g., in the <code>vector&lt;float&gt;</code> format): <code>E</code>, <code>PX</code>, <code>PY</code>, <code>PZ</code>, with variable-length that corresponds to the number of constituents. Note that this is a commonly used data structure, similar to the NanoAOD format in CMS.</p> <p>The input files after preprocessing (in the <code>.awkd</code> format) can be found at CERN EOS space <code>/eos/user/c/coli/public/weaver-benchmark/samples/top/</code>. It includes three sets of data for training, validation, and test.</p> <div class="admonition note"> <p class=admonition-title>Note</p> <p>To preprocess the input files from the original datasets manually, direct to the <code>weaver-benchmark</code> base directory and run <div class=highlight><pre><span></span><code><span class=n>python</span> <span class=n>utils</span><span class=o>/</span><span class=n>convert_top_datasets</span><span class=o>.</span><span class=n>py</span> <span class=o>-</span><span class=n>i</span> <span class=o>&lt;</span><span class=n>your</span><span class=o>-</span><span class=n>sample</span><span class=o>-</span><span class=nb>dir</span><span class=o>&gt;</span>
+</code></pre></div> This will convert the <code>.h5</code> file to the <code>.awkd</code> file and create some new variables for each jet, including the relative <em>η</em> and <em>φ</em> value w.r.t. main axis of the jet of each jet constituent.</p> </div> <p>Then, we show three NN model configurations below and provide detailed explanations of the code. We make meticulous efforts on the illustration of the model architecture, especially in the ParticleNet case.</p> <div class=tabbed-set data-tabs=1:3><input checked=checked id=__tabbed_1_1 name=__tabbed_1 type=radio><label for=__tabbed_1_1>A simple MLP</label><div class=tabbed-content> <p>A simple multi-layer perception model is first provided here as proof of the concept. All layers are based on the linear transformation of the 1D vectors. The model configuration card is shown in <code>networks/top/mlp_pf.py</code>. First, we implement an MLP network in the <code>nn.Module</code> class.</p> <details class=hint open=open><summary>MLP implementation</summary><p>Also, see <a href=https://github.com/colizz/weaver-benchmark/networks/top/mlp_pf.py><code>networks/top/mlp_pf.py</code></a>. We elaborate here on several aspects.</p> <ul> <li> <p>A sequence of linear layers and ReLU activation functions is defined in <code>nn.Sequential(nn.Linear(channels[i], channels[i + 1]), nn.ReLU()</code>. By combining multiple of them, we construct a simple multi-layer perceptron.</p> </li> <li> <p>The input data <code>x</code> takes the 3D format, in the dimension <code>(N, C, P)</code>, which is decided by our data structure and the data configuration card. Here, <code>N</code> is the mini-batch size, <code>C</code> is the feature size, and <code>P</code> is the size of constituents per jet. To feed into our MLP, we flatten the last two dimensions by <code>x = x.flatten(start_dim=1)</code> to form the vector of dimension <code>(N, L)</code>.</p> </li> </ul> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>class</span> <span class=nc>MultiLayerPerceptron</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+    <span class=sa>r</span><span class=sd>&quot;&quot;&quot;Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    input_dims : int</span>
+<span class=sd>        Input feature dimensions.</span>
+<span class=sd>    num_classes : int</span>
+<span class=sd>        Number of output classes.</span>
+<span class=sd>    layer_params : list</span>
+<span class=sd>        List of the feature size for each layer.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>input_dims</span><span class=p>,</span> <span class=n>num_classes</span><span class=p>,</span>
+                <span class=n>layer_params</span><span class=o>=</span><span class=p>(),</span>
+                <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+
+        <span class=nb>super</span><span class=p>(</span><span class=n>MultiLayerPerceptron</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+        <span class=n>channels</span> <span class=o>=</span> <span class=p>[</span><span class=n>input_dims</span><span class=p>]</span> <span class=o>+</span> <span class=nb>list</span><span class=p>(</span><span class=n>layer_params</span><span class=p>)</span> <span class=o>+</span> <span class=p>[</span><span class=n>num_classes</span><span class=p>]</span>
+        <span class=n>layers</span> <span class=o>=</span> <span class=p>[]</span>
+        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>channels</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>):</span>
+            <span class=n>layers</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>channels</span><span class=p>[</span><span class=n>i</span><span class=p>],</span> <span class=n>channels</span><span class=p>[</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>]),</span>
+                                        <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>()))</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>mlp</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=o>*</span><span class=n>layers</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+        <span class=c1># x: the feature vector initally read from the data structure, in dimension (N, C, P)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>flatten</span><span class=p>(</span><span class=n>start_dim</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span> <span class=c1># (N, L), where L = C * P</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>mlp</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</code></pre></div> </td></tr></table> </details> <p>Then, we write the <code>get_model</code> and <code>get_loss</code> functions which will be sent into <code>Weaver</code>'s training code.</p> <details class=hint open=open><summary><code>get_model</code> and <code>get_loss</code> function</summary><p>Also see <a href=https://github.com/colizz/weaver-benchmark/networks/top/mlp_pf.py><code>networks/top/mlp_pf.py</code></a>. We elaborate here on several aspects.</p> <ul> <li>Inside <code>get_model</code>, the <code>model</code> is essentially the MLP class we define, and the <code>model_info</code> takes the default definition, including the input/output shape, the dimensions of the dynamic axes for the input/output data shape that will guide the ONNX model exportation. </li> <li>The <code>get_loss</code> function is not changed as in the classification task we always use the cross-entropy loss function.</li> </ul> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>def</span> <span class=nf>get_model</span><span class=p>(</span><span class=n>data_config</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+    <span class=n>layer_params</span> <span class=o>=</span> <span class=p>(</span><span class=mi>2048</span><span class=p>,</span> <span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>)</span>
+    <span class=n>_</span><span class=p>,</span> <span class=n>pf_length</span><span class=p>,</span> <span class=n>pf_features_dims</span> <span class=o>=</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_shapes</span><span class=p>[</span><span class=s1>&#39;pf_features&#39;</span><span class=p>]</span>
+    <span class=n>input_dims</span> <span class=o>=</span> <span class=n>pf_length</span> <span class=o>*</span> <span class=n>pf_features_dims</span>
+    <span class=n>num_classes</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>label_value</span><span class=p>)</span>
+    <span class=n>model</span> <span class=o>=</span> <span class=n>MultiLayerPerceptron</span><span class=p>(</span><span class=n>input_dims</span><span class=p>,</span> <span class=n>num_classes</span><span class=p>,</span> <span class=n>layer_params</span><span class=o>=</span><span class=n>layer_params</span><span class=p>)</span>
+
+    <span class=n>model_info</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s1>&#39;input_names&#39;</span><span class=p>:</span><span class=nb>list</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_names</span><span class=p>),</span>
+        <span class=s1>&#39;input_shapes&#39;</span><span class=p>:{</span><span class=n>k</span><span class=p>:((</span><span class=mi>1</span><span class=p>,)</span> <span class=o>+</span> <span class=n>s</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span> <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_shapes</span><span class=o>.</span><span class=n>items</span><span class=p>()},</span>
+        <span class=s1>&#39;output_names&#39;</span><span class=p>:[</span><span class=s1>&#39;softmax&#39;</span><span class=p>],</span>
+        <span class=s1>&#39;dynamic_axes&#39;</span><span class=p>:{</span><span class=o>**</span><span class=p>{</span><span class=n>k</span><span class=p>:{</span><span class=mi>0</span><span class=p>:</span><span class=s1>&#39;N&#39;</span><span class=p>,</span> <span class=mi>2</span><span class=p>:</span><span class=s1>&#39;n_&#39;</span> <span class=o>+</span> <span class=n>k</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=s1>&#39;_&#39;</span><span class=p>)[</span><span class=mi>0</span><span class=p>]}</span> <span class=k>for</span> <span class=n>k</span> <span class=ow>in</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_names</span><span class=p>},</span> <span class=o>**</span><span class=p>{</span><span class=s1>&#39;softmax&#39;</span><span class=p>:{</span><span class=mi>0</span><span class=p>:</span><span class=s1>&#39;N&#39;</span><span class=p>}}},</span>
+        <span class=p>}</span>
+
+    <span class=nb>print</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>model_info</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>model</span><span class=p>,</span> <span class=n>model_info</span>
+
+
+<span class=k>def</span> <span class=nf>get_loss</span><span class=p>(</span><span class=n>data_config</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>torch</span><span class=o>.</span><span class=n>nn</span><span class=o>.</span><span class=n>CrossEntropyLoss</span><span class=p>()</span>
+</code></pre></div> </td></tr></table> </details> <p>Below show the full structure of the MLP network printed by PyTorch. You will see it in the <code>Weaver</code> output during the training.</p> <details class=hint><summary>The full-scale structure of the MLP network</summary><div class=highlight><pre><span></span><code>MultiLayerPerceptron(
+  |0.739 M, 100.000% Params, 0.001 GMac, 100.000% MACs|
+  (mlp): Sequential(
+    |0.739 M, 100.000% Params, 0.001 GMac, 100.000% MACs|
+    (0): Sequential(
+      |0.411 M, 55.540% Params, 0.0 GMac, 55.563% MACs|
+      (0): Linear(in_features=400, out_features=1024, bias=True, |0.411 M, 55.540% Params, 0.0 GMac, 55.425% MACs|)
+      (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.138% MACs|)
+    )
+    (1): Sequential(
+      |0.262 M, 35.492% Params, 0.0 GMac, 35.452% MACs|
+      (0): Linear(in_features=1024, out_features=256, bias=True, |0.262 M, 35.492% Params, 0.0 GMac, 35.418% MACs|)
+      (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.035% MACs|)
+    )
+    (2): Sequential(
+      |0.066 M, 8.899% Params, 0.0 GMac, 8.915% MACs|
+      (0): Linear(in_features=256, out_features=256, bias=True, |0.066 M, 8.899% Params, 0.0 GMac, 8.880% MACs|)
+      (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.035% MACs|)
+    )
+    (3): Sequential(
+      |0.001 M, 0.070% Params, 0.0 GMac, 0.070% MACs|
+      (0): Linear(in_features=256, out_features=2, bias=True, |0.001 M, 0.070% Params, 0.0 GMac, 0.069% MACs|)
+      (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.000% MACs|)
+    )
+  )
+)
+</code></pre></div> </details> <p>The data card is shown in <code>data/top/pf_features.yaml</code>. It defines one input group, <code>pf_features</code>, which takes four variables <code>Etarel</code>, <code>Phirel</code>, <code>E_log</code>, <code>P_log</code>. This is based on our data structure, where these variables are 2D vectors with variable lengths. The <code>length</code> is chosen as 100 in a way that the last dimension (the jet constituent dimension) is always truncated or padded to have length 100.</p> <p>In the following two models (i,e., the DeepAK8 and the ParticleNet model) you will see that the data cards are very similar. The change will only be the way we present the input group(s).</p> </div> <input id=__tabbed_1_2 name=__tabbed_1 type=radio><label for=__tabbed_1_2>DeepAK8 (1D CNN)</label><div class=tabbed-content> <div class="admonition note"> <p class=admonition-title>Note</p> <p>The DeepAK8 tagger is a widely used highly-boosted jet tagging in the CMS community. The design of the model can be found in the CMS paper [<a href=https://arxiv.org/abs/2004.08262>arXiv:2004.08262</a>]. The original model is trained on MXNet and its configuration can be found <a href=https://github.com/hqucms/NNTools/blob/master/training/symbols/sym_ak8_pfcand_sv_resnet_v1.py>here</a>. </p> <p>We now migrate the model architecture to <code>Weaver</code> and train it on Pytorch. Also, we narrow the multi-class output score to the binary output to adapt our binary classification task (top vs. QCD jet).</p> </div> <p>The model card is given in <code>networks/top/deepak8_pf.py</code>. The DeepAK8 model is inspired by the ResNet architecture. The key ingredient is the ResNet unit constructed by multiple CNN layers with a shortcut connection. First, we define the ResNet unit in the model card.</p> <details class=hint open=open><summary>ResNet unit implementation</summary><p>See <a href=https://github.com/colizz/weaver-benchmark/networks/top/deepak8_pf.py><code>networks/top/deepak8_pf.py</code></a>. We elaborate here on several aspects.</p> <ul> <li>A ResNet unit is made of two 1D CNNs with batch normalization and ReLU activation function.</li> <li>The shortcut is introduced here by directly adding the input data to the processed data after passing the CNN layers. The shortcut connection help to ease the training for the "deeper" model [<a href=https://arxiv.org/pdf/1512.03385.pdf>arXiv:1512.03385</a>]. Note that a trivial linear transformation is applied (<code>self.conv_sc</code>) if the feature dimension of the input and output data does not match.</li> </ul> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>class</span> <span class=nc>ResNetUnit</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>in_channels</span><span class=p>,</span> <span class=n>out_channels</span><span class=p>,</span> <span class=n>strides</span><span class=o>=</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>),</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+
+        <span class=nb>super</span><span class=p>(</span><span class=n>ResNetUnit</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>conv1</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>in_channels</span><span class=p>,</span> <span class=n>out_channels</span><span class=p>,</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>stride</span><span class=o>=</span><span class=n>strides</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>padding</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>bn1</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>out_channels</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>conv2</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>out_channels</span><span class=p>,</span> <span class=n>out_channels</span><span class=p>,</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>stride</span><span class=o>=</span><span class=n>strides</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>padding</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>bn2</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>out_channels</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>relu</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>dim_match</span> <span class=o>=</span> <span class=kc>True</span>
+        <span class=k>if</span> <span class=ow>not</span> <span class=n>in_channels</span> <span class=o>==</span> <span class=n>out_channels</span> <span class=ow>or</span> <span class=ow>not</span> <span class=n>strides</span> <span class=o>==</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>):</span> <span class=c1># dimensions not match</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>dim_match</span> <span class=o>=</span> <span class=kc>False</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>conv_sc</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>in_channels</span><span class=p>,</span> <span class=n>out_channels</span><span class=p>,</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>stride</span><span class=o>=</span><span class=n>strides</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>*</span><span class=n>strides</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+        <span class=n>identity</span> <span class=o>=</span> <span class=n>x</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>conv1</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>bn1</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>relu</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>conv2</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>bn2</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>relu</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=c1># print(&#39;resnet unit&#39;, identity.shape, x.shape, self.dim_match)</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>dim_match</span><span class=p>:</span>
+            <span class=k>return</span> <span class=n>identity</span> <span class=o>+</span> <span class=n>x</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>conv_sc</span><span class=p>(</span><span class=n>identity</span><span class=p>)</span> <span class=o>+</span> <span class=n>x</span>
+</code></pre></div> </td></tr></table> </details> <p>With the ResNet unit, we construct the DeepAK8 model. The model hyperparameters are chosen as follows. <div class=highlight><pre><span></span><code><span class=n>conv_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>32</span><span class=p>,),</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>),</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>),</span> <span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>)]</span>
+<span class=n>fc_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>512</span><span class=p>,</span> <span class=mf>0.2</span><span class=p>)]</span>
+</code></pre></div></p> <details class=hint open=open><summary>DeepAK8 model implementation</summary><p>See <a href=https://github.com/colizz/weaver-benchmark/networks/top/deepak8_pf.py><code>networks/top/deepak8_pf.py</code></a>. Note that the main architecture is a Pytorch re-implementation of the code <a href=https://github.com/hqucms/NNTools/blob/master/training/symbols/sym_ak8_pfcand_sv_resnet_v1.py>here</a> based on the MXNet.</p> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>class</span> <span class=nc>ResNet</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+    <span class=sa>r</span><span class=sd>&quot;&quot;&quot;Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    features_dims : int</span>
+<span class=sd>        Input feature dimensions.</span>
+<span class=sd>    num_classes : int</span>
+<span class=sd>        Number of output classes.</span>
+<span class=sd>    conv_params : list</span>
+<span class=sd>        List of the convolution layer parameters. </span>
+<span class=sd>        The first element is a tuple of size 1, defining the transformed feature size for the initial feature convolution layer.</span>
+<span class=sd>        The following are tuples of feature size for multiple stages of the ResNet units. Each number defines an individual ResNet unit.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>features_dims</span><span class=p>,</span> <span class=n>num_classes</span><span class=p>,</span>
+                <span class=n>conv_params</span><span class=o>=</span><span class=p>[(</span><span class=mi>32</span><span class=p>,),</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>),</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>),</span> <span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>)],</span>
+                <span class=n>fc_params</span><span class=o>=</span><span class=p>[(</span><span class=mi>512</span><span class=p>,</span> <span class=mf>0.2</span><span class=p>)],</span>
+                <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+
+        <span class=nb>super</span><span class=p>(</span><span class=n>ResNet</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>conv_params</span> <span class=o>=</span> <span class=n>conv_params</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>num_stages</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>conv_params</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>fts_conv</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>in_channels</span><span class=o>=</span><span class=n>features_dims</span><span class=p>,</span> <span class=n>out_channels</span><span class=o>=</span><span class=n>conv_params</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=mi>0</span><span class=p>],</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>stride</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>padding</span><span class=o>=</span><span class=mi>1</span><span class=p>),</span>
+                                    <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>conv_params</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=mi>0</span><span class=p>]),</span>
+                                    <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>())</span>
+
+        <span class=c1># define ResNet units for each stage. Each unit is composed of a sequence of ResNetUnit block</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>resnet_units</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ModuleDict</span><span class=p>()</span>
+        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>num_stages</span><span class=p>):</span>
+            <span class=c1># stack units[i] layers in this stage</span>
+            <span class=n>unit_layers</span> <span class=o>=</span> <span class=p>[]</span>
+            <span class=k>for</span> <span class=n>j</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>conv_params</span><span class=p>[</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>])):</span>
+                <span class=n>in_channels</span><span class=p>,</span> <span class=n>out_channels</span> <span class=o>=</span> <span class=p>(</span><span class=n>conv_params</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=n>conv_params</span><span class=p>[</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>])</span> <span class=k>if</span> <span class=n>j</span> <span class=o>==</span> <span class=mi>0</span> \
+                                            <span class=k>else</span> <span class=p>(</span><span class=n>conv_params</span><span class=p>[</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>][</span><span class=n>j</span> <span class=o>-</span> <span class=mi>1</span><span class=p>],</span> <span class=n>conv_params</span><span class=p>[</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>][</span><span class=n>j</span><span class=p>])</span>
+                <span class=n>strides</span> <span class=o>=</span> <span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=k>if</span> <span class=p>(</span><span class=n>j</span> <span class=o>==</span> <span class=mi>0</span> <span class=ow>and</span> <span class=n>i</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=k>else</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+                <span class=n>unit_layers</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>ResNetUnit</span><span class=p>(</span><span class=n>in_channels</span><span class=p>,</span> <span class=n>out_channels</span><span class=p>,</span> <span class=n>strides</span><span class=p>))</span>
+
+            <span class=bp>self</span><span class=o>.</span><span class=n>resnet_units</span><span class=o>.</span><span class=n>add_module</span><span class=p>(</span><span class=s1>&#39;resnet_unit_</span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>i</span><span class=p>,</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=o>*</span><span class=n>unit_layers</span><span class=p>))</span>
+
+        <span class=c1># define fully connected layers</span>
+        <span class=n>fcs</span> <span class=o>=</span> <span class=p>[]</span>
+        <span class=k>for</span> <span class=n>idx</span><span class=p>,</span> <span class=n>layer_param</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=n>fc_params</span><span class=p>):</span>
+            <span class=n>channels</span><span class=p>,</span> <span class=n>drop_rate</span> <span class=o>=</span> <span class=n>layer_param</span>
+            <span class=n>in_chn</span> <span class=o>=</span> <span class=n>conv_params</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>][</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=k>if</span> <span class=n>idx</span> <span class=o>==</span> <span class=mi>0</span> <span class=k>else</span> <span class=n>fc_params</span><span class=p>[</span><span class=n>idx</span> <span class=o>-</span> <span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span>
+            <span class=n>fcs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>in_chn</span><span class=p>,</span> <span class=n>channels</span><span class=p>),</span> <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>(),</span> <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>drop_rate</span><span class=p>)))</span>
+        <span class=n>fcs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>fc_params</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>],</span> <span class=n>num_classes</span><span class=p>))</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>fc</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=o>*</span><span class=n>fcs</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+        <span class=c1># x: the feature vector, (N, C, P)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fts_conv</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>num_stages</span><span class=p>):</span>
+            <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>resnet_units</span><span class=p>[</span><span class=s1>&#39;resnet_unit_</span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>i</span><span class=p>](</span><span class=n>x</span><span class=p>)</span> <span class=c1># (N, C&#39;, P&#39;), P&#39;&lt;P due to kernal_size&gt;1 or stride&gt;1</span>
+
+        <span class=c1># global average pooling</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span> <span class=o>/</span> <span class=n>x</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=c1># (N, C&#39;)</span>
+        <span class=c1># fully connected</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fc</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=c1># (N, out_chn)</span>
+        <span class=k>return</span> <span class=n>x</span>
+
+
+<span class=k>def</span> <span class=nf>get_model</span><span class=p>(</span><span class=n>data_config</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+    <span class=n>conv_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>32</span><span class=p>,),</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>),</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>),</span> <span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>)]</span>
+    <span class=n>fc_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>512</span><span class=p>,</span> <span class=mf>0.2</span><span class=p>)]</span>
+
+    <span class=n>pf_features_dims</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_dicts</span><span class=p>[</span><span class=s1>&#39;pf_features&#39;</span><span class=p>])</span>
+    <span class=n>num_classes</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>label_value</span><span class=p>)</span>
+    <span class=n>model</span> <span class=o>=</span> <span class=n>ResNet</span><span class=p>(</span><span class=n>pf_features_dims</span><span class=p>,</span> <span class=n>num_classes</span><span class=p>,</span>
+                <span class=n>conv_params</span><span class=o>=</span><span class=n>conv_params</span><span class=p>,</span>
+                <span class=n>fc_params</span><span class=o>=</span><span class=n>fc_params</span><span class=p>)</span>
+
+    <span class=n>model_info</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s1>&#39;input_names&#39;</span><span class=p>:</span><span class=nb>list</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_names</span><span class=p>),</span>
+        <span class=s1>&#39;input_shapes&#39;</span><span class=p>:{</span><span class=n>k</span><span class=p>:((</span><span class=mi>1</span><span class=p>,)</span> <span class=o>+</span> <span class=n>s</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span> <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_shapes</span><span class=o>.</span><span class=n>items</span><span class=p>()},</span>
+        <span class=s1>&#39;output_names&#39;</span><span class=p>:[</span><span class=s1>&#39;softmax&#39;</span><span class=p>],</span>
+        <span class=s1>&#39;dynamic_axes&#39;</span><span class=p>:{</span><span class=o>**</span><span class=p>{</span><span class=n>k</span><span class=p>:{</span><span class=mi>0</span><span class=p>:</span><span class=s1>&#39;N&#39;</span><span class=p>,</span> <span class=mi>2</span><span class=p>:</span><span class=s1>&#39;n_&#39;</span> <span class=o>+</span> <span class=n>k</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=s1>&#39;_&#39;</span><span class=p>)[</span><span class=mi>0</span><span class=p>]}</span> <span class=k>for</span> <span class=n>k</span> <span class=ow>in</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_names</span><span class=p>},</span> <span class=o>**</span><span class=p>{</span><span class=s1>&#39;softmax&#39;</span><span class=p>:{</span><span class=mi>0</span><span class=p>:</span><span class=s1>&#39;N&#39;</span><span class=p>}}},</span>
+        <span class=p>}</span>
+
+    <span class=nb>print</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>model_info</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_shapes</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>model</span><span class=p>,</span> <span class=n>model_info</span>
+
+
+<span class=k>def</span> <span class=nf>get_loss</span><span class=p>(</span><span class=n>data_config</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>torch</span><span class=o>.</span><span class=n>nn</span><span class=o>.</span><span class=n>CrossEntropyLoss</span><span class=p>()</span>
+</code></pre></div> </td></tr></table> </details> <p>Below show the full structure of the DeepAK8 model based on 1D CNN with ResNet. It is printed by PyTorch and you will see it in the <code>Weaver</code> output during training.</p> <details class=hint><summary>The full-scale structure of the DeepAK8 architecture</summary><div class=highlight><pre><span></span><code>ResNet(
+  |0.349 M, 100.000% Params, 0.012 GMac, 100.000% MACs|
+  (fts_conv): Sequential(
+    |0.0 M, 0.137% Params, 0.0 GMac, 0.427% MACs|
+    (0): Conv1d(4, 32, kernel_size=(3,), stride=(1,), padding=(1,), |0.0 M, 0.119% Params, 0.0 GMac, 0.347% MACs|)
+    (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.018% Params, 0.0 GMac, 0.053% MACs|)
+    (2): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.027% MACs|)
+  )
+  (resnet_units): ModuleDict(
+    |0.282 M, 80.652% Params, 0.012 GMac, 99.010% MACs|
+    (resnet_unit_0): Sequential(
+      |0.046 M, 13.124% Params, 0.005 GMac, 38.409% MACs|
+      (0): ResNetUnit(
+        |0.021 M, 5.976% Params, 0.002 GMac, 17.497% MACs|
+        (conv1): Conv1d(32, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.006 M, 1.778% Params, 0.001 GMac, 5.175% MACs|)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.107% MACs|)
+        (conv2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 10.296% MACs|)
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.107% MACs|)
+        (relu): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.107% MACs|)
+        (conv_sc): Conv1d(32, 64, kernel_size=(1,), stride=(1,), bias=False, |0.002 M, 0.587% Params, 0.0 GMac, 1.707% MACs|)
+      )
+      (1): ResNetUnit(
+        |0.025 M, 7.149% Params, 0.003 GMac, 20.912% MACs|
+        (conv1): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 10.296% MACs|)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.107% MACs|)
+        (conv2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 10.296% MACs|)
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.107% MACs|)
+        (relu): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.107% MACs|)
+      )
+    )
+    (resnet_unit_1): Sequential(
+      |0.054 M, 15.471% Params, 0.003 GMac, 22.619% MACs|
+      (0): ResNetUnit(
+        |0.029 M, 8.322% Params, 0.001 GMac, 12.163% MACs|
+        (conv1): Conv1d(64, 64, kernel_size=(3,), stride=(2,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 5.148% MACs|)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.053% MACs|)
+        (conv2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 5.148% MACs|)
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.053% MACs|)
+        (relu): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.053% MACs|)
+        (conv_sc): Conv1d(64, 64, kernel_size=(1,), stride=(2,), bias=False, |0.004 M, 1.173% Params, 0.0 GMac, 1.707% MACs|)
+      )
+      (1): ResNetUnit(
+        |0.025 M, 7.149% Params, 0.001 GMac, 10.456% MACs|
+        (conv1): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 5.148% MACs|)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.053% MACs|)
+        (conv2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,), |0.012 M, 3.538% Params, 0.001 GMac, 5.148% MACs|)
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.037% Params, 0.0 GMac, 0.053% MACs|)
+        (relu): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.053% MACs|)
+      )
+    )
+    (resnet_unit_2): Sequential(
+      |0.182 M, 52.057% Params, 0.005 GMac, 37.982% MACs|
+      (0): ResNetUnit(
+        |0.083 M, 23.682% Params, 0.002 GMac, 17.284% MACs|
+        (conv1): Conv1d(64, 128, kernel_size=(3,), stride=(2,), padding=(1,), |0.025 M, 7.075% Params, 0.001 GMac, 5.148% MACs|)
+        (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.073% Params, 0.0 GMac, 0.053% MACs|)
+        (conv2): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,), |0.049 M, 14.114% Params, 0.001 GMac, 10.269% MACs|)
+        (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.073% Params, 0.0 GMac, 0.053% MACs|)
+        (relu): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.053% MACs|)
+        (conv_sc): Conv1d(64, 128, kernel_size=(1,), stride=(2,), bias=False, |0.008 M, 2.346% Params, 0.0 GMac, 1.707% MACs|)
+      )
+      (1): ResNetUnit(
+        |0.099 M, 28.375% Params, 0.002 GMac, 20.698% MACs|
+        (conv1): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,), |0.049 M, 14.114% Params, 0.001 GMac, 10.269% MACs|)
+        (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.073% Params, 0.0 GMac, 0.053% MACs|)
+        (conv2): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,), |0.049 M, 14.114% Params, 0.001 GMac, 10.269% MACs|)
+        (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.073% Params, 0.0 GMac, 0.053% MACs|)
+        (relu): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.053% MACs|)
+      )
+    )
+  )
+  (fc): Sequential(
+    |0.067 M, 19.210% Params, 0.0 GMac, 0.563% MACs|
+    (0): Sequential(
+      |0.066 M, 18.917% Params, 0.0 GMac, 0.555% MACs|
+      (0): Linear(in_features=128, out_features=512, bias=True, |0.066 M, 18.917% Params, 0.0 GMac, 0.551% MACs|)
+      (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.004% MACs|)
+      (2): Dropout(p=0.2, inplace=False, |0.0 M, 0.000% Params, 0.0 GMac, 0.000% MACs|)
+    )
+    (1): Linear(in_features=512, out_features=2, bias=True, |0.001 M, 0.294% Params, 0.0 GMac, 0.009% MACs|)
+  )
+)
+</code></pre></div> </details> <p>The data card is the same as the MLP case, shown in <code>data/top/pf_features.yaml</code>.</p> </div> <input id=__tabbed_1_3 name=__tabbed_1 type=radio><label for=__tabbed_1_3>ParticleNet (DGCNN)</label><div class=tabbed-content> <div class="admonition note"> <p class=admonition-title>Note</p> <p>The ParticleNet model applied to the CMS analysis is provided in <code>networks/particlenet_pf_sv.py</code>, and the data card in <code>data/ak15_points_pf_sv.yaml</code>. Here we use a similar configuration card to deal with the benchmark task.</p> </div> <p>We will elaborate on the ParticleNet model and focus more on the technical side in this section. The model is defined in <code>networks/top/particlenet_pf.py</code>, but it imports some constructor, the EdgeConv block, in <code>weaver/utils/nn/model/ParticleNet.py</code>. The EdgeConv is illustrated in the cartoon.</p> <p><figure> <img src=images/edgeconv_cartoon.png width=60%> <figcaption>Illustration of the EdgeConv block</figcaption> </figure></p> <p>From an EdgeConv block's point of view, it requires two classes of features as input: the "coordinates" and the "features". These features are the per point properties, in the 2D shape with dimensions <code>(C, P)</code>, where <code>C</code> is the size of the features (the feature size of "coordinates" and the "features" can be different, marked as <code>C_pts</code>, <code>C_fts</code> in the following code), and P is the number of points. The block outputs the new features that the model learns, also in the 2D shape with dimensions <code>(C_fts_out, P)</code>.</p> <p>What happens inside the EdgeConv block? And how is the output feature vector transferred from the input features using the topology of the point cloud? The answer is encoded in the edge convolution (EdgeConv).</p> <p><img align=left alt=edgeconv_architecture loading=lazy src=images/edgeconv_architecture.png width=200></p> <p>The edge convolution is an analogues convolution method defined on a point cloud, whose shape is given by the "coordinates" of points. Specifically, the input "coordinates" provide a view of spatial relations of the points in the Euclidean space. It determines the <em>k</em>-nearest neighbouring points for each point that will guide the update of the feature vector of a point. For each point, the updated feature vector is based on the current state of the point and its <em>k</em> neighbours. Guided by this spirit, all features of the point cloud forms a 3D vector with dimensions <code>(C, P, K)</code>, where <code>C</code> is the per-point feature size (e.g., <em>η</em>, <em>φ</em>, <em>p</em><sub>T</sub>，...), <code>P</code> is the number of points, and K the <em>k</em>-NN number. The structured vector is linearly transformed by acting 2D CNN on the feature dimension <code>C</code>. This helps to aggregate the feature information and exploit the correlations of each point with its adjacent points. A shortcut connection is also introduced inspired by the ResNet.</p> <p>Below shows how the EdgeConv structure is implemented in the code. </p> <details class=hint open=open><summary>EdgeConv block implementation</summary><p>See <a href=https://github.com/hqucms/weaver/blob/master/utils/nn/model/ParticleNet.py><code>weaver/utils/nn/model/ParticleNet.py</code></a>, or the following code block annotated with more comments. We elaborate here on several aspects.</p> <ul> <li>The <code>EdgeConvBlock</code> takes the feature dimension <code>in_feat</code>, <code>out_feats</code> which are <code>C_fts</code>, <code>C_fts_out</code> we introduced above.</li> <li>The input data vectors to <code>forward()</code> are "coordinates" and "features" vector, in the dimension of <code>(N, C_pts(C_fts), P)</code> as introduced above. The first dimension is the mini-batch size.</li> <li><code>self.get_graph_feature()</code> helps to aggregate <em>k</em>-nearest neighbours for each point. The resulting vector is in the dimension of <code>(N, C_fts, P, K)</code> as we discussed above, K being the <em>k</em>-NN number.</li> <li>After convolutions, the per-point features are merged by taking the mean of all <em>k</em>-nearest neighbouring vectors: <div class=highlight><pre><span></span><code><span class=n>fts</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>  <span class=c1># (N, C, P)</span>
+</code></pre></div></li> </ul> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>class</span> <span class=nc>EdgeConvBlock</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+    <span class=sa>r</span><span class=sd>&quot;&quot;&quot;EdgeConv layer.</span>
+<span class=sd>    Introduced in &quot;`Dynamic Graph CNN for Learning on Point Clouds</span>
+<span class=sd>    &lt;https://arxiv.org/pdf/1801.07829&gt;`__&quot;.  Can be described as follows:</span>
+<span class=sd>    .. math::</span>
+<span class=sd>    x_i^{(l+1)} = \max_{j \in \mathcal{N}(i)} \mathrm{ReLU}(</span>
+<span class=sd>    \Theta \cdot (x_j^{(l)} - x_i^{(l)}) + \Phi \cdot x_i^{(l)})</span>
+<span class=sd>    where :math:`\mathcal{N}(i)` is the neighbor of :math:`i`.</span>
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    in_feat : int</span>
+<span class=sd>        Input feature size.</span>
+<span class=sd>    out_feat : int</span>
+<span class=sd>        Output feature size.</span>
+<span class=sd>    batch_norm : bool</span>
+<span class=sd>        Whether to include batch normalization on messages.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>k</span><span class=p>,</span> <span class=n>in_feat</span><span class=p>,</span> <span class=n>out_feats</span><span class=p>,</span> <span class=n>batch_norm</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>activation</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>cpu_mode</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>(</span><span class=n>EdgeConvBlock</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>k</span> <span class=o>=</span> <span class=n>k</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>batch_norm</span> <span class=o>=</span> <span class=n>batch_norm</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>activation</span> <span class=o>=</span> <span class=n>activation</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>num_layers</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>out_feats</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>get_graph_feature</span> <span class=o>=</span> <span class=n>get_graph_feature_v2</span> <span class=k>if</span> <span class=n>cpu_mode</span> <span class=k>else</span> <span class=n>get_graph_feature_v1</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>convs</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ModuleList</span><span class=p>()</span>
+        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>num_layers</span><span class=p>):</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>convs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Conv2d</span><span class=p>(</span><span class=mi>2</span> <span class=o>*</span> <span class=n>in_feat</span> <span class=k>if</span> <span class=n>i</span> <span class=o>==</span> <span class=mi>0</span> <span class=k>else</span> <span class=n>out_feats</span><span class=p>[</span><span class=n>i</span> <span class=o>-</span> <span class=mi>1</span><span class=p>],</span> <span class=n>out_feats</span><span class=p>[</span><span class=n>i</span><span class=p>],</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span> <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>batch_norm</span> <span class=k>else</span> <span class=kc>True</span><span class=p>))</span>
+
+        <span class=k>if</span> <span class=n>batch_norm</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>bns</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ModuleList</span><span class=p>()</span>
+            <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>num_layers</span><span class=p>):</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>bns</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm2d</span><span class=p>(</span><span class=n>out_feats</span><span class=p>[</span><span class=n>i</span><span class=p>]))</span>
+
+        <span class=k>if</span> <span class=n>activation</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>acts</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ModuleList</span><span class=p>()</span>
+            <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>num_layers</span><span class=p>):</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>acts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>())</span>
+
+        <span class=k>if</span> <span class=n>in_feat</span> <span class=o>==</span> <span class=n>out_feats</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>]:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>sc</span> <span class=o>=</span> <span class=kc>None</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>sc</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>in_feat</span><span class=p>,</span> <span class=n>out_feats</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>sc_bn</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>out_feats</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
+
+        <span class=k>if</span> <span class=n>activation</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>sc_act</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>()</span>
+
+    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>points</span><span class=p>,</span> <span class=n>features</span><span class=p>):</span>
+        <span class=c1># points:   (N, C_pts, P) </span>
+        <span class=c1># features: (N, C_fts, P) </span>
+        <span class=c1># N: batch size, C: feature size per point, P: number of points</span>
+
+        <span class=n>topk_indices</span> <span class=o>=</span> <span class=n>knn</span><span class=p>(</span><span class=n>points</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>k</span><span class=p>)</span> <span class=c1># (N, P, K)</span>
+        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_graph_feature</span><span class=p>(</span><span class=n>features</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>k</span><span class=p>,</span> <span class=n>topk_indices</span><span class=p>)</span> <span class=c1># (N, C_fts, P, K)</span>
+
+        <span class=k>for</span> <span class=n>conv</span><span class=p>,</span> <span class=n>bn</span><span class=p>,</span> <span class=n>act</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>convs</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>bns</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>acts</span><span class=p>):</span>
+            <span class=n>x</span> <span class=o>=</span> <span class=n>conv</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>  <span class=c1># (N, C&#39;, P, K)</span>
+            <span class=k>if</span> <span class=n>bn</span><span class=p>:</span>
+                <span class=n>x</span> <span class=o>=</span> <span class=n>bn</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+            <span class=k>if</span> <span class=n>act</span><span class=p>:</span>
+                <span class=n>x</span> <span class=o>=</span> <span class=n>act</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+
+        <span class=n>fts</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>  <span class=c1># (N, C, P)</span>
+
+        <span class=c1># shortcut</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>sc</span><span class=p>:</span>
+            <span class=n>sc</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>sc</span><span class=p>(</span><span class=n>features</span><span class=p>)</span>  <span class=c1># (N, C_out, P)</span>
+            <span class=n>sc</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>sc_bn</span><span class=p>(</span><span class=n>sc</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=n>sc</span> <span class=o>=</span> <span class=n>features</span>
+
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>sc_act</span><span class=p>(</span><span class=n>sc</span> <span class=o>+</span> <span class=n>fts</span><span class=p>)</span>  <span class=c1># (N, C_out, P)</span>
+</code></pre></div> </td></tr></table> </details> <p>With the EdgeConv architecture as the building block, the ParticleNet model is constructed as follow.</p> <p><img align=left alt=particlenet_architecture loading=lazy src=images/particlenet_architecture.png width=200></p> <p>The ParticleNet model stacks three EdgeConv blocks to construct higher-level features and passing them through the pipeline. The points (i.e., in our case, the particle candidates inside a jet) are not changing, but the per-point "coordinates" and "features" vectors changes, in both values and dimensions.</p> <p>For the first EdgeConv block, the "coordinates" only includes the relative <em>η</em> and <em>φ</em> value of each particle. The "features" is a vector with a standard length of 32, which is linearly transformed from the initial feature vectors including the components of relative <em>η</em>, <em>φ</em>, the log of <em>p</em><sub>T</sub>, etc. The first EdgeConv block outputs a per-point feature vector of length 64, which is taken as both the "coordinates" and "features" to the next EdgeConv block. That is to say, the next <em>k</em>-NN is applied on the 64D high-dimensional spatial space to capture the new relations of points learned by the model. This is visualized by the input/output array showing the data flow of the model. We see that this architecture illustrates the stackability of the EdgeConv block, and is the core to the Dynamic Graph CNN (DGCNN), as the model can dynamically change the correlations of each point based on learnable features. </p> <p>A fusion technique is also used by concatenating the three EdgeConv output vectors together (adding the dimensions), instead of using the last EdgeConv output, to form an output vector. This is also one form of shortcut implementations that helps to ease the training for a complex and deep convolutional network model.</p> <p>The concatenated vectors per point are then averaged over points to produce a single 1D vector of the whole point cloud. The vector passes through one fully connected layer, with a dropout rate of p=0.1 to prevent overfitting. Then, in our example, the full network outputs two scores after a softmax, representing the one-hot encoding of the top vs. QCD class.</p> <p>The ParticleNet implementation is shown below.</p> <details class=hint open=open><summary>ParticleNet model implementation</summary><p>See <a href=https://github.com/hqucms/weaver/blob/master/utils/nn/model/ParticleNet.py><code>utils/nn/model/ParticleNet.py</code></a>, or the following code block annotated with more comments. We elaborate here on several mean points.</p> <ul> <li>The stack of multiple EdgeConv blocks are implemented in <div class=highlight><pre><span></span><code><span class=k>for</span> <span class=n>idx</span><span class=p>,</span> <span class=n>conv</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>edge_convs</span><span class=p>):</span>
+    <span class=n>pts</span> <span class=o>=</span> <span class=p>(</span><span class=n>points</span> <span class=k>if</span> <span class=n>idx</span> <span class=o>==</span> <span class=mi>0</span> <span class=k>else</span> <span class=n>fts</span><span class=p>)</span> <span class=o>+</span> <span class=n>coord_shift</span>
+    <span class=n>fts</span> <span class=o>=</span> <span class=n>conv</span><span class=p>(</span><span class=n>pts</span><span class=p>,</span> <span class=n>fts</span><span class=p>)</span> <span class=o>*</span> <span class=n>mask</span>
+</code></pre></div></li> <li>The multiple EdgeConv layer parameters are given by <code>conv_params</code>, which takes a list of tuples, each tuple in the format of <code>(K, (C1, C2, C3))</code>. <code>K</code> for the <em>k</em>-NN number, <code>C1,2,3</code> for convolution feature sizes of three layers in an EdgeConv block.</li> <li>The fully connected layer parameters are given by <code>fc_params</code>, which takes a list of tuples, each tuple in the format of <code>(n_feat, drop_rate)</code>.</li> </ul> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>class</span> <span class=nc>ParticleNet</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+    <span class=sa>r</span><span class=sd>&quot;&quot;&quot;Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    input_dims : int</span>
+<span class=sd>        Input feature dimensions (C_fts).</span>
+<span class=sd>    num_classes : int</span>
+<span class=sd>        Number of output classes.</span>
+<span class=sd>    conv_params : list</span>
+<span class=sd>        List of convolution parameters of EdgeConv blocks, each element in the format of (K, (C1, C2, C3)).</span>
+<span class=sd>        K for the kNN number, C1,2,3 for convolution feature sizes of three layers in an EdgeConv block.</span>
+<span class=sd>    fc_params: list</span>
+<span class=sd>        List of fully connected layer parameters after all EdgeConv blocks, each element in the format of</span>
+<span class=sd>        (n_feat, drop_rate)</span>
+<span class=sd>    use_fusion: bool</span>
+<span class=sd>        If true, concatenates all output features from each EdgeConv before the fully connected layer.</span>
+<span class=sd>    use_fts_bn: bool</span>
+<span class=sd>        If true, applies a batch norm before feeding to the EdgeConv block.</span>
+<span class=sd>    use_counts: bool</span>
+<span class=sd>        If true, uses the real count of points instead of the padded size (the max point size).</span>
+<span class=sd>    for_inference: bool</span>
+<span class=sd>        Whether this is an inference routine. If true, applies a softmax to the output.</span>
+<span class=sd>    for_segmentation: bool</span>
+<span class=sd>        Whether the model is set up for the point cloud segmentation (instead of classification) task. If true, </span>
+<span class=sd>        does not merge the features after the last EdgeConv, and apply Conv1D instead of the linear layer. </span>
+<span class=sd>        The output is hence each output_features per point, instead of output_features.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span>
+                <span class=n>input_dims</span><span class=p>,</span>
+                <span class=n>num_classes</span><span class=p>,</span>
+                <span class=n>conv_params</span><span class=o>=</span><span class=p>[(</span><span class=mi>7</span><span class=p>,</span> <span class=p>(</span><span class=mi>32</span><span class=p>,</span> <span class=mi>32</span><span class=p>,</span> <span class=mi>32</span><span class=p>)),</span> <span class=p>(</span><span class=mi>7</span><span class=p>,</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>))],</span>
+                <span class=n>fc_params</span><span class=o>=</span><span class=p>[(</span><span class=mi>128</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>)],</span>
+                <span class=n>use_fusion</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>use_fts_bn</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>use_counts</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>for_inference</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+                <span class=n>for_segmentation</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+                <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>(</span><span class=n>ParticleNet</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>use_fts_bn</span> <span class=o>=</span> <span class=n>use_fts_bn</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_fts_bn</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>bn_fts</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>input_dims</span><span class=p>)</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>use_counts</span> <span class=o>=</span> <span class=n>use_counts</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>edge_convs</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>ModuleList</span><span class=p>()</span>
+        <span class=k>for</span> <span class=n>idx</span><span class=p>,</span> <span class=n>layer_param</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=n>conv_params</span><span class=p>):</span>
+            <span class=n>k</span><span class=p>,</span> <span class=n>channels</span> <span class=o>=</span> <span class=n>layer_param</span>
+            <span class=n>in_feat</span> <span class=o>=</span> <span class=n>input_dims</span> <span class=k>if</span> <span class=n>idx</span> <span class=o>==</span> <span class=mi>0</span> <span class=k>else</span> <span class=n>conv_params</span><span class=p>[</span><span class=n>idx</span> <span class=o>-</span> <span class=mi>1</span><span class=p>][</span><span class=mi>1</span><span class=p>][</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>edge_convs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>EdgeConvBlock</span><span class=p>(</span><span class=n>k</span><span class=o>=</span><span class=n>k</span><span class=p>,</span> <span class=n>in_feat</span><span class=o>=</span><span class=n>in_feat</span><span class=p>,</span> <span class=n>out_feats</span><span class=o>=</span><span class=n>channels</span><span class=p>,</span> <span class=n>cpu_mode</span><span class=o>=</span><span class=n>for_inference</span><span class=p>))</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>use_fusion</span> <span class=o>=</span> <span class=n>use_fusion</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_fusion</span><span class=p>:</span>
+            <span class=n>in_chn</span> <span class=o>=</span> <span class=nb>sum</span><span class=p>(</span><span class=n>x</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=n>x</span> <span class=ow>in</span> <span class=n>conv_params</span><span class=p>)</span>
+            <span class=n>out_chn</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>clip</span><span class=p>((</span><span class=n>in_chn</span> <span class=o>//</span> <span class=mi>128</span><span class=p>)</span> <span class=o>*</span> <span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>,</span> <span class=mi>1024</span><span class=p>)</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>fusion_block</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>in_chn</span><span class=p>,</span> <span class=n>out_chn</span><span class=p>,</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>),</span> <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>out_chn</span><span class=p>),</span> <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>())</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>for_segmentation</span> <span class=o>=</span> <span class=n>for_segmentation</span>
+
+        <span class=n>fcs</span> <span class=o>=</span> <span class=p>[]</span>
+        <span class=k>for</span> <span class=n>idx</span><span class=p>,</span> <span class=n>layer_param</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=n>fc_params</span><span class=p>):</span>
+            <span class=n>channels</span><span class=p>,</span> <span class=n>drop_rate</span> <span class=o>=</span> <span class=n>layer_param</span>
+            <span class=k>if</span> <span class=n>idx</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+                <span class=n>in_chn</span> <span class=o>=</span> <span class=n>out_chn</span> <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_fusion</span> <span class=k>else</span> <span class=n>conv_params</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>][</span><span class=mi>1</span><span class=p>][</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=n>in_chn</span> <span class=o>=</span> <span class=n>fc_params</span><span class=p>[</span><span class=n>idx</span> <span class=o>-</span> <span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span>
+            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>for_segmentation</span><span class=p>:</span>
+                <span class=n>fcs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>in_chn</span><span class=p>,</span> <span class=n>channels</span><span class=p>,</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>bias</span><span class=o>=</span><span class=kc>False</span><span class=p>),</span>
+                                        <span class=n>nn</span><span class=o>.</span><span class=n>BatchNorm1d</span><span class=p>(</span><span class=n>channels</span><span class=p>),</span> <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>(),</span> <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>drop_rate</span><span class=p>)))</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=n>fcs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>in_chn</span><span class=p>,</span> <span class=n>channels</span><span class=p>),</span> <span class=n>nn</span><span class=o>.</span><span class=n>ReLU</span><span class=p>(),</span> <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>drop_rate</span><span class=p>)))</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>for_segmentation</span><span class=p>:</span>
+            <span class=n>fcs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Conv1d</span><span class=p>(</span><span class=n>fc_params</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>],</span> <span class=n>num_classes</span><span class=p>,</span> <span class=n>kernel_size</span><span class=o>=</span><span class=mi>1</span><span class=p>))</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=n>fcs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>fc_params</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>],</span> <span class=n>num_classes</span><span class=p>))</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>fc</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span><span class=o>*</span><span class=n>fcs</span><span class=p>)</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>for_inference</span> <span class=o>=</span> <span class=n>for_inference</span>
+
+    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>points</span><span class=p>,</span> <span class=n>features</span><span class=p>,</span> <span class=n>mask</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<span class=c1>#         print(&#39;points:\n&#39;, points)</span>
+<span class=c1>#         print(&#39;features:\n&#39;, features)</span>
+        <span class=k>if</span> <span class=n>mask</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+            <span class=n>mask</span> <span class=o>=</span> <span class=p>(</span><span class=n>features</span><span class=o>.</span><span class=n>abs</span><span class=p>()</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>dim</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>keepdim</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span>  <span class=c1># (N, 1, P)</span>
+        <span class=n>points</span> <span class=o>*=</span> <span class=n>mask</span>
+        <span class=n>features</span> <span class=o>*=</span> <span class=n>mask</span>
+        <span class=n>coord_shift</span> <span class=o>=</span> <span class=p>(</span><span class=n>mask</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=o>*</span> <span class=mf>1e9</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_counts</span><span class=p>:</span>
+            <span class=n>counts</span> <span class=o>=</span> <span class=n>mask</span><span class=o>.</span><span class=n>float</span><span class=p>()</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
+            <span class=n>counts</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>max</span><span class=p>(</span><span class=n>counts</span><span class=p>,</span> <span class=n>torch</span><span class=o>.</span><span class=n>ones_like</span><span class=p>(</span><span class=n>counts</span><span class=p>))</span>  <span class=c1># &gt;=1</span>
+
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_fts_bn</span><span class=p>:</span>
+            <span class=n>fts</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>bn_fts</span><span class=p>(</span><span class=n>features</span><span class=p>)</span> <span class=o>*</span> <span class=n>mask</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=n>fts</span> <span class=o>=</span> <span class=n>features</span>
+        <span class=n>outputs</span> <span class=o>=</span> <span class=p>[]</span>
+        <span class=k>for</span> <span class=n>idx</span><span class=p>,</span> <span class=n>conv</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>edge_convs</span><span class=p>):</span>
+            <span class=n>pts</span> <span class=o>=</span> <span class=p>(</span><span class=n>points</span> <span class=k>if</span> <span class=n>idx</span> <span class=o>==</span> <span class=mi>0</span> <span class=k>else</span> <span class=n>fts</span><span class=p>)</span> <span class=o>+</span> <span class=n>coord_shift</span>
+            <span class=n>fts</span> <span class=o>=</span> <span class=n>conv</span><span class=p>(</span><span class=n>pts</span><span class=p>,</span> <span class=n>fts</span><span class=p>)</span> <span class=o>*</span> <span class=n>mask</span>
+            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_fusion</span><span class=p>:</span>
+                <span class=n>outputs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>fts</span><span class=p>)</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_fusion</span><span class=p>:</span>
+            <span class=n>fts</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fusion_block</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>cat</span><span class=p>(</span><span class=n>outputs</span><span class=p>,</span> <span class=n>dim</span><span class=o>=</span><span class=mi>1</span><span class=p>))</span> <span class=o>*</span> <span class=n>mask</span>
+
+<span class=c1>#         assert(((fts.abs().sum(dim=1, keepdim=True) != 0).float() - mask.float()).abs().sum().item() == 0)</span>
+
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>for_segmentation</span><span class=p>:</span>
+            <span class=n>x</span> <span class=o>=</span> <span class=n>fts</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_counts</span><span class=p>:</span>
+                <span class=n>x</span> <span class=o>=</span> <span class=n>fts</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span> <span class=o>/</span> <span class=n>counts</span>  <span class=c1># divide by the real counts</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=n>x</span> <span class=o>=</span> <span class=n>fts</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
+
+        <span class=n>output</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fc</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>for_inference</span><span class=p>:</span>
+            <span class=n>output</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>softmax</span><span class=p>(</span><span class=n>output</span><span class=p>,</span> <span class=n>dim</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+        <span class=c1># print(&#39;output:\n&#39;, output)</span>
+        <span class=k>return</span> <span class=n>output</span>
+</code></pre></div> </td></tr></table> </details> <p>Above are the capsulation of all ParticleNet building blocks. Eventually, we have the model defined in the model card <code>networks/benchmark/particlenet.py</code>, in the <code>ParticleNetTagger1Path</code> class, meaning we only use the ParticleNet pipeline that deals with one set of the point cloud (i.e., the particle candidates).</p> <details class=info open=open><summary>Info</summary><p>Two sets of point clouds in the CMS application, namely the particle-flow candidates and secondary vertices, are used. This requires special handling to merge the clouds before feeding them to the first layer of EdgeConv.</p> </details> <details class=hint open=open><summary>ParticleNet model config</summary><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=kn>import</span> <span class=nn>torch</span>
+<span class=kn>import</span> <span class=nn>torch.nn</span> <span class=k>as</span> <span class=nn>nn</span>
+<span class=kn>from</span> <span class=nn>utils.nn.model.ParticleNet</span> <span class=kn>import</span> <span class=n>ParticleNet</span><span class=p>,</span> <span class=n>FeatureConv</span>
+
+
+<span class=k>class</span> <span class=nc>ParticleNetTagger1Path</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span>
+                <span class=n>pf_features_dims</span><span class=p>,</span>
+                <span class=n>num_classes</span><span class=p>,</span>
+                <span class=n>conv_params</span><span class=o>=</span><span class=p>[(</span><span class=mi>7</span><span class=p>,</span> <span class=p>(</span><span class=mi>32</span><span class=p>,</span> <span class=mi>32</span><span class=p>,</span> <span class=mi>32</span><span class=p>)),</span> <span class=p>(</span><span class=mi>7</span><span class=p>,</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>))],</span>
+                <span class=n>fc_params</span><span class=o>=</span><span class=p>[(</span><span class=mi>128</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>)],</span>
+                <span class=n>use_fusion</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>use_fts_bn</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>use_counts</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>pf_input_dropout</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+                <span class=n>for_inference</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+                <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>(</span><span class=n>ParticleNetTagger1Path</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>pf_input_dropout</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>pf_input_dropout</span><span class=p>)</span> <span class=k>if</span> <span class=n>pf_input_dropout</span> <span class=k>else</span> <span class=kc>None</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>pf_conv</span> <span class=o>=</span> <span class=n>FeatureConv</span><span class=p>(</span><span class=n>pf_features_dims</span><span class=p>,</span> <span class=mi>32</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>pn</span> <span class=o>=</span> <span class=n>ParticleNet</span><span class=p>(</span><span class=n>input_dims</span><span class=o>=</span><span class=mi>32</span><span class=p>,</span>
+                            <span class=n>num_classes</span><span class=o>=</span><span class=n>num_classes</span><span class=p>,</span>
+                            <span class=n>conv_params</span><span class=o>=</span><span class=n>conv_params</span><span class=p>,</span>
+                            <span class=n>fc_params</span><span class=o>=</span><span class=n>fc_params</span><span class=p>,</span>
+                            <span class=n>use_fusion</span><span class=o>=</span><span class=n>use_fusion</span><span class=p>,</span>
+                            <span class=n>use_fts_bn</span><span class=o>=</span><span class=n>use_fts_bn</span><span class=p>,</span>
+                            <span class=n>use_counts</span><span class=o>=</span><span class=n>use_counts</span><span class=p>,</span>
+                            <span class=n>for_inference</span><span class=o>=</span><span class=n>for_inference</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>pf_points</span><span class=p>,</span> <span class=n>pf_features</span><span class=p>,</span> <span class=n>pf_mask</span><span class=p>):</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>pf_input_dropout</span><span class=p>:</span>
+            <span class=n>pf_mask</span> <span class=o>=</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>pf_input_dropout</span><span class=p>(</span><span class=n>pf_mask</span><span class=p>)</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span><span class=o>.</span><span class=n>float</span><span class=p>()</span>
+            <span class=n>pf_points</span> <span class=o>*=</span> <span class=n>pf_mask</span>
+            <span class=n>pf_features</span> <span class=o>*=</span> <span class=n>pf_mask</span>
+
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>pn</span><span class=p>(</span><span class=n>pf_points</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>pf_conv</span><span class=p>(</span><span class=n>pf_features</span> <span class=o>*</span> <span class=n>pf_mask</span><span class=p>)</span> <span class=o>*</span> <span class=n>pf_mask</span><span class=p>,</span> <span class=n>pf_mask</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>get_model</span><span class=p>(</span><span class=n>data_config</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+    <span class=n>conv_params</span> <span class=o>=</span> <span class=p>[</span>
+        <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>)),</span>
+        <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>)),</span>
+        <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>)),</span>
+        <span class=p>]</span>
+    <span class=n>fc_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>256</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>)]</span>
+    <span class=n>use_fusion</span> <span class=o>=</span> <span class=kc>True</span>
+
+    <span class=n>pf_features_dims</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_dicts</span><span class=p>[</span><span class=s1>&#39;pf_features&#39;</span><span class=p>])</span>
+    <span class=n>num_classes</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>label_value</span><span class=p>)</span>
+    <span class=n>model</span> <span class=o>=</span> <span class=n>ParticleNetTagger1Path</span><span class=p>(</span><span class=n>pf_features_dims</span><span class=p>,</span> <span class=n>num_classes</span><span class=p>,</span>
+                            <span class=n>conv_params</span><span class=p>,</span> <span class=n>fc_params</span><span class=p>,</span>
+                            <span class=n>use_fusion</span><span class=o>=</span><span class=n>use_fusion</span><span class=p>,</span>
+                            <span class=n>use_fts_bn</span><span class=o>=</span><span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;use_fts_bn&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>),</span>
+                            <span class=n>use_counts</span><span class=o>=</span><span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;use_counts&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>),</span>
+                            <span class=n>pf_input_dropout</span><span class=o>=</span><span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;pf_input_dropout&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>),</span>
+                            <span class=n>for_inference</span><span class=o>=</span><span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;for_inference&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>)</span>
+                            <span class=p>)</span>
+    <span class=n>model_info</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s1>&#39;input_names&#39;</span><span class=p>:</span><span class=nb>list</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_names</span><span class=p>),</span>
+        <span class=s1>&#39;input_shapes&#39;</span><span class=p>:{</span><span class=n>k</span><span class=p>:((</span><span class=mi>1</span><span class=p>,)</span> <span class=o>+</span> <span class=n>s</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span> <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_shapes</span><span class=o>.</span><span class=n>items</span><span class=p>()},</span>
+        <span class=s1>&#39;output_names&#39;</span><span class=p>:[</span><span class=s1>&#39;softmax&#39;</span><span class=p>],</span>
+        <span class=s1>&#39;dynamic_axes&#39;</span><span class=p>:{</span><span class=o>**</span><span class=p>{</span><span class=n>k</span><span class=p>:{</span><span class=mi>0</span><span class=p>:</span><span class=s1>&#39;N&#39;</span><span class=p>,</span> <span class=mi>2</span><span class=p>:</span><span class=s1>&#39;n_&#39;</span> <span class=o>+</span> <span class=n>k</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=s1>&#39;_&#39;</span><span class=p>)[</span><span class=mi>0</span><span class=p>]}</span> <span class=k>for</span> <span class=n>k</span> <span class=ow>in</span> <span class=n>data_config</span><span class=o>.</span><span class=n>input_names</span><span class=p>},</span> <span class=o>**</span><span class=p>{</span><span class=s1>&#39;softmax&#39;</span><span class=p>:{</span><span class=mi>0</span><span class=p>:</span><span class=s1>&#39;N&#39;</span><span class=p>}}},</span>
+        <span class=p>}</span>
+
+    <span class=nb>print</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>model_info</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>data_config</span><span class=o>.</span><span class=n>input_shapes</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>model</span><span class=p>,</span> <span class=n>model_info</span>
+
+
+<span class=k>def</span> <span class=nf>get_loss</span><span class=p>(</span><span class=n>data_config</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>torch</span><span class=o>.</span><span class=n>nn</span><span class=o>.</span><span class=n>CrossEntropyLoss</span><span class=p>()</span>
+</code></pre></div> </td></tr></table> </details> <p>The most important parameters are <code>conv_params</code> and <code>fc_params</code>, which decides the model parameters of EdgeConv blocks and the fully connected layer. See details in the above "ParticleNet model implementation" box.</p> <div class=highlight><pre><span></span><code><span class=n>conv_params</span> <span class=o>=</span> <span class=p>[</span>
+    <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>)),</span>
+    <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>)),</span>
+    <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>)),</span>
+    <span class=p>]</span>
+<span class=n>fc_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>256</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>)]</span>
+</code></pre></div> <p>A full structure printed from PyTorch is shown below. It will appear in the <code>Weaver</code> output during training.</p> <details class=hint><summary>ParticleNet full-scale structure</summary><div class=highlight><pre><span></span><code>ParticleNetTagger1Path(
+  |0.577 M, 100.000% Params, 0.441 GMac, 100.000% MACs|
+  (pf_conv): FeatureConv(
+    |0.0 M, 0.035% Params, 0.0 GMac, 0.005% MACs|
+    (conv): Sequential(
+      |0.0 M, 0.035% Params, 0.0 GMac, 0.005% MACs|
+      (0): BatchNorm1d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.001% Params, 0.0 GMac, 0.000% MACs|)
+      (1): Conv1d(4, 32, kernel_size=(1,), stride=(1,), bias=False, |0.0 M, 0.022% Params, 0.0 GMac, 0.003% MACs|)
+      (2): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.011% Params, 0.0 GMac, 0.001% MACs|)
+      (3): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.001% MACs|)
+    )
+  )
+  (pn): ParticleNet(
+    |0.577 M, 99.965% Params, 0.441 GMac, 99.995% MACs|
+    (edge_convs): ModuleList(
+      |0.305 M, 52.823% Params, 0.424 GMac, 96.047% MACs|
+      (0): EdgeConvBlock(
+        |0.015 M, 2.575% Params, 0.021 GMac, 4.716% MACs|
+        (convs): ModuleList(
+          |0.012 M, 2.131% Params, 0.02 GMac, 4.456% MACs|
+          (0): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.004 M, 0.710% Params, 0.007 GMac, 1.485% MACs|)
+          (1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.004 M, 0.710% Params, 0.007 GMac, 1.485% MACs|)
+          (2): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.004 M, 0.710% Params, 0.007 GMac, 1.485% MACs|)
+        )
+        (bns): ModuleList(
+          |0.0 M, 0.067% Params, 0.001 GMac, 0.139% MACs|
+          (0): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.022% Params, 0.0 GMac, 0.046% MACs|)
+          (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.022% Params, 0.0 GMac, 0.046% MACs|)
+          (2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.022% Params, 0.0 GMac, 0.046% MACs|)
+        )
+        (acts): ModuleList(
+          |0.0 M, 0.000% Params, 0.0 GMac, 0.070% MACs|
+          (0): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.023% MACs|)
+          (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.023% MACs|)
+          (2): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.023% MACs|)
+        )
+        (sc): Conv1d(32, 64, kernel_size=(1,), stride=(1,), bias=False, |0.002 M, 0.355% Params, 0.0 GMac, 0.046% MACs|)
+        (sc_bn): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.022% Params, 0.0 GMac, 0.003% MACs|)
+        (sc_act): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.001% MACs|)
+      )
+      (1): EdgeConvBlock(
+        |0.058 M, 10.121% Params, 0.081 GMac, 18.437% MACs|
+        (convs): ModuleList(
+          |0.049 M, 8.523% Params, 0.079 GMac, 17.825% MACs|
+          (0): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.016 M, 2.841% Params, 0.026 GMac, 5.942% MACs|)
+          (1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.016 M, 2.841% Params, 0.026 GMac, 5.942% MACs|)
+          (2): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.016 M, 2.841% Params, 0.026 GMac, 5.942% MACs|)
+        )
+        (bns): ModuleList(
+          |0.001 M, 0.133% Params, 0.001 GMac, 0.279% MACs|
+          (0): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.044% Params, 0.0 GMac, 0.093% MACs|)
+          (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.044% Params, 0.0 GMac, 0.093% MACs|)
+          (2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.044% Params, 0.0 GMac, 0.093% MACs|)
+        )
+        (acts): ModuleList(
+          |0.0 M, 0.000% Params, 0.001 GMac, 0.139% MACs|
+          (0): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.046% MACs|)
+          (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.046% MACs|)
+          (2): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.046% MACs|)
+        )
+        (sc): Conv1d(64, 128, kernel_size=(1,), stride=(1,), bias=False, |0.008 M, 1.420% Params, 0.001 GMac, 0.186% MACs|)
+        (sc_bn): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.0 M, 0.044% Params, 0.0 GMac, 0.006% MACs|)
+        (sc_act): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.003% MACs|)
+      )
+      (2): EdgeConvBlock(
+        |0.231 M, 40.128% Params, 0.322 GMac, 72.894% MACs|
+        (convs): ModuleList(
+          |0.197 M, 34.091% Params, 0.315 GMac, 71.299% MACs|
+          (0): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.066 M, 11.364% Params, 0.105 GMac, 23.766% MACs|)
+          (1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.066 M, 11.364% Params, 0.105 GMac, 23.766% MACs|)
+          (2): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False, |0.066 M, 11.364% Params, 0.105 GMac, 23.766% MACs|)
+        )
+        (bns): ModuleList(
+          |0.002 M, 0.266% Params, 0.002 GMac, 0.557% MACs|
+          (0): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.001 M, 0.089% Params, 0.001 GMac, 0.186% MACs|)
+          (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.001 M, 0.089% Params, 0.001 GMac, 0.186% MACs|)
+          (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.001 M, 0.089% Params, 0.001 GMac, 0.186% MACs|)
+        )
+        (acts): ModuleList(
+          |0.0 M, 0.000% Params, 0.001 GMac, 0.279% MACs|
+          (0): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.093% MACs|)
+          (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.093% MACs|)
+          (2): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.093% MACs|)
+        )
+        (sc): Conv1d(128, 256, kernel_size=(1,), stride=(1,), bias=False, |0.033 M, 5.682% Params, 0.003 GMac, 0.743% MACs|)
+        (sc_bn): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.001 M, 0.089% Params, 0.0 GMac, 0.012% MACs|)
+        (sc_act): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.006% MACs|)
+      )
+    )
+    (fusion_block): Sequential(
+      |0.173 M, 29.963% Params, 0.017 GMac, 3.925% MACs|
+      (0): Conv1d(448, 384, kernel_size=(1,), stride=(1,), bias=False, |0.172 M, 29.830% Params, 0.017 GMac, 3.899% MACs|)
+      (1): BatchNorm1d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True, |0.001 M, 0.133% Params, 0.0 GMac, 0.017% MACs|)
+      (2): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.009% MACs|)
+    )
+    (fc): Sequential(
+      |0.099 M, 17.179% Params, 0.0 GMac, 0.023% MACs|
+      (0): Sequential(
+        |0.099 M, 17.090% Params, 0.0 GMac, 0.022% MACs|
+        (0): Linear(in_features=384, out_features=256, bias=True, |0.099 M, 17.090% Params, 0.0 GMac, 0.022% MACs|)
+        (1): ReLU(|0.0 M, 0.000% Params, 0.0 GMac, 0.000% MACs|)
+        (2): Dropout(p=0.1, inplace=False, |0.0 M, 0.000% Params, 0.0 GMac, 0.000% MACs|)
+      )
+      (1): Linear(in_features=256, out_features=2, bias=True, |0.001 M, 0.089% Params, 0.0 GMac, 0.000% MACs|)
+    )
+  )
+)
+</code></pre></div> </details> <p>The data card is shown in <code>data/top/pf_features.yaml</code>, given in a similar way as in the MLP example. Here we group the inputs into three classes: <code>pf_points</code>, <code>pf_features</code> and <code>pf_masks</code>. They correspond to the <code>forward(self, pf_points, pf_features, pf_mask)</code> prototype of our <code>nn.Module</code> model, and will send in these 2D vectors in the mini-batch size for each iteration during training/prediction.</p> <details class=hint open=open><summary>ParticleNet data config</summary><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=nt>selection</span><span class=p>:</span>
+<span class=c1>### use `&amp;`, `|`, `~` for logical operations on numpy arrays</span>
+<span class=c1>### can use functions from `math`, `np` (numpy), and `awkward` in the expression</span>
+
+<span class=nt>new_variables</span><span class=p>:</span>
+<span class=c1>### [format] name: formula</span>
+<span class=c1>### can use functions from `math`, `np` (numpy), and `awkward` in the expression</span>
+<span class=nt>pf_mask</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">awkward.JaggedArray.ones_like(E)</span>
+<span class=nt>is_bkg</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">np.logical_not(is_signal_new)</span>
+
+<span class=nt>preprocess</span><span class=p>:</span>
+<span class=c1>### method: [manual, auto] - whether to use manually specified parameters for variable standardization</span>
+<span class=nt>method</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">manual</span>
+<span class=c1>### data_fraction: fraction of events to use when calculating the mean/scale for the standardization</span>
+<span class=nt>data_fraction</span><span class=p>:</span> 
+
+<span class=nt>inputs</span><span class=p>:</span>
+<span class=nt>pf_points</span><span class=p>:</span>
+    <span class=nt>length</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>
+    <span class=nt>vars</span><span class=p>:</span> 
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>PX</span><span class="p p-Indicator">,</span> <span class=nv>0</span><span class="p p-Indicator">,</span> <span class=nv>0.05</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>PY</span><span class="p p-Indicator">,</span> <span class=nv>0</span><span class="p p-Indicator">,</span> <span class=nv>0.05</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>PZ</span><span class="p p-Indicator">,</span> <span class=nv>0</span><span class="p p-Indicator">,</span> <span class=nv>0.05</span><span class="p p-Indicator">]</span>
+<span class=nt>pf_features</span><span class=p>:</span>
+    <span class=nt>length</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>
+    <span class=nt>vars</span><span class=p>:</span> 
+    <span class=c1>### [format 1]: var_name (no transformation)</span>
+    <span class=c1>### [format 2]: [var_name, </span>
+    <span class=c1>###              subtract_by(optional, default=None, no transf. if preprocess.method=manual, auto transf. if preprocess.method=auto), </span>
+    <span class=c1>###              multiply_by(optional, default=1), </span>
+    <span class=c1>###              clip_min(optional, default=-5), </span>
+    <span class=c1>###              clip_max(optional, default=5), </span>
+    <span class=c1>###              pad_value(optional, default=0)]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>PX</span><span class="p p-Indicator">,</span> <span class=nv>0</span><span class="p p-Indicator">,</span> <span class=nv>0.05</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>PY</span><span class="p p-Indicator">,</span> <span class=nv>0</span><span class="p p-Indicator">,</span> <span class=nv>0.05</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>PZ</span><span class="p p-Indicator">,</span> <span class=nv>0</span><span class="p p-Indicator">,</span> <span class=nv>0.05</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class=nv>E_log</span><span class="p p-Indicator">,</span> <span class=nv>2</span><span class="p p-Indicator">,</span> <span class=nv>1</span><span class="p p-Indicator">]</span>
+<span class=nt>pf_mask</span><span class=p>:</span>
+    <span class=nt>length</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>
+    <span class=nt>vars</span><span class=p>:</span> 
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pf_mask</span>
+
+<span class=nt>labels</span><span class=p>:</span>
+<span class=c1>### type can be `simple`, `custom`</span>
+<span class=c1>### [option 1] use `simple` for binary/multi-class classification, then `value` is a list of 0-1 labels</span>
+<span class=nt>type</span><span class=p>:</span> <span class="l l-Scalar l-Scalar-Plain">simple</span>
+<span class=nt>value</span><span class=p>:</span> <span class="p p-Indicator">[</span>
+    <span class=nv>is_signal_new</span><span class="p p-Indicator">,</span> <span class=nv>is_bkg</span>
+    <span class="p p-Indicator">]</span>
+<span class=c1>### [option 2] otherwise use `custom` to define the label, then `value` is a map</span>
+<span class=c1># type: custom</span>
+<span class=c1># value: </span>
+    <span class=c1># target_mass: np.where(fj_isQCD, fj_genjet_sdmass, fj_gen_mass) </span>
+
+<span class=nt>observers</span><span class=p>:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">origIdx</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">idx</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">E_tot</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">PX_tot</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">PY_tot</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">PZ_tot</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">P_tot</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Eta_tot</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Phi_tot</span>
+
+<span class=c1># weights:</span>
+<span class=c1>### [option 1] use precomputed weights stored in the input files</span>
+<span class=c1># use_precomputed_weights: true</span>
+<span class=c1># weight_branches: [weight, class_weight]</span>
+<span class=c1>### [option 2] compute weights on-the-fly using reweighting histograms</span>
+</code></pre></div> </td></tr></table> </details> </div> </div> <hr> <p>Above, we analyze the three networks in a detailed manner. As a summary, we draw the three network architectures in the following three cartoons for a more overall and comprehensive understanding.</p> <figure> <img src=images/mlp_full_arch.png width=70%> <figcaption>The full architecture of the proof-of-concept multi-layer perception model.</figcaption> </figure> <figure> <img src=images/deepak8_full_arch.png> <figcaption>The full architecture of the DeepAK8 model, which is based on 1D CNN with ResNet architecture.</figcaption> </figure> <figure> <img src=images/particlenet_full_arch.png> <figcaption>The full architecture of the ParticleNet model, which is based on DGCNN and EdgeConv.</figcaption> </figure> <p>The model and data configuration cards, the number of parameters, and computational complexity are summarized in the following table. Note that we'll refer to the shell variables provided here in the following training example.</p> <table> <thead> <tr> <th>Model</th> <th><code>${prefix}</code></th> <th><code>${model_config}</code></th> <th><code>${data_config}</code></th> <th>Parameters</th> <th>Computational complexity</th> </tr> </thead> <tbody> <tr> <td>MLP</td> <td><code>mlp</code></td> <td><code>../networks/top/mlp_pf.py</code></td> <td><code>../data/top/pf_features.yml</code></td> <td>739k</td> <td>0.001 GMac</td> </tr> <tr> <td>DeepAK8 (1D CNN)</td> <td><code>deepak8</code></td> <td><code>../networks/top/deepak8.py</code></td> <td><code>../data/top/pf_features.yml</code></td> <td>349k</td> <td>0.012 GMac</td> </tr> <tr> <td>ParticleNet (DGCNN)</td> <td><code>particlenet</code></td> <td><code>../networks/top/particlenet_pf.py</code></td> <td><code>../data/top/pf_points_features.yml</code></td> <td>577k</td> <td>0.441 GMac</td> </tr> </tbody> </table> <h3 id=2-start-training>2. Start training!<a class=headerlink href=#2-start-training title="Permanent link">&para;</a></h3> <p>Now we train the three neural networks based on the provided model and data configurations. </p> <p>Here we present three ways of training. For readers who have a local machine with CUDA GPUs, please try out training on the local GPUs. Readers who would like to try on CPUs can also refer to the local GPU instruction. It is also possible to borrow the GPU resources from the lxplus condor or CMS-connect. Please find in the following that meets your situation.</p> <div class=tabbed-set data-tabs=2:3><input checked=checked id=__tabbed_2_1 name=__tabbed_2 type=radio><label for=__tabbed_2_1>Train on local GPUs</label><div class=tabbed-content> <p>The three networks can be trained with a universal script. Enter the <code>weaver</code> base folder and run the following command. Note that <code>${data_config}</code>, <code>${model_config}</code>, and <code>${prefix}</code> refers to the value in the above table for each example, and the fake path should be replaced with the correct one.</p> <div class=highlight><pre><span></span><code><span class=n>python</span> <span class=n>train</span><span class=o>.</span><span class=n>py</span> \
+<span class=o>--</span><span class=n>data</span><span class=o>-</span><span class=n>train</span> <span class=s1>&#39;&lt;path-to-samples&gt;/prep/top_train_*.awkd&#39;</span> \
+<span class=o>--</span><span class=n>data</span><span class=o>-</span><span class=n>val</span> <span class=s1>&#39;&lt;path-to-samples&gt;/prep/top_val_*.awkd&#39;</span> \
+<span class=o>--</span><span class=n>fetch</span><span class=o>-</span><span class=n>by</span><span class=o>-</span><span class=n>file</span> <span class=o>--</span><span class=n>fetch</span><span class=o>-</span><span class=n>step</span> <span class=mi>1</span> \
+<span class=o>--</span><span class=n>num</span><span class=o>-</span><span class=n>workers</span> <span class=mi>3</span> \
+<span class=o>--</span><span class=n>data</span><span class=o>-</span><span class=n>config</span> <span class=n>data</span><span class=o>/</span><span class=n>benchmark</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>data_config</span><span class=p>}</span> \
+<span class=o>--</span><span class=n>network</span><span class=o>-</span><span class=n>config</span> <span class=n>networks</span><span class=o>/</span><span class=n>benchmark</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>model_config</span><span class=p>}</span> \
+<span class=o>--</span><span class=n>model</span><span class=o>-</span><span class=n>prefix</span> <span class=n>output</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>prefix</span><span class=p>}</span> \
+<span class=o>--</span><span class=n>gpus</span> <span class=mi>0</span><span class=p>,</span><span class=mi>1</span> <span class=o>--</span><span class=n>batch</span><span class=o>-</span><span class=n>size</span> <span class=mi>1024</span> <span class=o>--</span><span class=n>start</span><span class=o>-</span><span class=n>lr</span> <span class=mf>5e-3</span> <span class=o>--</span><span class=n>num</span><span class=o>-</span><span class=n>epochs</span> <span class=mi>20</span> <span class=o>--</span><span class=n>optimizer</span> <span class=n>ranger</span> \
+<span class=o>--</span><span class=n>log</span> <span class=n>output</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>prefix</span><span class=p>}</span><span class=o>.</span><span class=n>train</span><span class=o>.</span><span class=n>log</span>
+</code></pre></div> <p>Here are several caveats running this command.</p> <div class="admonition warning"> <p class=admonition-title>Warning</p> <ul> <li><code>--fetch-by-file</code> is very important when you have only a few input files. Please see <code>Weaver</code> README for more details on this argument. </li> </ul> <p>A common situation is that when you have only one input file that includes both signal and backgrounds, but events are not well mixed. Then, it is a must to use <code>--fetch-by-file</code>, because otherwise, only a small collection of events on the top are read into the memory and sending to the mini-batch after shuffling. In such cases, events can have a strong bias in different categories (the most extreme case is that it only contains one category) and may confuse the training. By using <code>--fetch-by-file</code>, all events in a file are read into the memory, shuffled properly and sent to the mini-batch.</p> <ul> <li>Specify GPUS based on their device IDs. For running on CPUs, please use <code>--gpu ''</code>.</li> </ul> </div> <p>Then, predict the score on the test datasets using the best model:</p> <div class=highlight><pre><span></span><code><span class=n>python</span> <span class=n>train</span><span class=o>.</span><span class=n>py</span> <span class=o>--</span><span class=n>predict</span> \
+<span class=o>--</span><span class=n>data</span><span class=o>-</span><span class=n>test</span> <span class=s1>&#39;&lt;path-to-samples&gt;/prep/top_test_*.awkd&#39;</span> \
+<span class=o>--</span><span class=n>num</span><span class=o>-</span><span class=n>workers</span> <span class=mi>3</span> \
+<span class=o>--</span><span class=n>data</span><span class=o>-</span><span class=n>config</span> <span class=n>data</span><span class=o>/</span><span class=n>benchmark</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>data_config</span><span class=p>}</span> \
+<span class=o>--</span><span class=n>network</span><span class=o>-</span><span class=n>config</span> <span class=n>networks</span><span class=o>/</span><span class=n>benchmark</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>model_config</span><span class=p>}</span> \
+<span class=o>--</span><span class=n>model</span><span class=o>-</span><span class=n>prefix</span> <span class=n>output</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>prefix</span><span class=p>}</span><span class=n>_best_epoch_state</span><span class=o>.</span><span class=n>pt</span> \
+<span class=o>--</span><span class=n>gpus</span> <span class=mi>0</span><span class=p>,</span><span class=mi>1</span> <span class=o>--</span><span class=n>batch</span><span class=o>-</span><span class=n>size</span> <span class=mi>1024</span> \
+<span class=o>--</span><span class=n>predict</span><span class=o>-</span><span class=n>output</span> <span class=n>output</span><span class=o>/</span><span class=err>$</span><span class=p>{</span><span class=n>prefix</span><span class=p>}</span><span class=n>_predict</span><span class=o>.</span><span class=n>root</span>
+</code></pre></div> </div> <input id=__tabbed_2_2 name=__tabbed_2 type=radio><label for=__tabbed_2_2>Use GPUs on lxplus HTCondor</label><div class=tabbed-content> <p>On lxplus HTCondor, the GPU(s) can be booked via the arguments <code>request_gpus</code>. To get familiar with the GPU service, please refer to the documentation <a href=https://batchdocs.web.cern.ch/tutorial/exercise10.html>here</a>.</p> <p>While it is not possible to test the script locally, you can try out the <code>condor_ssh_to_job</code> command to connect to the remote condor machine that runs the jobs. This interesting feature will help you with debugging or monitoring the condor job.</p> <p>Here we provide the example executed script and the condor submitted file for the training and predicting task. Create the following two files:</p> <details class=hint open=open><summary>The executable: <code>run.sh</code></summary><p>Still, please remember to specify <code>${data_config}</code>, <code>${model_config}</code>, and <code>${prefix}</code> as shown in the above table, and replace the fake path with the correct one. <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=ch>#!/bin/bash</span>
+
+<span class=nv>WORKDIR</span><span class=o>=</span><span class=sb>`</span><span class=nb>pwd</span><span class=sb>`</span>
+
+<span class=c1># Download miniconda</span>
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda_install.sh
+bash miniconda_install.sh -b -p <span class=si>${</span><span class=nv>WORKDIR</span><span class=si>}</span>/miniconda
+<span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=nv>$WORKDIR</span>/miniconda/bin:<span class=nv>$PATH</span>
+pip install numpy pandas scikit-learn scipy matplotlib tqdm PyYAML
+pip install uproot3 awkward0 lz4 xxhash
+pip install tables
+pip install onnxruntime-gpu
+pip install torch
+
+<span class=c1># CUDA environment setup</span>
+<span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=nv>$PATH</span>:/usr/local/cuda-10.2/bin
+<span class=nb>export</span> <span class=nv>LD_LIBRARY_PATH</span><span class=o>=</span><span class=nv>$LD_LIBRARY_PATH</span>:/usr/local/cuda-10.2/lib64
+<span class=nb>export</span> <span class=nv>LIBRARY_PATH</span><span class=o>=</span><span class=nv>$LIBRARY_PATH</span>:/usr/local/cuda-10.2/lib64
+
+<span class=c1># Clone weaver</span>
+git clone https://github.com/hqucms/weaver.git
+<span class=nb>cd</span> weaver/
+mkdir output
+
+<span class=c1># Training</span>
+python train.py <span class=se>\</span>
+--data-train <span class=s1>&#39;&lt;path-to-samples&gt;/prep/top_train_*.awkd&#39;</span> <span class=se>\</span>
+--data-val <span class=s1>&#39;&lt;path-to-samples&gt;/prep/top_val_*.awkd&#39;</span> <span class=se>\</span>
+--fetch-by-file --fetch-step <span class=m>1</span> <span class=se>\</span>
+--num-workers <span class=m>3</span> <span class=se>\</span>
+--data-config data/benchmark/<span class=si>${</span><span class=nv>data_config</span><span class=si>}</span> <span class=se>\</span>
+--network-config networks/benchmark/<span class=si>${</span><span class=nv>model_config</span><span class=si>}</span> <span class=se>\</span>
+--model-prefix output/<span class=si>${</span><span class=nv>prefix</span><span class=si>}</span> <span class=se>\</span>
+--gpus <span class=m>0</span> --batch-size <span class=m>1024</span> --start-lr 5e-3 --num-epochs <span class=m>20</span> --optimizer ranger <span class=se>\</span>
+--log output/<span class=si>${</span><span class=nv>prefix</span><span class=si>}</span>.train.log
+
+<span class=c1># Predicting score</span>
+python train.py --predict <span class=se>\</span>
+--data-test <span class=s1>&#39;&lt;path-to-samples&gt;/prep/top_test_*.awkd&#39;</span> <span class=se>\</span>
+--num-workers <span class=m>3</span> <span class=se>\</span>
+--data-config data/benchmark/<span class=si>${</span><span class=nv>data_config</span><span class=si>}</span> <span class=se>\</span>
+--network-config networks/benchmark/<span class=si>${</span><span class=nv>model_config</span><span class=si>}</span> <span class=se>\</span>
+--model-prefix output/<span class=si>${</span><span class=nv>prefix</span><span class=si>}</span>_best_epoch_state.pt <span class=se>\</span>
+--gpus <span class=m>0</span> --batch-size <span class=m>1024</span> <span class=se>\</span>
+--predict-output output/<span class=si>${</span><span class=nv>prefix</span><span class=si>}</span>_predict.root
+</code></pre></div> </td></tr></table></p> </details> <details class=hint open=open><summary>HTCondor submitted file: <code>submit.sub</code></summary><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class=code><div class=highlight><pre><span></span><code>Universe                = vanilla
+executable              = run.sh
+arguments               = 
+output                  = logs/$(ClusterId).$(ProcId).out
+error                   = logs/$(ClusterId).$(ProcId).err
+log                     = logs/$(ClusterId).log
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT_OR_EVICT
+transfer_output_files   = weaver/output
+transfer_output_remaps  = &quot;output = output.$(ClusterId).$(ProcId)&quot;
+request_GPUs = 1
+request_CPUs = 2
++MaxRuntime = 604800
+queue
+</code></pre></div> </td></tr></table> </details> <p>Make the <code>run.sh</code> script an executable, then submit the job. <div class=highlight><pre><span></span><code>chmod +x run.sh
+condor_submit submit.sh
+</code></pre></div> The <code>weaver/output</code> directory will be transferred back.</p> </div> <input id=__tabbed_2_3 name=__tabbed_2 type=radio><label for=__tabbed_2_3>Use GPUs on CMS Connect</label><div class=tabbed-content> <p>CMS Connect provides several GPU nodes. ...</p> </div> </div> <h3 id=3-evaluation-of-models>3. Evaluation of models<a class=headerlink href=#3-evaluation-of-models title="Permanent link">&para;</a></h3> <p>In the <code>output</code> folder, we find the trained PyTorch models after every epoch and the log file that records the loss and accuracy in the runtime. </p> <p>The predict step also produces a predicted root file in the <code>output</code> folder, including the truth label, the predicted store, and several observer variables we provided in the data card. With the predicted root file, we make the ROC curve comparing the performance of the three trained models.</p> <p><img alt=roc.png src=images/roc.png width=50%></p> <p>Here is the result from my training:</p> <table> <thead> <tr> <th>Model</th> <th>AUC</th> <th>Accuracy</th> <th>1/<em>e</em><sub>B</sub> (@<em>e</em><sub>S</sub>=0.3)</th> </tr> </thead> <tbody> <tr> <td>MLP</td> <td>0.961</td> <td>0.898</td> <td>186</td> </tr> <tr> <td>DeepAK8 (1D CNN)</td> <td>0.979</td> <td>0.927</td> <td>585</td> </tr> <tr> <td>ParticleNet (DGCNN)</td> <td>0.984</td> <td>0.936</td> <td>1030</td> </tr> </tbody> </table> <p>We see that the ParticleNet model shows an outstanding performance in this classification task. Besides, the DeepAK8 and ParticleNet results are similar to the benchmark values found in the <a href=https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit>gDoc</a>. We address that the performance can be further improved by fine-tuning on the model, and by taking the average predicted score from an ensemble of the trained model with different initial parametrization - a well known ML technique to pursue an extra few percent of improvements.</p> <h2 id=tuning-the-particlenet-model>Tuning the ParticleNet model<a class=headerlink href=#tuning-the-particlenet-model title="Permanent link">&para;</a></h2> <p>When it comes to the real application of any DNN model, tunning the hyperparameters is an important path towards a better performance. In this section, we provide some tips on the ParticleNet model tunning. For a more detailed discussion on this topic, see more in the "validation" chapter in the documentation.</p> <h3 id=1-choices-on-the-optimizer-and-the-learning-rate>1. Choices on the optimizer and the learning rate<a class=headerlink href=#1-choices-on-the-optimizer-and-the-learning-rate title="Permanent link">&para;</a></h3> <p>The optimizer decides how our neural network update all its parameters, and the learning rate means how fast the parameters changes in one training iteration.</p> <p>Learning rate is the most important hyperparameter to choose from before concrete training is done. Here we quote from a suggested strategy: if you only have the opportunity to optimize one hyperparameter, choose the learning rate. The optimizer is also important because a wiser strategy usually means avoid the zig-zagging updating route, avoid falling into the local minima and even adapting different strategies for the fast-changing parameters and the slow ones. Adam (and its several variations) is a widely used optimizer. Another recently developed advanced optimizer is Ranger that combines RAdam and LookAhead. However, one should note that the few percent level improvement by using different optimizers is likely to be smeared by an unoptimized learning rate.</p> <p>The above training scheme uses a start learning rate of 5e-3, and Ranger as the optimizer. It uses a <code>flat+decay</code> schedular, in a way that the LR starts to decay after processing 70% of epochs, and gradually reduce to 0.1 of its original value when nearing the completion of all epochs.</p> <p>First, we note that the current case is already well optimized. Therefore, by simply reuse the current choice, the training will converge to a stable result in general. But it is always good in practice to test several choices of the optimizer and reoptimize the learning rate.</p> <p><code>Weaver</code> integrates multiple optimizers. In the above training command, we use <code>--optimizer ranger</code> to adopt the Ranger optimizer. It is also possible to switch to <code>--optimizer adam</code> or <code>--optimizer adamW</code>.</p> <p><code>Weaver</code> also provides the interface to optimize the learning rate before real training is performed. In the ParticleNet model training, we append <div class=highlight><pre><span></span><code>--lr-finder 5e-4,5e-1,1000
+</code></pre></div> in the command, then a specific learning-rate finder program will be launched. This setup scans over the LR from 5e-4 to 5e-1 by applying 1000 mini-batches of training. It outputs a plot showing the training loss for different starting learning rates. In general, a lower training loss means a better choice of the learning rate parameter.</p> <p>Below shows the results from LR finder by specifying <code>--lr-finder 5e-4,5e-1,200</code> (upper) and <code>--lr-finder 5e-4,5e-1,1000</code> (lower), for the <code>--optimizer adamW</code> (left) and the <code>--optimizer ranger</code> (right) case.</p> <p><img alt=lr_finder_adamW_ranger.png src=images/lr_finder_adamW_ranger.png width=80%></p> <p>The plots show that the training loss forms a basin over a wide range of the learning rate. Therefore, the LR finder only provides a rough estimation. But it is a good attempt to first run the LR finder to have an overall feeling. Besides, we should be aware that different optimizer takes different optimal LR values. As can be seen here, the AdamW in general requires a small LR than Ranger.</p> <p>In the choice of Ranger, we further optimize the LR based on the full training of our model. The reason is that although training the first set of 1000 mini-batches cannot manifest their true impact, in the real training when we have a scheduler to adapt smaller LR gradually, the difference of starting LR choices may take effect.</p> <p>To monitor the full training/evaluation accuracy and the loss for each mini-batch, we can draw support from a nicely integrated utility, TensorBoard, to employ real-time monitoring. To activate TensorBoard, append (note that replace <code>${prefix}</code> according to the above table) <div class=highlight><pre><span></span><code>--tensorboard <span class=si>${</span><span class=nv>prefix</span><span class=si>}</span>
+</code></pre></div> to the training command, then direct to <code>https://localhost:6008</code> for the TensorBoard UI.</p> <p>The below plots show the training and evaluation loss, in our standard choice with LR being 5e-3, and in the case of a small LR 2e-3 and a large LR 1e-2. Note that all tested LR values are within the basin in the LR finder plots.</p> <p><img alt=pnet_lr_tensorboard_loss.png src=images/pnet_lr_tensorboard_loss.png></p> <p>We see that in the evaluated loss plot, the standard LR outperforms two variational choices. The reason may be that a larger LR finds difficulty in converging to the global minima, while a smaller LR may not be adequate to reach the minima point in a journey of 20 epochs. Overall, we see 5e-3 as a good choice as the starting LR for the Ranger optimizer.</p> <h3 id=2-optimize-the-model>2. Optimize the model<a class=headerlink href=#2-optimize-the-model title="Permanent link">&para;</a></h3> <p>In practice, tuning the model size is also an important task. By concept, a smaller model tends to have unsatisfactory performance due to the limited ability to learn many local features. As the model size goes up, the performance will climb to some extent, but may further decrease due to the network "degradation" (deeper models have difficulty learning features). Besides, a heavier model may also cause the overfitting issue. In practice, it also leads to larger inference time which is the main concern when coming to real applications.</p> <p>For the ParticleNet model case, we also test between a smaller and larger variation of the model size. Recall that the original model is defined by the following layer parameters. <div class=highlight><pre><span></span><code><span class=n>conv_params</span> <span class=o>=</span> <span class=p>[</span>
+    <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>64</span><span class=p>)),</span>
+    <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>,</span> <span class=mi>128</span><span class=p>)),</span>
+    <span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=p>(</span><span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>)),</span>
+    <span class=p>]</span>
+<span class=n>fc_params</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>256</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>)]</span>
+</code></pre></div> We can replace the code block with <div class=highlight><pre><span></span><code><span class=n>ec_k</span> <span class=o>=</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;ec_k&#39;</span><span class=p>,</span> <span class=mi>16</span><span class=p>)</span>
+<span class=n>ec_c1</span> <span class=o>=</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;ec_c1&#39;</span><span class=p>,</span> <span class=mi>64</span><span class=p>)</span>
+<span class=n>ec_c2</span> <span class=o>=</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;ec_c2&#39;</span><span class=p>,</span> <span class=mi>128</span><span class=p>)</span>
+<span class=n>ec_c3</span> <span class=o>=</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;ec_c3&#39;</span><span class=p>,</span> <span class=mi>256</span><span class=p>)</span>
+<span class=n>fc_c</span><span class=p>,</span> <span class=n>fc_p</span> <span class=o>=</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;fc_c&#39;</span><span class=p>,</span> <span class=mi>256</span><span class=p>),</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;fc_p&#39;</span><span class=p>,</span> <span class=mf>0.1</span><span class=p>)</span>
+<span class=n>conv_params</span> <span class=o>=</span> <span class=p>[</span>
+    <span class=p>(</span><span class=n>ec_k</span><span class=p>,</span> <span class=p>(</span><span class=n>ec_c1</span><span class=p>,</span> <span class=n>ec_c1</span><span class=p>,</span> <span class=n>ec_c1</span><span class=p>)),</span>
+    <span class=p>(</span><span class=n>ec_k</span><span class=p>,</span> <span class=p>(</span><span class=n>ec_c2</span><span class=p>,</span> <span class=n>ec_c2</span><span class=p>,</span> <span class=n>ec_c2</span><span class=p>)),</span>
+    <span class=p>(</span><span class=n>ec_k</span><span class=p>,</span> <span class=p>(</span><span class=n>ec_c3</span><span class=p>,</span> <span class=n>ec_c3</span><span class=p>,</span> <span class=n>ec_c3</span><span class=p>)),</span>
+    <span class=p>]</span>
+<span class=n>fc_params</span> <span class=o>=</span> <span class=p>[(</span><span class=n>fc_c</span><span class=p>,</span> <span class=n>fc_p</span><span class=p>)]</span>
+</code></pre></div> Then we have the ability to tune the model parameters from the command line. Append the extra arguments in the training command <div class=highlight><pre><span></span><code>--network-option ec_k <span class=m>32</span> --network-option ec_c1 <span class=m>128</span> --network-option ec_c2 <span class=m>192</span> --network-option ec_c3 <span class=m>256</span>
+</code></pre></div> and the model parameters will take the new values as specified.</p> <p>We test over two cases, one with the above setting to enlarge the model, and another by using <div class=highlight><pre><span></span><code>--network-option ec_c1 <span class=m>64</span> --network-option ec_c2 <span class=m>64</span> --network-option ec_c3 <span class=m>96</span>
+</code></pre></div> to adopt a lite version.</p> <p>The Tensorboard monitoring plots in the training/evaluation loss is shown as follows.</p> <p><img alt=pnet_compl_tensorboard_loss.png src=images/pnet_compl_tensorboard_loss.png></p> <p>We see that the "heavy" model reaches even smaller training loss, meaning that the model does not meet the degradation issue yet. However, the evaluation loss is not catching up with the training loss, showing some degree of overtraining in this scheme. From the evaluation result, we see no improvement by moving to a heavy model.</p> <p>Above, we discuss in a very detailed manner on various attempts we can make to optimize the model. We hope the practical experiences presented here will help readers develop and deploy the complex ML model.</p> <!-- ## Inference of ParticleNet in `cmssw`
+
+ParticleNet is now integrated to `cmssw`. Its inference is based on ONNX Runtime during the MiniAOD step. For a detailed description of the ONNX Runtime interface in `cmssw`, please refer to []. Below we illustrate briefly the execution flow in `cmssw` for the ParticleNet model inference. --> <hr> <div class=md-source-date> <small> Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 30, 2021</span> </small> </div> </article> </div> </div> </main> <footer class=md-footer> <div class=md-footer-nav> <nav class="md-footer-nav__inner md-grid" aria-label=Footer> <a href=performance.html title=Performance class="md-footer-nav__link md-footer-nav__link--prev" rel=prev> <div class="md-footer-nav__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </div> <div class=md-footer-nav__title> <div class=md-ellipsis> <span class=md-footer-nav__direction> Previous </span> Performance </div> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; 2020 CMS Machine Learning Group </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> <div class=md-footer-social> <a href=https://github.com/cms-ml target=_blank rel=noopener title=github.com class=md-footer-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg> </a> <a href=https://hub.docker.com/orgs/cmsml/repositories target=_blank rel=noopener title=hub.docker.com class=md-footer-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><path d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"/></svg> </a> <a href=https://hypernews.cern.ch/HyperNews/CMS/get/machine-learning.html target=_blank rel=noopener title=hypernews.cern.ch class=md-footer-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32zM128 272c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 0c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 0c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg> </a> <a href=mailto:hn-cms-machine-learning@cern.ch target=_blank rel=noopener title class=md-footer-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg> </a> </div> </div> </div> </footer> </div> <script src=../assets/javascripts/vendor.c3dc8c49.min.js></script> <script src=../assets/javascripts/bundle.f9edbbd5.min.js></script><script id=__lang type=application/json>{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script> <script>
+        app = initialize({
+          base: "..",
+          features: ["instant"],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8e2cddea.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script> <script src=https://unpkg.com/mermaid@8.6/dist/mermaid.min.js></script> </body> </html>
