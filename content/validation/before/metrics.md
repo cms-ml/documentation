@@ -1,6 +1,8 @@
 ## Metric
 
-Metric is basically a function which evaluates model's performance given true labels and model predictions. That makes it an important ingredient in the model training as being a measure of the model's quality. However, metrics as estimators can be sensitive to some effects (e.g. class imbalance) and provide biased or over/underoptimistic results. Additionally, they might not be relevant to a physical problem in mind and to the undestanding of what is a "good" model[^1]. This in turn can result in suboptimally tuned hyperparameters or in general to suboptimally trained model.
+> **Metric** is a function which evaluates model's performance given true labels and model predictions for a particular data set. 
+
+That makes it an important ingredient in the model training as being a measure of the model's quality. However, metrics as estimators can be sensitive to some effects (e.g. class imbalance) and provide biased or over/underoptimistic results. Additionally, they might not be relevant to a physical problem in mind and to the undestanding of what is a "good" model[^1]. This in turn can result in suboptimally tuned hyperparameters or in general to suboptimally trained model.
 
 Therefore, it is important to choose metrics wisely, so that they reflect the physical problem to be solved and additionaly don't introduce any biases in the performance estimate. The whole topic of metrics would be too broad to get covered in this section, so please refer to [a corresponding documentation](https://scikit-learn.org/stable/modules/model_evaluation.html) of `sklearn` as it provides an exhaustive list of available metrics with additional materials and can be used as a good starting point.  
 
