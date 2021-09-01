@@ -87,21 +87,34 @@ extra:
 
 nav:
   - Home: index.md
-  - Starter Guide:
-    - Introduction: starter/introduction.md
-  - Optimization:
-    - Model optimization: optimization/introduction.md
-  - Inference:
-    - Direct inference:
-      - TensorFlow 2: inference/tensorflow2.md
-      - TensorFlow 1: inference/tensorflow1.md
-      - PyTorch: inference/pytorch.md
-      - PyTorch Geometric: inference/pyg.md
-      - ONNX: inference/onnx.md
-      - XGBoost: inference/xgboost.md
-      - hls4ml: inference/hls4ml.md
-    - Inference as a service:
-      - Sonic/Triton: inference/sonic_triton.md
-    - Integration checklist: inference/checklist.md
-    - Performance: inference/performance.md
-    - Successful integrations: inference/integrations.md
+#  - Knowledge Sources:
+#    - AI Ethics Primer:
+#    - CMS Internal:
+#    - IML:
+  - Tutorials:
+    - Optimization:
+      - Model optimization: optimization/introduction.md
+      - Feature importance: optimization/importance.md
+      - Data augmentation: optimization/data_augmentation.md
+    - Validation:
+      - Overtraining: validation/overtraining.md
+      - Cross validation: validation/cross_validation.md
+    - Inference:
+      - Direct inference:
+        - TensorFlow 1: inference/tensorflow1.md
+        - TensorFlow 2: inference/tensorflow2.md
+	- PyTorch: inference/pytorch.md
+	- PyTorch Geometric (PyG): inference/pyg.md
+        - ONNX: inference/onnx.md
+        - XGBoost: inference/xgboost.md
+        - hls4ml: inference/hls4ml.md
+      - Inference as a service:
+        - Sonic/Triton: inference/sonic_triton.md
+      - Non-standard workflows:
+        - Standalone framework: inference/standalone.md
+        - SWAN + AWS: inference/swan_aws.md
+      - Integration checklist: inference/checklist.md
+      - Performance: inference/performance.md
+      - Successful integrations:
+        - ParticleNet: inference/particlenet.md
+#    - Benchmarking:

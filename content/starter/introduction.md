@@ -1,3 +1,0 @@
-# Starter guide introdction
-
-Todo.
