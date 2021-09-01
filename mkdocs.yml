@@ -88,6 +88,9 @@ extra:
 nav:
   - Home: index.md
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6ee9fa6... updating mkdocs.yml
 #  - Knowledge Sources:
 #    - AI Ethics Primer:
 #    - CMS Internal:
@@ -104,9 +107,15 @@ nav:
       - Direct inference:
         - TensorFlow 1: inference/tensorflow1.md
         - TensorFlow 2: inference/tensorflow2.md
+<<<<<<< HEAD
 	- PyTorch: inference/pytorch.md
 	- PyTorch Geometric (PyG): inference/pyg.md
         - ONNX: inference/onnx.md
+=======
+        - PyTorch: inference/pytorch.md
+	- PyG: inference/pyg.md
+	- ONNX: inference/onnx.md
+>>>>>>> 6ee9fa6... updating mkdocs.yml
         - XGBoost: inference/xgboost.md
         - hls4ml: inference/hls4ml.md
       - Inference as a service:
@@ -119,6 +128,7 @@ nav:
       - Successful integrations:
         - ParticleNet: inference/particlenet.md
 #    - Benchmarking:
+<<<<<<< HEAD
 =======
   - Starter Guide:
     - Introduction: starter/introduction.md
@@ -139,3 +149,5 @@ nav:
     - Performance: inference/performance.md
     - Successful integrations: inference/integrations.md
 >>>>>>> c1e2766... adding initial pytorch documentation
+=======
+>>>>>>> 6ee9fa6... updating mkdocs.yml
