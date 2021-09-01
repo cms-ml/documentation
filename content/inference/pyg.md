@@ -21,6 +21,9 @@ Edges, too, can have features $\{a_i\}_{i=1}^{N_{edges}}$, $a_i\in\mathcal{R}^{N
 The PyG [Introduction By Example](https://pytorch-geometric.readthedocs.io/en/latest/notes/introduction.html) tutorial covers the basics of graph creation, batching, transformation, and inference using this `data` class. 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 426e147... updating PyG docs with code snippets
 As an example, consider the [ZINC chemical compounds dataset](https://paperswithcode.com/dataset/zinc), which [available](https://pytorch-geometric.readthedocs.io/en/latest/_modules/torch_geometric/datasets/zinc.html) as a built-in dataset in PyG:
 
 ```python
@@ -87,8 +90,11 @@ train_dataset = [d.to(device) for d in train_dataset]
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 ```
+<<<<<<< HEAD
 =======
 >>>>>>> dab8eab... adding initial PyG documentation
+=======
+>>>>>>> 426e147... updating PyG docs with code snippets
 
 ### The *Message Passing* Base Class: PyG GNNs 
 The 2017 paper [Neural Message Passing for Quantum Chemistry](https://arxiv.org/abs/1704.01212) presents a unified framework for a swath of GNN architectures known as *message passing neural networks* (MPNNs). MPNNs are GNNs whose feature updates are given by:
@@ -104,6 +110,9 @@ Here, $\gamma$ and $\phi$ are learnable functions (which we can approximate as m
 The specific implementations of `message()`, `propagate()`, and `update()` are up to the user. A specific example is available in the PyG [Creating Message Passing Networks tutorial](https://pytorch-geometric.readthedocs.io/en/latest/notes/create_gnn.html)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 426e147... updating PyG docs with code snippets
 #### Message-Passing with ZINC Data
 Returning to the ZINC molecular compound dataset, we can design a message-passing layer to aggregate messages across molecular graphs. Here, we'll define a multi-layer perceptron (MLP) class and use it to build a message passing layer (MPL) the following equation:
 $$\mathbf{x}_i' = \gamma \left( \mathbf{x}_i, \frac{1}{|\mathcal{N}(i)|}\sum_{j \in \mathcal{N}(i)} \, \phi\left([\mathbf{x}_i, \mathbf{x}_j,\mathbf{e}_{j,i}\right]) \right)$$
@@ -156,6 +165,7 @@ xprime.shape
 >>> torch.Size([29, 8]) # 29 atoms and 8 features
 ```
 There we have it - the message passing layer has produced 8 new features for each atom. 
+<<<<<<< HEAD
 
 ## GDL in Particle Physics
 Here we list some examples of GDL in particle physics, citing git repositories where applicable. For a complete list of ML/HEP references, please see the [Living Review of ML for Particle Physics](https://iml-wg.github.io/HEPML-LivingReview/)
@@ -164,6 +174,11 @@ Here we list some examples of GDL in particle physics, citing git repositories w
 ## GDL in Particle Physics
 Here we list some examples of GDL in particle physics. 
 >>>>>>> dab8eab... adding initial PyG documentation
+=======
+
+## GDL in Particle Physics
+Here we list some examples of GDL in particle physics, citing git repositories where applicable. For a complete list of ML/HEP references, please see the [Living Review of ML for Particle Physics](https://iml-wg.github.io/HEPML-LivingReview/)
+>>>>>>> 426e147... updating PyG docs with code snippets
 ### Survey Papers / Articles 
 - [Graph Neural Networks in Particle Physics](https://arxiv.org/abs/2007.13681) (paper, 2021)
 - [The Next Big Thing: The Use of Graph Neural Networks to Discover New Particles](https://news.fnal.gov/2020/09/the-next-big-thing-the-use-of-graph-neural-networks-to-discover-particles/) (article, 2021)
@@ -205,6 +220,9 @@ Here we list some examples of GDL in particle physics.
 - [Object condensation: one-stage grid-free multi-object reconstruction in physics detectors, graph and image data](https://arxiv.org/abs/2002.03605) (paper, 2020)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 426e147... updating PyG docs with code snippets
 
 
 
@@ -218,5 +236,8 @@ Here we list some examples of GDL in particle physics.
 
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> dab8eab... adding initial PyG documentation
+=======
+>>>>>>> 426e147... updating PyG docs with code snippets
