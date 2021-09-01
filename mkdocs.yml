@@ -1,0 +1,120 @@
+site_name: CMS Machine Learning Documentation
+site_url: https://cms-ml.github.io/documentation
+site_description: Documentation of the CMS Machine Learning Group
+site_author: CMS Machine Learning Group
+
+docs_dir: content
+site_dir: site
+edit_uri: blob/master/content
+
+repo_name: cms-ml/documentation
+repo_url: https://github.com/cms-ml/documentation
+
+use_directory_urls: false
+copyright: Copyright &copy; 2020 CMS Machine Learning Group
+
+theme:
+  name: material
+  logo: images/logo.png
+  favicon: images/favicon.png
+  palette:
+    scheme: preference
+    primary: indigo
+    accent: orange
+  features:
+    - instant
+
+plugins:
+  - search:
+      min_search_length: 2
+  - minify:
+      minify_html: true
+  - markdownextradata
+  - git-revision-date-localized
+
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.attr_list
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.6/dist/mermaid.min.js
+
+extra:
+  FOO: BAR
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/cms-ml
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/orgs/cmsml/repositories
+    - icon: fontawesome/solid/comment-dots
+      link: https://hypernews.cern.ch/HyperNews/CMS/get/machine-learning.html
+    - icon: fontawesome/solid/envelope
+      link: mailto:hn-cms-machine-learning@cern.ch
+
+nav:
+  - Home: index.md
+#  - Knowledge Sources:
+#    - AI Ethics Primer:
+#    - CMS Internal:
+#    - IML:
+  - Tutorials:
+    - Optimization:
+      - Model optimization: optimization/introduction.md
+      - Feature importance: optimization/importance.md
+      - Data augmentation: optimization/data_augmentation.md
+    - Validation:
+      - Overtraining: validation/overtraining.md
+      - Cross validation: validation/cross_validation.md
+    - Inference:
+      - Direct inference:
+        - TensorFlow 1: inference/tensorflow1.md
+        - TensorFlow 2: inference/tensorflow2.md
+        - PyTorch: inference/pytorch.md
+	- PyG: inference/pyg.md
+	- ONNX: inference/onnx.md
+        - XGBoost: inference/xgboost.md
+        - hls4ml: inference/hls4ml.md
+      - Inference as a service:
+        - Sonic/Triton: inference/sonic_triton.md
+      - Non-standard workflows:
+        - Standalone framework: inference/standalone.md
+        - SWAN + AWS: inference/swan_aws.md
+      - Integration checklist: inference/checklist.md
+      - Performance: inference/performance.md
+      - Successful integrations:
+        - ParticleNet: inference/particlenet.md
+#    - Benchmarking:
