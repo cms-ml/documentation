@@ -1209,7 +1209,7 @@ Here we present three ways of training. For readers who have a local machine wit
         cd weaver-benchmark/weaver/
         mkdir output
 
-        # Training, use 1 GPU
+        # Training, using 1 GPU
         python train.py \
          --data-train ${PATH_TO_SAMPLES}'/prep/top_train_*.root' \
          --data-val ${PATH_TO_SAMPLES}'/prep/top_val_*.root' \
@@ -1220,7 +1220,7 @@ Here we present three ways of training. For readers who have a local machine wit
          --gpus 0 --batch-size 1024 --start-lr 5e-3 --num-epochs 20 --optimizer ranger \
          --log output/${PREFIX}.train.log
 
-        # Predicting score, use 1 GPU
+        # Predicting score, using 1 GPU
         python train.py --predict \
          --data-test ${PATH_TO_SAMPLES}'/prep/top_test_*.root' \
          --num-workers 3 \
@@ -1230,22 +1230,23 @@ Here we present three ways of training. For readers who have a local machine wit
          --gpus 0 --batch-size 1024 \
          --predict-output output/${PREFIX}_predict.root
 
-        tar -caf output.tar output/ runs/
+        [ -d "runs/" ] && tar -caf output.tar output/ runs/ || tar -caf output.tar output/
         ```
 
     ???+ hint "HTCondor submitted file: `submit.sub`"
-        Modify the argument line. These are the bash variable `PREFIX`, `MODEL_CONFIG`, `DATA_CONFIG`, `PATH_TO_SAMPLES` used in the `Weaver` command. One may directly specify `<your-path-to-samples>` as the EOS path provided above: `/eos/user/c/coli/public/weaver-benchmark/top_tagging/samples`.
-        ```linenums="1" hl_lines="3"
+        Modify the argument line. These are the bash variable `PREFIX`, `MODEL_CONFIG`, `DATA_CONFIG`, `PATH_TO_SAMPLES` used in the `Weaver` command. Since the EOS directory is accessable accross all condor nodes on lxplus, one may directly specify `<your-path-to-samples>` as the EOS path provided above. An example is shown in the commented line.
+        ```bash linenums="1" hl_lines="3"
         Universe                = vanilla
         executable              = run.sh
         arguments               = <prefix> <model-config> <data-config> <your-path-to-samples>
-        output                  = logs/$(ClusterId).$(ProcId).out
-        error                   = logs/$(ClusterId).$(ProcId).err
-        log                     = logs/$(ClusterId).log
+        #arguments              = mlp mlp_pf.py pf_features.yaml /eos/user/c/coli/public/weaver-benchmark/top_tagging/samples
+        output                  = job.$(ClusterId).$(ProcId).out
+        error                   = job.$(ClusterId).$(ProcId).err
+        log                     = job.$(ClusterId).log
         should_transfer_files   = YES
         when_to_transfer_output = ON_EXIT_OR_EVICT
-        transfer_output_files   = weaver/output
-        transfer_output_remaps  = "output = output.$(ClusterId).$(ProcId)"
+        transfer_output_files   = weaver-benchmark/weaver/output.tar
+        transfer_output_remaps  = "output.tar = output.$(ClusterId).$(ProcId).tar"
         request_GPUs = 1
         request_CPUs = 4
         +MaxRuntime = 604800
