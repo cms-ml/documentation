@@ -6,8 +6,11 @@ stream them to ML of user choice for training. It consists of three independent 
 - Data Training layer to train ML model for given HEP data, see [workflow.py](https://github.com/vkuznet/MLaaS4HEP/blob/master/src/python/MLaaS4HEP/workflow.py)
 - Data Inference layer, see [tfaas_client.py](https://github.com/vkuznet/TFaaS/blob/master/src/python/tfaas_client.py)
 
+The MLaaS4HEP resopitory can be found [here](https://github.com/vkuznet/MLaaS4HEP).
+
 The general architecture of MLaaS4HEP looks like this:
 ![MLaaS4HEP-architecture](https://github.com/vkuznet/MLaaS4HEP/blob/master/images/MLaaS4HEP_arch_gen.png)
+
 Even though this architecture was originally developed for dealing with
 HEP ROOT files we extend it to other data formats. So far the following
 data formats are supported: JSON, CSV, Parquet, ROOT. The former ones support
