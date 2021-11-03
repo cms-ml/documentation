@@ -1,7 +1,7 @@
 ## Machine Learning as a Service for HEP
 
-MLaaS for HEP is a set of Python based modules to support reading HEP data and
-stream them to ML of user choice for training. It consists of three independent layers:
+MLaaS for HEP is a set of Python-based modules to support reading HEP data and
+stream them to the ML tool of the user's choice. It consists of three independent layers:
 - Data Streaming layer to handle remote data, see [reader.py](https://github.com/vkuznet/MLaaS4HEP/blob/master/src/python/MLaaS4HEP/reader.py)
 - Data Training layer to train ML model for given HEP data, see [workflow.py](https://github.com/vkuznet/MLaaS4HEP/blob/master/src/python/MLaaS4HEP/workflow.py)
 - Data Inference layer, see [tfaas_client.py](https://github.com/vkuznet/TFaaS/blob/master/src/python/tfaas_client.py)
@@ -9,20 +9,20 @@ stream them to ML of user choice for training. It consists of three independent 
 The MLaaS4HEP resopitory can be found [here](https://github.com/vkuznet/MLaaS4HEP).
 
 The general architecture of MLaaS4HEP looks like this:
-![MLaaS4HEP-architecture](https://github.com/vkuznet/MLaaS4HEP/blob/master/images/MLaaS4HEP_arch_gen.png)
+![MLaaS4HEP-architecture](https://github.com/vkuznet/MLaaS4HEP/blob/master/images/MLaaS4HEP_arch_root_white_bkg.png)
 
 Even though this architecture was originally developed for dealing with
-HEP ROOT files we extend it to other data formats. So far the following
-data formats are supported: JSON, CSV, Parquet, ROOT. The former ones support
-reading files from local file system or HDFS, while later (ROOT) format allows
-to read ROOT files from local file system or remote files via xrootd protocol.
+HEP ROOT files, we extend it to other data formats. As of right now, following
+data formats are supported: JSON, CSV, Parquet, and ROOT. All of the formats 
+support reading files from the local file system or HDFS, while the 
+ROOT format supports reading files via the [XRootD](https://xrootd.slac.stanford.edu) protocol.
 
 The pre-trained models can be easily uploaded to
 [TFaaS](https://github.com/vkuznet/TFaaS) inference server for serving them to clients.
+The TFaaS documentation can be found [here](https://github.com/cms-ml/documentation/blob/master/content/inference/tfaas.md).
 
 ### Dependencies
-The MLaaS4HEP relies on third-party libraries to support reading different
-data-formats. Here we outline main of them:
+Here is a list of the dependencies:
 - [pyarrow](https://arrow.apache.org) for reading data from HDFS file system
 - [uproot](https://github.com/scikit-hep/uproot) for reading ROOT files
 - [numpy](https://www.numpy.org), [pandas](https://pandas.pydata.org) for data representation
