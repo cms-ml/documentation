@@ -117,5 +117,5 @@ nav:
         - ParticleNet: inference/particlenet.md
     - Training:
       - Training as a Service:
-        - MLaaS4HEP: MLaaS4HEP.md
+        - MLaaS4HEP: training/MLaaS4HEP.md
 #    - Benchmarking:
