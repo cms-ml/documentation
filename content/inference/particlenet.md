@@ -101,7 +101,7 @@ When implementing a new training in `Weaver`, two key elements are crucial: the 
 
 Technically, The model configuration file includes a `get_model` function that returns a `torch.nn.Module` type model and a dictionary of model info used to export an ONNX-format model. The data configuration is a YAML file describing how to process the input data. Please see the `Weaver` README for details.
 
-Before moving on, we need a preprocessing of the benchmark datasets. The original sample is an H5 file including branches like energy `E_i` and 3-momenta `PX_i`, `PY_i`, `PZ_i` for each jet constituent *i* (*i*=0, ..., 199) inside a jet. All branches are in the 1D flat structure. We reconstruct the data in a way that the jet features are 2D vectors (e.g., in the `vector<float>` format): `Jet_E`, `Jet_PX`, `Jet_PY`, `Jet_PZ`, with variable-length that corresponds to the number of constituents. Note that this is a commonly used data structure, similar to the NanoAOD format in CMS.
+Before moving on, we need a preprocessing of the benchmark datasets. The original sample is an H5 file including branches like energy `E_i` and 3-momenta `PX_i`, `PY_i`, `PZ_i` for each jet constituent *i* (*i*=0, ..., 199) inside a jet. All branches are in the 1D flat structure. We reconstruct the data in a way that the jet features are 2D vectors (e.g., in the `vector<float>` format): `Part_E`, `Part_PX`, `Part_PY`, `Part_PZ`, with variable-length that corresponds to the number of constituents. Note that this is a commonly used data structure, similar to the NanoAOD format in CMS.
 
 The datasets can be found at CERN EOS space `/eos/user/c/coli/public/weaver-benchmark/top_tagging/samples`. The input files used in this page are in fact the ROOT files produced by the preprocessing step, stored under `prep/` subdirectory. It includes three sets of data for training, validation, and test.
 
@@ -255,10 +255,10 @@ Then, we show three NN model configurations below and provide detailed explanati
             ###              clip_min(optional, default=-5), 
             ###              clip_max(optional, default=5), 
             ###              pad_value(optional, default=0)]
-                - Jet_Etarel
-                - Jet_Phirel
-                - [Jet_E_log, 2, 1]
-                - [Jet_P_log, 2, 1]
+                - Part_Etarel
+                - Part_Phirel
+                - [Part_E_log, 2, 1]
+                - [Part_P_log, 2, 1]
 
         labels:
         ### type can be `simple`, `custom`
@@ -275,13 +275,13 @@ Then, we show three NN model configurations below and provide detailed explanati
         observers:
         - origIdx
         - idx
-        - Jet_E_tot
-        - Jet_PX_tot
-        - Jet_PY_tot
-        - Jet_PZ_tot
-        - Jet_P_tot
-        - Jet_Eta_tot
-        - Jet_Phi_tot
+        - Part_E_tot
+        - Part_PX_tot
+        - Part_PY_tot
+        - Part_PZ_tot
+        - Part_P_tot
+        - Part_Eta_tot
+        - Part_Phi_tot
 
         # weights:
         ### [option 1] use precomputed weights stored in the input files
@@ -1029,7 +1029,7 @@ Then, we show three NN model configurations below and provide detailed explanati
         new_variables:
         ### [format] name: formula
         ### can use functions from `math`, `np` (numpy), and `awkward` in the expression
-        pf_mask: awkward.JaggedArray.ones_like(Jet_E)
+        pf_mask: awkward.JaggedArray.ones_like(Part_E)
         is_bkg: np.logical_not(is_signal_new)
 
         preprocess:
@@ -1042,8 +1042,8 @@ Then, we show three NN model configurations below and provide detailed explanati
         pf_points:
             length: 100
             vars: 
-                - Jet_Etarel
-                - Jet_Phirel
+                - Part_Etarel
+                - Part_Phirel
         pf_features:
             length: 100
             vars: 
@@ -1054,10 +1054,10 @@ Then, we show three NN model configurations below and provide detailed explanati
             ###              clip_min(optional, default=-5), 
             ###              clip_max(optional, default=5), 
             ###              pad_value(optional, default=0)]
-                - Jet_Etarel
-                - Jet_Phirel
-                - [Jet_E_log, 2, 1]
-                - [Jet_P_log, 2, 1]
+                - Part_Etarel
+                - Part_Phirel
+                - [Part_E_log, 2, 1]
+                - [Part_P_log, 2, 1]
         pf_mask:
             length: 100
             vars: 
@@ -1078,13 +1078,13 @@ Then, we show three NN model configurations below and provide detailed explanati
         observers:
         - origIdx
         - idx
-        - Jet_E_tot
-        - Jet_PX_tot
-        - Jet_PY_tot
-        - Jet_PZ_tot
-        - Jet_P_tot
-        - Jet_Eta_tot
-        - Jet_Phi_tot
+        - Part_E_tot
+        - Part_PX_tot
+        - Part_PY_tot
+        - Part_PZ_tot
+        - Part_P_tot
+        - Part_Eta_tot
+        - Part_Phi_tot
 
         # weights:
         ### [option 1] use precomputed weights stored in the input files
@@ -1308,7 +1308,7 @@ First, we note that the current case is already well optimized. Therefore, by si
 ```bash
 --lr-finder 5e-6,5e0,200
 ```
-in the command, then a specific learning-rate finder program will be launched. This setup scans over the LR from 5e-4 to 5e-1 by applying 1000 mini-batches of training. It outputs a plot showing the training loss for different starting learning rates. In general, a lower training loss means a better choice of the learning rate parameter.
+in the command, then a specific learning-rate finder program will be launched. This setup scans over the LR from 5e-6 to 5e0 by applying 200 mini-batches of training. It outputs a plot showing the training loss for different starting learning rates. In general, a lower training loss means a better choice of the learning rate parameter.
 
 Below shows the results from LR finder by specifying `--lr-finder 5e-6,5e0,200`, for the `--optimizer adamW` (left) and the `--optimizer ranger` (right) case.
 
