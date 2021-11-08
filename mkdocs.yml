@@ -108,6 +108,7 @@ nav:
         - hls4ml: inference/hls4ml.md
       - Inference as a service:
         - Sonic/Triton: inference/sonic_triton.md
+        - TFaaS: inference/tfaas.md
       - Non-standard workflows:
         - Standalone framework: inference/standalone.md
         - SWAN + AWS: inference/swan_aws.md
