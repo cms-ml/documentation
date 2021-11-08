@@ -90,5 +90,11 @@ The training phase is managed by the `workflow.py` module which performs the fol
 A schematic representation of the steps performed in the MLaaS4HEP pipeline, in particular those inside the Data Streaming and Data Training layers, is:
 ![MLaaS4HEP-workflow](https://github.com/vkuznet/MLaaS4HEP/blob/master/images/mlaas4hep_workflow.png)
 
+This training procedure can be applied to a variety of use-cases but it should not be viewed as the only way to train data sets using the MLaaS4HEP framework. We left to the end user the final choice of ML strategy for concrete use-cases, where appropriate steps should be taken to check the convergence of the model, a proper set of metrics to monitor the training cycle, etc. If some ML algorithms don’t benefit much from splitting the dataset in chunks, the user has the way to  customize the chunk size. In extreme cases the user can always fix the chunk size equal to the total number of events, restoring in this way the possibility to use the entire dataset in one shot for the training process.
+
+For instance, when a data set does not fit into the RAM of the training node other solutions can be adopted, e.g., using an SGD model. In such case, the ML training workflow should be adapted to use the entire data set during each epoch.
+
 A detailed description of how to use the `workflow.py` module for training a ML model reading ROOT files from the opendata portal, can be found [here](https://github.com/vkuznet/MLaaS4HEP/blob/master/doc/workflow_recipe.md).
+
+For a complete description of MLaaS4HEP see [this](https://link.springer.com/content/pdf/10.1007/s41781-021-00061-3.pdf) paper.
 
