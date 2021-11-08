@@ -59,7 +59,31 @@ The following APIs are available:
 - `/predict/proto` to serve TF model predictions in ProtoBuffer data-format
 - `/predict/image` to serve TF model predictions forimages in JPG/PNG formats
 
+#### &#10112; look-up your favorite model
+You may easily look-up your ML model from TFaaS server, e.g.
+```
+curl https://cms-tfaas.cern.ch/models
+# possible output may looks like this
+[
+  {
+    "name": "luca",
+    "model": "prova.pb",
+    "labels": "labels.csv",
+    "options": null,
+    "inputNode": "dense_1_input",
+    "outputNode": "output_node0",
+    "description": "",
+    "timestamp": "2021-11-08 20:07:18.397487027 +0000 UTC m=+2091094.457327022"
+  }
+  ...
+]
+```
+The provided `/models` API will list the name of the model, its file name,
+labels file, possible options, input and output nodes, description and proper
+timestamp when it was added to TFaaS repository
+
 #### &#10113; upload your TF model to TFaaS server
+If your model is not in TFaaS server you may easily add it as following:
 ```
 # example of image based model upload
 curl -X POST https://cms-tfaas.cern.ch/upload
@@ -83,6 +107,8 @@ curl -X POST -H "Content-Encoding: gzip" \
 ```
 
 #### &#10114; get your predictions
+Finally, you may obtain predictions from your favorite model by using proper
+API, e.g.
 ```
 # obtain predictions from your ImageModel
 curl https://cms-tfaas.cern.ch/image -F 'image=@/path/file.png' -F 'model=ImageModel'
