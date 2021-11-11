@@ -7,16 +7,16 @@ ParticleNet [[arXiv:1902.08570](https://arxiv.org/abs/1902.08570)] is an advance
 <figcaption>The full architecture of the ParticleNet model. We'll walk through the details in the following sections.</figcaption>
 </figure>
 
-On this page, we introduce several user-specific aspects of the ParticleNet model. We cover the following items in four sections:
+On this page, we introduce several user-specific aspects of the ParticleNet model. We cover the following items in three sections:
 
 1. **[An introduction to ParticleNet](#introduction-to-particlenet)**, including
-    - a general description of ParticleNet,
-    - the advantages brought from the architecture by concept,
-    - a sketch of ParticleNet applications in CMS and other relevant works.
+    - a general description of ParticleNet
+    - the advantages brought from the architecture by concept
+    - a sketch of ParticleNet applications in CMS and other relevant works
   
 2. **[An introduction to `Weaver` and model implementations](#introduction-to-weaver-and-model-implementations)**, introduced in a step-by-step manner:
-    - building three network models and understand them from the technical side; using the out-of-the-box commands to run these examples on a benchmark task. The three networks are (1) a simple feed-forward NN, (2) a DeepAK8 model (based on 1D CNN), and eventually (3) the ParticleNet model (based on DGCNN).
-    - making the comparison plots.
+    - build three network models and understand them from the technical side; use the out-of-the-box commands to run these examples on a benchmark task. The three networks are (1) a simple feed-forward NN, (2) a DeepAK8 model (based on 1D CNN), and eventually (3) the ParticleNet model (based on DGCNN).
+    - try to reproduce the original performance and make the ROC plots.
 
     ==This section is friendly to the ML newcomers. The goal is to help readers understand the underlying structure of the "ParticleNet".==
 
@@ -39,7 +39,7 @@ Corresponding persons:
 
 ## Introduction to ParticleNet
 
-### 1. General discription
+### 1. General description
 
 ParticleNet is a graph neural net (GNN) model. The key ingredient of ParticleNet is the graph convolutional operation, i.e., the edge convolution (EdgeConv) and the dynamic graph CNN (DGCNN) method [[arXiv:1801.07829](https://arxiv.org/abs/1801.07829)] applied on the "point cloud" data structure.
 
@@ -69,14 +69,14 @@ The imaged-based data explored by a 2D CNN stems from the image recognition task
 Here we briefly summarize the applications and ongoing works on ParticleNet. Public CMS results include
 
  - large-*R* jet with *R*=0.8 tagging (for W/Z/H/t) using ParticleNet [[CMS-DP-2020/002](https://cds.cern.ch/record/2707946/files/DP2020_002.pdf)]
- - regression on the large-*R* jet mass based on the ParticleNet model [[CMS-DP-2020/002](https://cds.cern.ch/record/2777006/files/DP2021_017.pdf)]
+ - regression on the large-*R* jet mass based on the ParticleNet model [[CMS-DP-2021/017](https://cds.cern.ch/record/2777006/files/DP2021_017.pdf)]
 
 ParticleNet architecture is also applied on small radius *R*=0.4 jets for the b/c-tagging and quark/gluon classification (see [this talk (CMS internal)](https://indico.cern.ch/event/956305/contributions/4027291/attachments/2111830/3552486/ParticleNet_AK4_JMAR_20200929_H_Qu.pdf)). A recent ongoing work applies the ParticleNet architecture in heavy flavour tagging at HLT (see [this talk (CMS internal)](https://indico.cern.ch/event/1037711/contributions/4357618/attachments/2242179/3801855/Raffaele_10_05_2021.pdf)). The ParticleNet model is recently updated to ParticleNeXt and see further improvement (see the [ML4Jets 2021 talk](https://indico.cern.ch/event/980214/contributions/4413544/attachments/2277334/3868991/ParticleNeXt_ML4Jets2021_H_Qu.pdf)).
 
 Recent works in the joint field of HEP and ML also shed light on exploiting the point cloud data structure and GNN-based architectures. We see very active progress in recent years. Here list some useful materials for the reader's reference.
 
  - Some pheno-based work are summarized in the HEP × ML [living review](https://iml-wg.github.io/HEPML-LivingReview/), especially in the "graph" and "sets" categories.
- - An overview of GNN applications to CMS [[CMS ML forum (CMS internal)](https://indico.cern.ch/event/952419/)]
+ - An overview of GNN applications to CMS, see [CMS ML forum (CMS internal)](https://indico.cern.ch/event/952419/). Also see more recent GNN application progress in ML forums: [Oct 20](https://indico.cern.ch/event/1051967/), [Nov 3](https://indico.cern.ch/event/1081541/).
  - At the time of writing, various novel GNN-based models are explored and introduced in the recent [ML4Jets2021](https://indico.cern.ch/event/980214/timetable/?view=standard) meeting.
 
 
@@ -86,35 +86,48 @@ Recent works in the joint field of HEP and ML also shed light on exploiting the 
 
 Now we walk through three solid examples to get you familiar with `Weaver`. We use the benchmark of the top tagging task [[arXiv:1707.08966](https://arxiv.org/abs/1707.08966)] in the following example. Some useful information can be found in the "top tagging" section in the [IML public datasets webpage](https://iml.web.cern.ch/public-datasets) (the [gDoc](https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit)).
 
-Our goal is to do some warm-up with `Weaver`, and more importantly, to explore from a technical side the neural net architectures, from a simple multi-layer perceptron (MLP) model, to a more complicated "DeepAK8 tagger" model based on 1D CNN with ResNet, and eventually to the "ParticleNet model" which is based on DGCNN. We will dig deeper into their implementations in `Weaver` and try to illustrate as many details as possible. Finally, we compare their performance and see if we can reproduce the benchmark record with the model. Please clone the repo [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark) and we'll get started.
+Our goal is to do some warm-up with `Weaver`, and more importantly, to explore from a technical side the neural net architectures: a simple multi-layer perceptron (MLP) model, a more complicated "DeepAK8 tagger" model based on 1D CNN with ResNet, and the "ParticleNet model," which is based on DGCNN. We will dig deeper into their implementations in `Weaver` and try to illustrate as many details as possible. Finally, we compare their performance and see if we can reproduce the benchmark record with the model. Please clone the repo `weaver-benchmark` and we'll get started. The `Weaver` repo will be cloned as a submodule.
+```bash
+git clone --recursive https://github.com/colizz/weaver-benchmark.git
+
+# Create a soft link inside weaver so that it can find data/model cards
+ln -s ../top_tagging weaver-benchmark/weaver/top_tagging
+```
 
 
 ### 1. Build models in `Weaver`
 
-When implementing a new training in `Weaver`, two key elements are crucial: the model and the data configuration file. The model configuration file includes a `get_model` function that returns a `torch.nn.Module` type model and a dictionary of model info used to export an ONNX-format model. The data configuration is a YAML file describing how to process the input data. Please see the `Weaver` README for details.
+When implementing a new training in `Weaver`, two key elements are crucial: the model and the data configuration file. The model defines the network architecture we are using, and the data configuration includes which variables to use for training, which pre-selection to apply, how to assign truth labels, etc.
 
-Before moving on, we need a preprocessing of the benchmark datasets. The original sample is an H5 file including branches like energy `E_i` and 3-momenta `PX_i`, `PY_i`, `PZ_i` for each jet constituent *i* (*i*=0, ..., 199) inside a jet. All branches are in the 1D flat structure. We reconstruct the data in a way that the jet features are 2D vectors (e.g., in the `vector<float>` format): `E`, `PX`, `PY`, `PZ`, with variable-length that corresponds to the number of constituents. Note that this is a commonly used data structure, similar to the NanoAOD format in CMS.
+Technically, The model configuration file includes a `get_model` function that returns a `torch.nn.Module` type model and a dictionary of model info used to export an ONNX-format model. The data configuration is a YAML file describing how to process the input data. Please see the `Weaver` README for details.
 
-The input files after preprocessing (in the `.awkd` format) can be found at CERN EOS space `/eos/user/c/coli/public/weaver-benchmark/samples/top/`. It includes three sets of data for training, validation, and test.
+Before moving on, we need a preprocessing of the benchmark datasets. The original sample is an H5 file including branches like energy `E_i` and 3-momenta `PX_i`, `PY_i`, `PZ_i` for each jet constituent *i* (*i*=0, ..., 199) inside a jet. All branches are in the 1D flat structure. We reconstruct the data in a way that the jet features are 2D vectors (e.g., in the `vector<float>` format): `Part_E`, `Part_PX`, `Part_PY`, `Part_PZ`, with variable-length that corresponds to the number of constituents. Note that this is a commonly used data structure, similar to the NanoAOD format in CMS.
+
+The datasets can be found at CERN EOS space `/eos/user/c/coli/public/weaver-benchmark/top_tagging/samples`. The input files used in this page are in fact the ROOT files produced by the preprocessing step, stored under the `prep/` subdirectory. It includes three sets of data for training, validation, and test.
 
 !!! note
     To preprocess the input files from the original datasets manually, direct to the `weaver-benchmark` base directory and run
     ```python
     python utils/convert_top_datasets.py -i <your-sample-dir>
     ```
-    This will convert the `.h5` file to the `.awkd` file and create some new variables for each jet, including the relative *η* and *φ* value w.r.t. main axis of the jet of each jet constituent.
+    This will convert the `.h5` file to ROOT ntuples and create some new variables for each jet, including the relative *η* and *φ* value w.r.t. main axis of the jet of each jet constituent. The converted files are stored in `prep/` subfolder of the original directory.
 
 Then, we show three NN model configurations below and provide detailed explanations of the code. We make meticulous efforts on the illustration of the model architecture, especially in the ParticleNet case.
 
 
 === "A simple MLP"
 
-    A simple multi-layer perception model is first provided here as proof of the concept. All layers are based on the linear transformation of the 1D vectors. The model configuration card is shown in `networks/top/mlp_pf.py`. First, we implement an MLP network in the `nn.Module` class.
+    <figure>
+    <img src="images/mlp_full_arch.png" width="70%"/>
+    <figcaption>The full architecture of the proof-of-concept multi-layer perceptron model.</figcaption>
+    </figure>
+
+    A simple multi-layer perceptron model is first provided here as proof of the concept. All layers are based on the linear transformation of the 1D vectors. The model configuration card is shown in `top_tagging/networks/mlp_pf.py`. First, we implement an MLP network in the `nn.Module` class.
 
     ???+ hint "MLP implementation"
-        Also, see [`networks/top/mlp_pf.py`](https://github.com/colizz/weaver-benchmark/networks/top/mlp_pf.py). We elaborate here on several aspects.
+        Also, see [`top_tagging/networks/mlp_pf.py`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/networks/mlp_pf.py). We elaborate here on several aspects.
 
-         - A sequence of linear layers and ReLU activation functions is defined in `nn.Sequential(nn.Linear(channels[i], channels[i + 1]), nn.ReLU()`. By combining multiple of them, we construct a simple multi-layer perceptron.
+         - A sequence of linear layers and ReLU activation functions is defined in `nn.Sequential(nn.Linear(channels[i], channels[i + 1]), nn.ReLU())`. By combining multiple of them, we construct a simple multi-layer perceptron.
 
          - The input data `x` takes the 3D format, in the dimension `(N, C, P)`, which is decided by our data structure and the data configuration card. Here, `N` is the mini-batch size, `C` is the feature size, and `P` is the size of constituents per jet. To feed into our MLP, we flatten the last two dimensions by `x = x.flatten(start_dim=1)` to form the vector of dimension `(N, L)`.
 
@@ -131,7 +144,7 @@ Then, we show three NN model configurations below and provide detailed explanati
             """
 
             def __init__(self, input_dims, num_classes,
-                        layer_params=(),
+                        layer_params=(1024, 256, 256),
                         **kwargs):
                         
                 super(MultiLayerPerceptron, self).__init__(**kwargs)
@@ -151,14 +164,14 @@ Then, we show three NN model configurations below and provide detailed explanati
     Then, we write the `get_model` and `get_loss` functions which will be sent into `Weaver`'s training code.
 
     ???+ hint "`get_model` and `get_loss` function"
-        Also see [`networks/top/mlp_pf.py`](https://github.com/colizz/weaver-benchmark/networks/top/mlp_pf.py). We elaborate here on several aspects.
+        Also see [`top_tagging/networks/mlp_pf.py`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/networks/mlp_pf.py). We elaborate here on several aspects.
 
          - Inside `get_model`, the `model` is essentially the MLP class we define, and the `model_info` takes the default definition, including the input/output shape, the dimensions of the dynamic axes for the input/output data shape that will guide the ONNX model exportation. 
          - The `get_loss` function is not changed as in the classification task we always use the cross-entropy loss function.
 
         ```python linenums="1"
         def get_model(data_config, **kwargs):
-            layer_params = (2048, 256, 256)
+            layer_params = (1024, 256, 256)
             _, pf_length, pf_features_dims = data_config.input_shapes['pf_features']
             input_dims = pf_length * pf_features_dims
             num_classes = len(data_config.label_value)
@@ -179,7 +192,7 @@ Then, we show three NN model configurations below and provide detailed explanati
             return torch.nn.CrossEntropyLoss()
         ```      
 
-    Below show the full structure of the MLP network printed by PyTorch. You will see it in the `Weaver` output during the training.
+    The output below shows the full structure of the MLP network printed by PyTorch. You will see it in the `Weaver` output during the training.
 
     ??? hint "The full-scale structure of the MLP network"
         ```
@@ -211,28 +224,106 @@ Then, we show three NN model configurations below and provide detailed explanati
         )
         ```
 
-    The data card is shown in `data/top/pf_features.yaml`. It defines one input group, `pf_features`, which takes four variables `Etarel`, `Phirel`, `E_log`, `P_log`. This is based on our data structure, where these variables are 2D vectors with variable lengths. The `length` is chosen as 100 in a way that the last dimension (the jet constituent dimension) is always truncated or padded to have length 100.
+    The data card is shown in `top_tagging/data/pf_features.yaml`. It defines one input group, `pf_features`, which takes four variables `Etarel`, `Phirel`, `E_log`, `P_log`. This is based on our data structure, where these variables are 2D vectors with variable lengths. The `length` is chosen as 100 in a way that the last dimension (the jet constituent dimension) is always truncated or padded to have length 100.
     
-    In the following two models (i,e., the DeepAK8 and the ParticleNet model) you will see that the data cards are very similar. The change will only be the way we present the input group(s).
+    ???+ hint "MLP data config `top_tagging/data/pf_features.yaml`"
+        Also see [`top_tagging/data/pf_features.yaml`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/data/pf_features.yaml). See a tour guide to the data configuration card in [`Weaver` README](https://github.com/hqucms/weaver).
+        ```yaml linenums="1"
+        selection:
+        ### use `&`, `|`, `~` for logical operations on numpy arrays
+        ### can use functions from `math`, `np` (numpy), and `awkward` in the expression
 
+        new_variables:
+        ### [format] name: formula
+        ### can use functions from `math`, `np` (numpy), and `awkward` in the expression
+        is_bkg: np.logical_not(is_signal_new)
 
+        preprocess:
+        ### method: [manual, auto] - whether to use manually specified parameters for variable standardization
+        method: manual
+        ### data_fraction: fraction of events to use when calculating the mean/scale for the standardization
+        data_fraction: 
+
+        inputs:
+        pf_features:
+            length: 100
+            vars: 
+            ### [format 1]: var_name (no transformation)
+            ### [format 2]: [var_name, 
+            ###              subtract_by(optional, default=None, no transf. if preprocess.method=manual, auto transf. if preprocess.method=auto), 
+            ###              multiply_by(optional, default=1), 
+            ###              clip_min(optional, default=-5), 
+            ###              clip_max(optional, default=5), 
+            ###              pad_value(optional, default=0)]
+                - Part_Etarel
+                - Part_Phirel
+                - [Part_E_log, 2, 1]
+                - [Part_P_log, 2, 1]
+
+        labels:
+        ### type can be `simple`, `custom`
+        ### [option 1] use `simple` for binary/multi-class classification, then `value` is a list of 0-1 labels
+        type: simple
+        value: [
+            is_signal_new, is_bkg
+            ]
+        ### [option 2] otherwise use `custom` to define the label, then `value` is a map
+        # type: custom
+        # value: 
+            # target_mass: np.where(fj_isQCD, fj_genjet_sdmass, fj_gen_mass) 
+
+        observers:
+        - origIdx
+        - idx
+        - Part_E_tot
+        - Part_PX_tot
+        - Part_PY_tot
+        - Part_PZ_tot
+        - Part_P_tot
+        - Part_Eta_tot
+        - Part_Phi_tot
+
+        # weights:
+        ### [option 1] use precomputed weights stored in the input files
+        # use_precomputed_weights: true
+        # weight_branches: [weight, class_weight]
+        ### [option 2] compute weights on-the-fly using reweighting histograms
+        ```
+
+    In the following two models (i.e., the DeepAK8 and the ParticleNet model) you will see that the data card is very similar. The change will only be the way we present the input group(s).
+    
 === "DeepAK8 (1D CNN)"
 
-    !!! note
-        The DeepAK8 tagger is a widely used highly-boosted jet tagging in the CMS community. The design of the model can be found in the CMS paper [[arXiv:2004.08262](https://arxiv.org/abs/2004.08262)]. The original model is trained on MXNet and its configuration can be found [here](https://github.com/hqucms/NNTools/blob/master/training/symbols/sym_ak8_pfcand_sv_resnet_v1.py). 
-        
-        We now migrate the model architecture to `Weaver` and train it on Pytorch. Also, we narrow the multi-class output score to the binary output to adapt our binary classification task (top vs. QCD jet).
+    <figure>
+    <img src="images/deepak8_full_arch.png"/>
+    <figcaption>The full architecture of the DeepAK8 model, which is based on 1D CNN with ResNet architecture.</figcaption>
+    </figure>
 
-    The model card is given in `networks/top/deepak8_pf.py`. The DeepAK8 model is inspired by the ResNet architecture. The key ingredient is the ResNet unit constructed by multiple CNN layers with a shortcut connection. First, we define the ResNet unit in the model card.
+    !!! note
+        The DeepAK8 tagger is a widely used highly-boosted jet tagger in the CMS community. The design of the model can be found in the CMS paper [[arXiv:2004.08262](https://arxiv.org/abs/2004.08262)]. The original model is trained on MXNet and its configuration can be found [here](https://github.com/hqucms/NNTools/blob/master/training/symbols/sym_ak8_pfcand_sv_resnet_v1.py). 
+        
+        We now migrate the model architecture to `Weaver` and train it on PyTorch. Also, we narrow the multi-class output score to the binary output to adapt our binary classification task (top vs. QCD jet).
+
+    The model card is given in `top_tagging/networks/deepak8_pf.py`. The DeepAK8 model is inspired by the ResNet architecture. The key ingredient is the ResNet unit constructed by multiple CNN layers with a shortcut connection. First, we define the ResNet unit in the model card.
     
     ???+ hint "ResNet unit implementation"
-        See [`networks/top/deepak8_pf.py`](https://github.com/colizz/weaver-benchmark/networks/top/deepak8_pf.py). We elaborate here on several aspects.
+        See [`top_tagging/networks/deepak8_pf.py`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/networks/deepak8_pf.py). We elaborate here on several aspects.
 
          - A ResNet unit is made of two 1D CNNs with batch normalization and ReLU activation function.
          - The shortcut is introduced here by directly adding the input data to the processed data after passing the CNN layers. The shortcut connection help to ease the training for the "deeper" model [[arXiv:1512.03385](https://arxiv.org/pdf/1512.03385.pdf)]. Note that a trivial linear transformation is applied (`self.conv_sc`) if the feature dimension of the input and output data does not match.
 
         ```python linenums="1"
         class ResNetUnit(nn.Module):
+            r"""Parameters
+            ----------
+            in_channels : int
+                Number of channels in the input vectors.
+            out_channels : int
+                Number of channels in the output vectors.
+            strides: tuple
+                Strides of the two convolutional layers, in the form of (stride0, stride1)
+            """
+
             def __init__(self, in_channels, out_channels, strides=(1,1), **kwargs):
                 
                 super(ResNetUnit, self).__init__(**kwargs)
@@ -268,7 +359,7 @@ Then, we show three NN model configurations below and provide detailed explanati
     ```
 
     ???+ hint "DeepAK8 model implementation"
-        See [`networks/top/deepak8_pf.py`](https://github.com/colizz/weaver-benchmark/networks/top/deepak8_pf.py). Note that the main architecture is a Pytorch re-implementation of the code [here](https://github.com/hqucms/NNTools/blob/master/training/symbols/sym_ak8_pfcand_sv_resnet_v1.py) based on the MXNet.
+        See [`top_tagging/networks/deepak8_pf.py`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/networks/deepak8_pf.py). Note that the main architecture is a PyTorch re-implementation of the code [here](https://github.com/hqucms/NNTools/blob/master/training/symbols/sym_ak8_pfcand_sv_resnet_v1.py) based on the MXNet.
 
         ```python linenums="1"
         class ResNet(nn.Module):
@@ -282,6 +373,9 @@ Then, we show three NN model configurations below and provide detailed explanati
                 List of the convolution layer parameters. 
                 The first element is a tuple of size 1, defining the transformed feature size for the initial feature convolution layer.
                 The following are tuples of feature size for multiple stages of the ResNet units. Each number defines an individual ResNet unit.
+            fc_params: list
+                List of fully connected layer parameters after all EdgeConv blocks, each element in the format of
+                (n_feat, drop_rate)
             """
 
             def __init__(self, features_dims, num_classes,
@@ -357,7 +451,7 @@ Then, we show three NN model configurations below and provide detailed explanati
             return torch.nn.CrossEntropyLoss()
         ```
     
-    Below show the full structure of the DeepAK8 model based on 1D CNN with ResNet. It is printed by PyTorch and you will see it in the `Weaver` output during training.
+    The output below shows the full structure of the DeepAK8 model based on 1D CNN with ResNet. It is printed by PyTorch and you will see it in the `Weaver` output during training.
     
     ??? hint "The full-scale structure of the DeepAK8 architecture"
 
@@ -446,15 +540,20 @@ Then, we show three NN model configurations below and provide detailed explanati
         )
         ```
 
-    The data card is the same as the MLP case, shown in `data/top/pf_features.yaml`.
+    The data card is the same as the MLP case, shown in `top_tagging/data/pf_features.yaml`.
     
 
 === "ParticleNet (DGCNN)"
 
+    <figure>
+    <img src="images/particlenet_full_arch.png"/>
+    <figcaption>The full architecture of the ParticleNet model, which is based on DGCNN and EdgeConv.</figcaption>
+    </figure>
+
     !!! note
-        The ParticleNet model applied to the CMS analysis is provided in `networks/particlenet_pf_sv.py`, and the data card in `data/ak15_points_pf_sv.yaml`. Here we use a similar configuration card to deal with the benchmark task.
+        The ParticleNet model applied to the CMS analysis is provided in [`weaver/networks/particle_net_pf_sv.py`](https://github.com/hqucms/weaver/blob/master/networks/particle_net_pf_sv.py), and the data card in [`weaver/data/ak15_points_pf_sv.yaml`](https://github.com/hqucms/weaver/blob/master/data/ak15_points_pf_sv.yaml). Here we use a similar configuration card to deal with the benchmark task.
     
-    We will elaborate on the ParticleNet model and focus more on the technical side in this section. The model is defined in `networks/top/particlenet_pf.py`, but it imports some constructor, the EdgeConv block, in `weaver/utils/nn/model/ParticleNet.py`. The EdgeConv is illustrated in the cartoon.
+    We will elaborate on the ParticleNet model and focus more on the technical side in this section. The model is defined in `top_tagging/networks/particlenet_pf.py`, but it imports some constructor, the EdgeConv block, in `weaver/utils/nn/model/ParticleNet.py`. The EdgeConv is illustrated in the cartoon.
 
     <figure>
     <img src="images/edgeconv_cartoon.png" width="60%"/>
@@ -467,7 +566,10 @@ Then, we show three NN model configurations below and provide detailed explanati
 
     ![edgeconv_architecture](images/edgeconv_architecture.png){ loading=lazy align=left width=200 }
 
-    The edge convolution is an analogues convolution method defined on a point cloud, whose shape is given by the "coordinates" of points. Specifically, the input "coordinates" provide a view of spatial relations of the points in the Euclidean space. It determines the *k*-nearest neighbouring points for each point that will guide the update of the feature vector of a point. For each point, the updated feature vector is based on the current state of the point and its *k* neighbours. Guided by this spirit, all features of the point cloud forms a 3D vector with dimensions `(C, P, K)`, where `C` is the per-point feature size (e.g., *η*, *φ*, *p*<sub>T</sub>，...), `P` is the number of points, and K the *k*-NN number. The structured vector is linearly transformed by acting 2D CNN on the feature dimension `C`. This helps to aggregate the feature information and exploit the correlations of each point with its adjacent points. A shortcut connection is also introduced inspired by the ResNet.
+    The edge convolution is an analogue convolution method defined on a point cloud, whose shape is given by the "coordinates" of points. Specifically, the input "coordinates" provide a view of spatial relations of the points in the Euclidean space. It determines the *k*-nearest neighbouring points for each point that will guide the update of the feature vector of a point. For each point, the updated feature vector is based on the current state of the point and its *k* neighbours. Guided by this spirit, all features of the point cloud forms a 3D vector with dimensions `(C, P, K)`, where `C` is the per-point feature size (e.g., *η*, *φ*, *p*<sub>T</sub>，...), `P` is the number of points, and K the *k*-NN number. The structured vector is linearly transformed by acting 2D CNN on the feature dimension `C`. This helps to aggregate the feature information and exploit the correlations of each point with its adjacent points. A shortcut connection is also introduced inspired by the ResNet.
+
+    !!! note
+        The feature dimension `C` after exploring the *k* neighbours of each point actually doubles the value of the initial feature dimension. Here, a new set of features is constructed by subtracting the feature a point carries to the features its *k* neighbours carry (namely *x*<sub>*i*</sub> – *x*<sub>*i_j*</sub> for point *i*, and *j*=1,...,*k*). This way, the correlation of each point with its neighbours are well captured.
 
     Below shows how the EdgeConv structure is implemented in the code. 
 
@@ -476,7 +578,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 
           - The `EdgeConvBlock` takes the feature dimension `in_feat`, `out_feats` which are `C_fts`, `C_fts_out` we introduced above.
           - The input data vectors to `forward()` are "coordinates" and "features" vector, in the dimension of `(N, C_pts(C_fts), P)` as introduced above. The first dimension is the mini-batch size.
-          - `self.get_graph_feature()` helps to aggregate *k*-nearest neighbours for each point. The resulting vector is in the dimension of `(N, C_fts, P, K)` as we discussed above, K being the *k*-NN number.
+          - `self.get_graph_feature()` helps to aggregate *k*-nearest neighbours for each point. The resulting vector is in the dimension of `(N, C_fts(0), P, K)` as we discussed above, `K` being the *k*-NN number. Note that the `C_fts(0)` doubles the value of the original input feature dimension `C_fts` as mentioned above.
           - After convolutions, the per-point features are merged by taking the mean of all *k*-nearest neighbouring vectors:
           ```python
           fts = x.mean(dim=-1)  # (N, C, P)
@@ -538,7 +640,7 @@ Then, we show three NN model configurations below and provide detailed explanati
                 # N: batch size, C: feature size per point, P: number of points
 
                 topk_indices = knn(points, self.k) # (N, P, K)
-                x = self.get_graph_feature(features, self.k, topk_indices) # (N, C_fts, P, K)
+                x = self.get_graph_feature(features, self.k, topk_indices) # (N, C_fts(0), P, K)
 
                 for conv, bn, act in zip(self.convs, self.bns, self.acts):
                     x = conv(x)  # (N, C', P, K)
@@ -565,7 +667,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 
     The ParticleNet model stacks three EdgeConv blocks to construct higher-level features and passing them through the pipeline. The points (i.e., in our case, the particle candidates inside a jet) are not changing, but the per-point "coordinates" and "features" vectors changes, in both values and dimensions.
 
-    For the first EdgeConv block, the "coordinates" only includes the relative *η* and *φ* value of each particle. The "features" is a vector with a standard length of 32, which is linearly transformed from the initial feature vectors including the components of relative *η*, *φ*, the log of *p*<sub>T</sub>, etc. The first EdgeConv block outputs a per-point feature vector of length 64, which is taken as both the "coordinates" and "features" to the next EdgeConv block. That is to say, the next *k*-NN is applied on the 64D high-dimensional spatial space to capture the new relations of points learned by the model. This is visualized by the input/output array showing the data flow of the model. We see that this architecture illustrates the stackability of the EdgeConv block, and is the core to the Dynamic Graph CNN (DGCNN), as the model can dynamically change the correlations of each point based on learnable features. 
+    For the first EdgeConv block, the "coordinates" only include the relative *η* and *φ* value of each particle. The "features" is a vector with a standard length of 32, which is linearly transformed from the initial feature vectors including the components of relative *η*, *φ*, the log of *p*<sub>T</sub>, etc. The first EdgeConv block outputs a per-point feature vector of length 64, which is taken as both the "coordinates" and "features" to the next EdgeConv block. That is to say, the next *k*-NN is applied on the 64D high-dimensional spatial space to capture the new relations of points learned by the model. This is visualized by the input/output arrows showing the data flow of the model. We see that this architecture illustrates the stackability of the EdgeConv block, and is the core to the Dynamic Graph CNN (DGCNN), as the model can dynamically change the correlations of each point based on learnable features. 
     
     A fusion technique is also used by concatenating the three EdgeConv output vectors together (adding the dimensions), instead of using the last EdgeConv output, to form an output vector. This is also one form of shortcut implementations that helps to ease the training for a complex and deep convolutional network model.
 
@@ -574,7 +676,7 @@ Then, we show three NN model configurations below and provide detailed explanati
     The ParticleNet implementation is shown below.
 
     ???+ hint "ParticleNet model implementation"
-        See [`utils/nn/model/ParticleNet.py`](https://github.com/hqucms/weaver/blob/master/utils/nn/model/ParticleNet.py), or the following code block annotated with more comments. We elaborate here on several mean points.
+        See [`weaver/utils/nn/model/ParticleNet.py`](https://github.com/hqucms/weaver/blob/master/utils/nn/model/ParticleNet.py), or the following code block annotated with more comments. We elaborate here on several mean points.
 
           - The stack of multiple EdgeConv blocks are implemented in
             ```python
@@ -709,13 +811,13 @@ Then, we show three NN model configurations below and provide detailed explanati
                 return output
         ```
 
-    Above are the capsulation of all ParticleNet building blocks. Eventually, we have the model defined in the model card `networks/benchmark/particlenet.py`, in the `ParticleNetTagger1Path` class, meaning we only use the ParticleNet pipeline that deals with one set of the point cloud (i.e., the particle candidates).
+    Above are the capsulation of all ParticleNet building blocks. Eventually, we have the model defined in the model card `top_tagging/networks/particlenet_pf.py`, in the `ParticleNetTagger1Path` class, meaning we only use the ParticleNet pipeline that deals with one set of the point cloud (i.e., the particle candidates).
 
     ???+ info
          Two sets of point clouds in the CMS application, namely the particle-flow candidates and secondary vertices, are used. This requires special handling to merge the clouds before feeding them to the first layer of EdgeConv.
     
     ???+ hint "ParticleNet model config"
-
+        Also see [`top_tagging/networks/particlenet_pf.py`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/networks/particlenet_pf.py).
         ```python linenums="1"
         import torch
         import torch.nn as nn
@@ -915,9 +1017,10 @@ Then, we show three NN model configurations below and provide detailed explanati
         )
         ```
 
-    The data card is shown in `data/top/pf_features.yaml`, given in a similar way as in the MLP example. Here we group the inputs into three classes: `pf_points`, `pf_features` and `pf_masks`. They correspond to the `forward(self, pf_points, pf_features, pf_mask)` prototype of our `nn.Module` model, and will send in these 2D vectors in the mini-batch size for each iteration during training/prediction.
+    The data card is shown in `top_tagging/data/pf_points_features.yaml`, given in a similar way as in the MLP example. Here we group the inputs into three classes: `pf_points`, `pf_features` and `pf_masks`. They correspond to the `forward(self, pf_points, pf_features, pf_mask)` prototype of our `nn.Module` model, and will send in these 2D vectors in the mini-batch size for each iteration during training/prediction.
     
-    ???+ hint "ParticleNet data config"
+    ???+ hint "ParticleNet data config `top_tagging/data/pf_points_features.yaml`"
+        See [`top_tagging/data/pf_points_features.yaml`](https://github.com/colizz/weaver-benchmark/blob/main/top_tagging/data/pf_points_features.yaml).
         ```yaml linenums="1"
         selection:
         ### use `&`, `|`, `~` for logical operations on numpy arrays
@@ -926,7 +1029,7 @@ Then, we show three NN model configurations below and provide detailed explanati
         new_variables:
         ### [format] name: formula
         ### can use functions from `math`, `np` (numpy), and `awkward` in the expression
-        pf_mask: awkward.JaggedArray.ones_like(E)
+        pf_mask: awkward.JaggedArray.ones_like(Part_E)
         is_bkg: np.logical_not(is_signal_new)
 
         preprocess:
@@ -939,9 +1042,8 @@ Then, we show three NN model configurations below and provide detailed explanati
         pf_points:
             length: 100
             vars: 
-                - [PX, 0, 0.05]
-                - [PY, 0, 0.05]
-                - [PZ, 0, 0.05]
+                - Part_Etarel
+                - Part_Phirel
         pf_features:
             length: 100
             vars: 
@@ -952,10 +1054,10 @@ Then, we show three NN model configurations below and provide detailed explanati
             ###              clip_min(optional, default=-5), 
             ###              clip_max(optional, default=5), 
             ###              pad_value(optional, default=0)]
-                - [PX, 0, 0.05]
-                - [PY, 0, 0.05]
-                - [PZ, 0, 0.05]
-                - [E_log, 2, 1]
+                - Part_Etarel
+                - Part_Phirel
+                - [Part_E_log, 2, 1]
+                - [Part_P_log, 2, 1]
         pf_mask:
             length: 100
             vars: 
@@ -976,13 +1078,13 @@ Then, we show three NN model configurations below and provide detailed explanati
         observers:
         - origIdx
         - idx
-        - E_tot
-        - PX_tot
-        - PY_tot
-        - PZ_tot
-        - P_tot
-        - Eta_tot
-        - Phi_tot
+        - Part_E_tot
+        - Part_PX_tot
+        - Part_PY_tot
+        - Part_PZ_tot
+        - Part_P_tot
+        - Part_Eta_tot
+        - Part_Phi_tot
 
         # weights:
         ### [option 1] use precomputed weights stored in the input files
@@ -993,76 +1095,77 @@ Then, we show three NN model configurations below and provide detailed explanati
 
 -----------
 
-Above, we analyze the three networks in a detailed manner. As a summary, we draw the three network architectures in the following three cartoons for a more overall and comprehensive understanding.
+Now we have walked through the detailed description of three networks in their architecture as well as their implementations in `Weaver`. 
 
-<figure>
-<img src="images/mlp_full_arch.png" width="70%"/>
-<figcaption>The full architecture of the proof-of-concept multi-layer perception model.</figcaption>
-</figure>
+Before ending this section, we summarize the three networks on their (1) model and data configuration cards, (2) the number of parameters, and (3) computational complexity in the following table. Note that we'll refer to the shell variables provided here in the following training example.
 
-<figure>
-<img src="images/deepak8_full_arch.png"/>
-<figcaption>The full architecture of the DeepAK8 model, which is based on 1D CNN with ResNet architecture.</figcaption>
-</figure>
-
-<figure>
-<img src="images/particlenet_full_arch.png"/>
-<figcaption>The full architecture of the ParticleNet model, which is based on DGCNN and EdgeConv.</figcaption>
-</figure>
-
-
-The model and data configuration cards, the number of parameters, and computational complexity are summarized in the following table. Note that we'll refer to the shell variables provided here in the following training example.
-
-| Model               | `${prefix}`   | `${model_config}`                   | `${data_config}`                     | Parameters | Computational complexity |
+| Model               | `${PREFIX}`   | `${MODEL_CONFIG}`                   | `${DATA_CONFIG}`                     | Parameters | Computational complexity |
 | ------------------- | ------------- | ----------------------------------- | ------------------------------------ | ---------- | ------------------------ |
-| MLP                 | `mlp`         | `../networks/top/mlp_pf.py`         | `../data/top/pf_features.yml`        | 739k       | 0.001 GMac               |
-| DeepAK8 (1D CNN)    | `deepak8`     | `../networks/top/deepak8.py`        | `../data/top/pf_features.yml`        | 349k       | 0.012 GMac               |
-| ParticleNet (DGCNN) | `particlenet` | `../networks/top/particlenet_pf.py` | `../data/top/pf_points_features.yml` | 577k       | 0.441 GMac               |
+| MLP                 | `mlp`         | `mlp_pf.py`         | `pf_features.yaml`        | 739k       | 0.001 GMac               |
+| DeepAK8 (1D CNN)    | `deepak8`     | `deepak8_pf.py`        | `pf_features.yaml`        | 349k       | 0.012 GMac               |
+| ParticleNet (DGCNN) | `particlenet` | `particlenet_pf.py` | `pf_points_features.yaml` | 577k       | 0.441 GMac               |
 
 
 ### 2. Start training!
 
 Now we train the three neural networks based on the provided model and data configurations. 
 
-Here we present three ways of training. For readers who have a local machine with CUDA GPUs, please try out training on the local GPUs. Readers who would like to try on CPUs can also refer to the local GPU instruction. It is also possible to borrow the GPU resources from the lxplus condor or CMS-connect. Please find in the following that meets your situation.
+Here we present three ways of training. For readers who have a local machine with CUDA GPUs, please try out training on the local GPUs. Readers who would like to try on CPUs can also refer to the local GPU instruction. It is also possible to borrow the GPU resources from the lxplus HTCondor or CMS Connect. Please find in the following that meets your situation.
 
 === "Train on local GPUs"
 
-    The three networks can be trained with a universal script. Enter the `weaver` base folder and run the following command. Note that `${data_config}`, `${model_config}`, and `${prefix}` refers to the value in the above table for each example, and the fake path should be replaced with the correct one.
+    The three networks can be trained with a universal script. Enter the `weaver` base folder and run the following command. Note that `${DATA_CONFIG}`, `${MODEL_CONFIG}`, and `${PREFIX}` refers to the value in the above table for each example, and the fake path should be replaced with the correct one.
 
     ```python
+    PREFIX='<prefix-from-table>'
+    MODEL_CONFIG='<model-config-from-table>'
+    DATA_CONFIG='<data-config-from-table>'
+    PATH_TO_SAMPLES='<your-path-to-samples>'
+
     python train.py \
-    --data-train '<path-to-samples>/prep/top_train_*.awkd' \
-    --data-val '<path-to-samples>/prep/top_val_*.awkd' \
-    --fetch-by-file --fetch-step 1 \
-    --num-workers 3 \
-    --data-config data/benchmark/${data_config} \
-    --network-config networks/benchmark/${model_config} \
-    --model-prefix output/${prefix} \
-    --gpus 0,1 --batch-size 1024 --start-lr 5e-3 --num-epochs 20 --optimizer ranger \
-    --log output/${prefix}.train.log
+     --data-train ${PATH_TO_SAMPLES}'/prep/top_train_*.root' \
+     --data-val ${PATH_TO_SAMPLES}'/prep/top_val_*.root' \
+     --fetch-by-file --fetch-step 1 --num-workers 3 \
+     --data-config top_tagging/data/${DATA_CONFIG} \
+     --network-config top_tagging/networks/${MODEL_CONFIG} \
+     --model-prefix output/${PREFIX} \
+     --gpus 0,1 --batch-size 1024 --start-lr 5e-3 --num-epochs 20 --optimizer ranger \
+     --log output/${PREFIX}.train.log
     ```
 
-    Here are several caveats running this command.
+    Here `--gpus 0,1` specifies the GPUs to run with the device ID 1 and 2. For training on CPUs, please use `--gpu ''`.
+    
+    A detailed description of the training command can be found in [`Weaver` README](https://github.com/hqucms/weaver). Below we will note a few more caveats about the data loading options, though the specific settings will depend on the specifics of the input data.
 
-    !!! warning
-         - `--fetch-by-file` is very important when you have only a few input files. Please see `Weaver` README for more details on this argument. 
-         
-         A common situation is that when you have only one input file that includes both signal and backgrounds, but events are not well mixed. Then, it is a must to use `--fetch-by-file`, because otherwise, only a small collection of events on the top are read into the memory and sending to the mini-batch after shuffling. In such cases, events can have a strong bias in different categories (the most extreme case is that it only contains one category) and may confuse the training. By using `--fetch-by-file`, all events in a file are read into the memory, shuffled properly and sent to the mini-batch.
+    !!! warning "Caveats on the data loading options"
+        Our goal in data loading is to guarantee that the data loaded in every mini-batch is evenly distributed with different labels, though they are not necessarily stored evenly in the file. Besides, we also need to ensure that the on-the-fly loading and preprocessing of data should be smooth and not be a bottleneck of the data delivering pipeline. The total amount of loaded data also needs to be controlled so as not to explode the entire memory. The following guidelines should be used to choose the best options for your use case:
 
-         - Specify GPUS based on their device IDs. For running on CPUs, please use `--gpu ''`.
+         - in the default case, data are loaded from every input file with a small proportion per fetch-step, provided by `--fetch-step` (default is 0.01). This adapts to the case when we have multiple classes of input, each class having multiple files (e.g., it adapts to the real CMS application because we may have multiple `nano_i.root` files for different input classes). The strategy gathered all pieces per fetch-step from all input files, shuffle them, and present the data we need in each regular mini-batch. One can also append `--num-workers n` with `n` being the number of paralleled workers to load the data.
+         - `--fetch-step 1 --num-workers 1`. This strategy helps in the case we have few input files with data in different labels not evenly distributed. In the extreme case, we only have 1 file, with all data at the top being one class (signal) and data at the bottom being another class (background), or we have 2 or multiple files, each containing a specific class. In this option, `--fetch-step 1` guarantees the entire data in the file is loaded and participate in the shuffle. Therefore all classes are safely mixed before sending to the mini-batch. `--num-workers 1` means we only use one worker that takes care of all files to avoid inconsistent loading speeds of multiple workers (depending on CPUs). This strategy can further cooperate with `--in-memory` so that all data are put permanently in memory and will not be reloaded every epoch.
+         `--fetch-by-file` is the option we can use when all input files have a similar structure. See [`Weaver` README](https://github.com/hqucms/weaver):
+        
+        > An alternative approach is the "file-based" strategy, which can be enabled with `--fetch-by-files`. This approach will instead read all events from every file for each step, and it will read `m` input files (`m` is set by `--fetch-step`) before mixing and shuffling the loaded events. This strategy is more suitable when each input file is already a mixture of all types of events (e.g., pre-processed with NNTools), otherwise it may lead to suboptimal training performance. However, a higher data loading speed can generally be achieved with this approach.
 
-    Then, predict the score on the test datasets using the best model:
+        Please note that you can test if all data classes are well mixed by printing the truth label in each mini-batch. Also, remember to test if data are loaded just-in-time by monitoring the GPU performance — if switching the data loading strategy helps improve the GPU efficiency, it means the previous data loader is the bottleneck in the pipeline to deliver and use the data.
+    
+    ---------------------
+
+    After training, we predict the score on the test datasets using the best model:
 
     ```python
+    PREFIX='<prefix-from-table>'
+    MODEL_CONFIG='<model-config-from-table>'
+    DATA_CONFIG='<data-config-from-table>'
+    PATH_TO_SAMPLES='<your-path-to-samples>'
+
     python train.py --predict \
-    --data-test '<path-to-samples>/prep/top_test_*.awkd' \
-    --num-workers 3 \
-    --data-config data/benchmark/${data_config} \
-    --network-config networks/benchmark/${model_config} \
-    --model-prefix output/${prefix}_best_epoch_state.pt \
-    --gpus 0,1 --batch-size 1024 \
-    --predict-output output/${prefix}_predict.root
+     --data-test ${PATH_TO_SAMPLES}'/prep/top_test_*.root' \
+     --num-workers 3 \
+     --data-config top_tagging/data/${DATA_CONFIG} \
+     --network-config top_tagging/networks/${MODEL_CONFIG} \
+     --model-prefix output/${PREFIX}_best_epoch_state.pt \
+     --gpus 0,1 --batch-size 1024 \
+     --predict-output output/${PREFIX}_predict.root
     ```
 
 === "Use GPUs on lxplus HTCondor"
@@ -1074,10 +1177,14 @@ Here we present three ways of training. For readers who have a local machine wit
     Here we provide the example executed script and the condor submitted file for the training and predicting task. Create the following two files:
 
     ???+ hint "The executable: `run.sh`"
-        Still, please remember to specify `${data_config}`, `${model_config}`, and `${prefix}` as shown in the above table, and replace the fake path with the correct one.
+        Still, please remember to specify `${DATA_CONFIG}`, `${MODEL_CONFIG}`, and `${PREFIX}` as shown in the above table, and replace the fake path with the correct one.
         ```bash linenums="1"
         #!/bin/bash
 
+        PREFIX=$1
+        MODEL_CONFIG=$2
+        DATA_CONFIG=$3
+        PATH_TO_SAMPLES=$4
         WORKDIR=`pwd`
 
         # Download miniconda
@@ -1088,6 +1195,7 @@ Here we present three ways of training. For readers who have a local machine wit
         pip install uproot3 awkward0 lz4 xxhash
         pip install tables
         pip install onnxruntime-gpu
+        pip install tensorboard
         pip install torch
 
         # CUDA environment setup
@@ -1095,62 +1203,68 @@ Here we present three ways of training. For readers who have a local machine wit
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.2/lib64
         export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/cuda-10.2/lib64
 
-        # Clone weaver
-        git clone https://github.com/hqucms/weaver.git
-        cd weaver/
+        # Clone weaver-benchmark
+        git clone --recursive https://github.com/colizz/weaver-benchmark.git
+        ln -s ../top_tagging weaver-benchmark/weaver/top_tagging
+        cd weaver-benchmark/weaver/
         mkdir output
 
-        # Training
+        # Training, using 1 GPU
         python train.py \
-        --data-train '<path-to-samples>/prep/top_train_*.awkd' \
-        --data-val '<path-to-samples>/prep/top_val_*.awkd' \
-        --fetch-by-file --fetch-step 1 \
-        --num-workers 3 \
-        --data-config data/benchmark/${data_config} \
-        --network-config networks/benchmark/${model_config} \
-        --model-prefix output/${prefix} \
-        --gpus 0 --batch-size 1024 --start-lr 5e-3 --num-epochs 20 --optimizer ranger \
-        --log output/${prefix}.train.log
+         --data-train ${PATH_TO_SAMPLES}'/prep/top_train_*.root' \
+         --data-val ${PATH_TO_SAMPLES}'/prep/top_val_*.root' \
+         --fetch-by-file --fetch-step 1 --num-workers 3 \
+         --data-config top_tagging/data/${DATA_CONFIG} \
+         --network-config top_tagging/networks/${MODEL_CONFIG} \
+         --model-prefix output/${PREFIX} \
+         --gpus 0 --batch-size 1024 --start-lr 5e-3 --num-epochs 20 --optimizer ranger \
+         --log output/${PREFIX}.train.log
 
-        # Predicting score
+        # Predicting score, using 1 GPU
         python train.py --predict \
-        --data-test '<path-to-samples>/prep/top_test_*.awkd' \
-        --num-workers 3 \
-        --data-config data/benchmark/${data_config} \
-        --network-config networks/benchmark/${model_config} \
-        --model-prefix output/${prefix}_best_epoch_state.pt \
-        --gpus 0 --batch-size 1024 \
-        --predict-output output/${prefix}_predict.root
+         --data-test ${PATH_TO_SAMPLES}'/prep/top_test_*.root' \
+         --num-workers 3 \
+         --data-config top_tagging/data/${DATA_CONFIG} \
+         --network-config top_tagging/networks/${MODEL_CONFIG} \
+         --model-prefix output/${PREFIX}_best_epoch_state.pt \
+         --gpus 0 --batch-size 1024 \
+         --predict-output output/${PREFIX}_predict.root
+
+        [ -d "runs/" ] && tar -caf output.tar output/ runs/ || tar -caf output.tar output/
         ```
 
     ???+ hint "HTCondor submitted file: `submit.sub`"
-        ```linenums="1"
+        Modify the argument line. These are the bash variable `PREFIX`, `MODEL_CONFIG`, `DATA_CONFIG`, `PATH_TO_SAMPLES` used in the `Weaver` command. Since the EOS directory is accessable accross all condor nodes on lxplus, one may directly specify `<your-path-to-samples>` as the EOS path provided above. An example is shown in the commented line.
+        ```bash linenums="1" hl_lines="3"
         Universe                = vanilla
         executable              = run.sh
-        arguments               = 
-        output                  = logs/$(ClusterId).$(ProcId).out
-        error                   = logs/$(ClusterId).$(ProcId).err
-        log                     = logs/$(ClusterId).log
+        arguments               = <prefix> <model-config> <data-config> <your-path-to-samples>
+        #arguments              = mlp mlp_pf.py pf_features.yaml /eos/user/c/coli/public/weaver-benchmark/top_tagging/samples
+        output                  = job.$(ClusterId).$(ProcId).out
+        error                   = job.$(ClusterId).$(ProcId).err
+        log                     = job.$(ClusterId).log
         should_transfer_files   = YES
         when_to_transfer_output = ON_EXIT_OR_EVICT
-        transfer_output_files   = weaver/output
-        transfer_output_remaps  = "output = output.$(ClusterId).$(ProcId)"
+        transfer_output_files   = weaver-benchmark/weaver/output.tar
+        transfer_output_remaps  = "output.tar = output.$(ClusterId).$(ProcId).tar"
         request_GPUs = 1
-        request_CPUs = 2
+        request_CPUs = 4
         +MaxRuntime = 604800
         queue
         ```
     Make the `run.sh` script an executable, then submit the job.
     ```bash
     chmod +x run.sh
-    condor_submit submit.sh
+    condor_submit submit.sub
     ```
-    The `weaver/output` directory will be transferred back.
+    A tarball will be transfered back with the `weaver/output` directory where the trained models and the predicted ROOT file are stored.
 
 
 === "Use GPUs on CMS Connect"
 
-    CMS Connect provides several GPU nodes. ...
+    CMS Connect provides several GPU nodes. One can request to run GPU condor jobs in a similar way as on lxplus, please refer to the link: https://ci-connect.atlassian.net/wiki/spaces/CMS/pages/80117822/Requesting+GPUs
+
+    As the EOS user space may not be accessed from the remote node launched by CMS Connect, one may consider either (1) migrating the input files by condor, or (2) using XRootD to transfer the input file from EOS space to the condor node, before running the `Weaver` train command.
 
 ### 3. Evaluation of models
 
@@ -1168,8 +1282,11 @@ Here is the result from my training:
 | DeepAK8 (1D CNN)    | 0.979 | 0.927    | 585                                      |
 | ParticleNet (DGCNN) | 0.984 | 0.936    | 1030                                     |
 
-We see that the ParticleNet model shows an outstanding performance in this classification task. Besides, the DeepAK8 and ParticleNet results are similar to the benchmark values found in the [gDoc](https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit). We address that the performance can be further improved by fine-tuning on the model, and by taking the average predicted score from an ensemble of the trained model with different initial parametrization - a well known ML technique to pursue an extra few percent of improvements.
+We see that the ParticleNet model shows an outstanding performance in this classification task. Besides, the DeepAK8 and ParticleNet results are similar to the benchmark values found in the [gDoc](https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit). We address that the performance can be further improved by some following tricks:
 
+ - Train an ensemble of models with different initial parametrization. For each event/jet, take the final predicted score as the mean/median of the score ensembles predicted by each model. This is a widely used ML technique to pursue an extra few percent of improvements.
+ - Use more input variables for training. We note that in the above training example, only four input variables are used instead of a full suite of input features as done in the ParticleNet paper [[arXiv:1902.08570](https://arxiv.org/abs/1902.08570)]. Additional variables (e.g. *ΔR* or log(*p*<sub>T</sub > / *p*<sub>T</sub>(jet))) can be designed based on the given 4-momenta, and, although providing redundant information in principle, can still help the network fully exploit the point cloud structure and thus do a better discrimination job.
+ - The fine-tuning of the model will also bring some performance gain. See details in the next section.
 
 ## Tuning the ParticleNet model
 
@@ -1181,7 +1298,7 @@ The optimizer decides how our neural network update all its parameters, and the 
 
 Learning rate is the most important hyperparameter to choose from before concrete training is done. Here we quote from a suggested strategy: if you only have the opportunity to optimize one hyperparameter, choose the learning rate. The optimizer is also important because a wiser strategy usually means avoid the zig-zagging updating route, avoid falling into the local minima and even adapting different strategies for the fast-changing parameters and the slow ones. Adam (and its several variations) is a widely used optimizer. Another recently developed advanced optimizer is Ranger that combines RAdam and LookAhead. However, one should note that the few percent level improvement by using different optimizers is likely to be smeared by an unoptimized learning rate.
 
-The above training scheme uses a start learning rate of 5e-3, and Ranger as the optimizer. It uses a `flat+decay` schedular, in a way that the LR starts to decay after processing 70% of epochs, and gradually reduce to 0.1 of its original value when nearing the completion of all epochs.
+The above training scheme uses a start learning rate of 5e-3, and Ranger as the optimizer. It uses a `flat+decay` schedular, in a way that the LR starts to decay after processing 70% of epochs, and gradually reduce to 0.01 of its original value when nearing the completion of all epochs.
 
 First, we note that the current case is already well optimized. Therefore, by simply reuse the current choice, the training will converge to a stable result in general. But it is always good in practice to test several choices of the optimizer and reoptimize the learning rate.
 
@@ -1189,23 +1306,29 @@ First, we note that the current case is already well optimized. Therefore, by si
 
 `Weaver` also provides the interface to optimize the learning rate before real training is performed. In the ParticleNet model training, we append
 ```bash
---lr-finder 5e-4,5e-1,1000
+--lr-finder 5e-6,5e0,200
 ```
-in the command, then a specific learning-rate finder program will be launched. This setup scans over the LR from 5e-4 to 5e-1 by applying 1000 mini-batches of training. It outputs a plot showing the training loss for different starting learning rates. In general, a lower training loss means a better choice of the learning rate parameter.
+in the command, then a specific learning-rate finder program will be launched. This setup scans over the LR from 5e-6 to 5e0 by applying 200 mini-batches of training. It outputs a plot showing the training loss for different starting learning rates. In general, a lower training loss means a better choice of the learning rate parameter.
 
-Below shows the results from LR finder by specifying `--lr-finder 5e-4,5e-1,200` (upper) and `--lr-finder 5e-4,5e-1,1000` (lower), for the `--optimizer adamW` (left) and the `--optimizer ranger` (right) case.
+Below shows the results from LR finder by specifying `--lr-finder 5e-6,5e0,200`, for the `--optimizer adamW` (left) and the `--optimizer ranger` (right) case.
 
 ![lr_finder_adamW_ranger.png](images/lr_finder_adamW_ranger.png){ width=80% }
 
-The plots show that the training loss forms a basin over a wide range of the learning rate. Therefore, the LR finder only provides a rough estimation. But it is a good attempt to first run the LR finder to have an overall feeling. Besides, we should be aware that different optimizer takes different optimal LR values. As can be seen here, the AdamW in general requires a small LR than Ranger.
+The training loss forms a basin shape which indicates that the optimal learning rate falls somewhere in the middle. We extract two aspects from the plots. First, the basin covers a wide range, meaning that the LR finder only provides a rough estimation. But it is a good attempt to first run the LR finder to have an overall feeling. For the Ranger case (right figure), one can choose the range 1e-3 to 1e-2 and further determine the optminal learning rate by delivering the full training. Second, we should be aware that different optimizer takes different optimal LR values. As can be seen here, the AdamW in general requires a small LR than Ranger.
 
-In the choice of Ranger, we further optimize the LR based on the full training of our model. The reason is that although training the first set of 1000 mini-batches cannot manifest their true impact, in the real training when we have a scheduler to adapt smaller LR gradually, the difference of starting LR choices may take effect.
+### 2. Visualize the training with TensorBoard
 
-To monitor the full training/evaluation accuracy and the loss for each mini-batch, we can draw support from a nicely integrated utility, TensorBoard, to employ real-time monitoring. To activate TensorBoard, append (note that replace `${prefix}` according to the above table)
+To monitor the full training/evaluation accuracy and the loss for each mini-batch, we can draw support from a nicely integrated utility, TensorBoard, to employ real-time monitoring. See the introduction page from PyTorch: https://pytorch.org/tutorials/recipes/recipes/tensorboard_with_pytorch.html
+
+To activate TensorBoard, append (note that replace `${PREFIX}` according to the above table)
 ```bash
---tensorboard ${prefix}
+--tensorboard ${PREFIX}
 ```
-to the training command, then direct to `https://localhost:6008` for the TensorBoard UI.
+to the training command. The `runs/` subfolder containing the TensorBoard monitoring log will appear in the Weaver directory (if you are launching condor jobs, the `runs/` folder will be transferred back in the tarball). Then, one can run
+```bash
+tensorboard --logdir=runs
+```
+to start the TensorBoard service and go to URL `https://localhost:6006` to view the TensorBoard dashboard.
 
 The below plots show the training and evaluation loss, in our standard choice with LR being 5e-3, and in the case of a small LR 2e-3 and a large LR 1e-2. Note that all tested LR values are within the basin in the LR finder plots.
 
@@ -1213,7 +1336,7 @@ The below plots show the training and evaluation loss, in our standard choice wi
 
 We see that in the evaluated loss plot, the standard LR outperforms two variational choices. The reason may be that a larger LR finds difficulty in converging to the global minima, while a smaller LR may not be adequate to reach the minima point in a journey of 20 epochs. Overall, we see 5e-3 as a good choice as the starting LR for the Ranger optimizer.
 
-### 2. Optimize the model
+### 3. Optimize the model
 
 In practice, tuning the model size is also an important task. By concept, a smaller model tends to have unsatisfactory performance due to the limited ability to learn many local features. As the model size goes up, the performance will climb to some extent, but may further decrease due to the network "degradation" (deeper models have difficulty learning features). Besides, a heavier model may also cause the overfitting issue. In practice, it also leads to larger inference time which is the main concern when coming to real applications.
 
@@ -1257,6 +1380,20 @@ The Tensorboard monitoring plots in the training/evaluation loss is shown as fol
 ![pnet_compl_tensorboard_loss.png](images/pnet_compl_tensorboard_loss.png)
 
 We see that the "heavy" model reaches even smaller training loss, meaning that the model does not meet the degradation issue yet. However, the evaluation loss is not catching up with the training loss, showing some degree of overtraining in this scheme. From the evaluation result, we see no improvement by moving to a heavy model.
+
+### 4. Apply preselection and class weights
+
+In HEP applications, it is sometimes required to train a multi-class classifier. While it is simple to specify the input classes in the `label` section of the `Weaver` data config, it is sometimes ignored to set up the preselection and assign the suitable class weights for training. Using an unoptimized configuration, the trained model will not reach the best performance although no error message will result. 
+
+Since our top tagging example is a binary classification problem, there is no specific need to configure the preselection and class weights. Below we summarize some experiences that may be applicable in reader's custom multi-class training task.
+
+The preselection should be chosen in a way that all remaining events passing the selection should fall into one and only one category. In other words, events with no labels attached should not be kept since it will confuse the training process.
+
+Class weights (the `class_weights` option under `weights` in the data config) control the relative importance of input sample categories for training. Implementation-wise, it changes the event probability in a specific category chosen as training input events. The class weight comes into effect when one trains a multi-class classifier. Take 3-class case (denoted as [A, B, C]) as an example, the `class_weights: [1, 1, 1]` gives equal weights to all categories. Retraining the input with `class_weights: [10, 1, 1]` may result in a better discriminating power for class A vs. B or A vs. C; while the power of B separating with C will be weakened. As a trade-off between separating A vs. C and B vs. C, the class weights need to be intentionally tuned to achieve reasonable performance.
+
+After the class weights are tuned, one can use another method to further factor out the interplay across categories, i.e., to define a "binarized" score between two classes only. Suppose the raw score for the three classes are *P*(A), *P*(B), and *P*(C) (their sum should be 1), then one can define the discriminant *P*(BvsC) = *P*(B) / (*P*(B)+*P*(C)) to separate B vs. C. In this way, the saparating power of B vs. C will remain unchanged for `class_weights` configured as either `[1, 1, 1]` or `[10, 1, 1]`. This strategy has been widely used in CMS to define composite tagger discrimant which are applied analysis-wise.
+
+-------------
 
 Above, we discuss in a very detailed manner on various attempts we can make to optimize the model. We hope the practical experiences presented here will help readers develop and deploy the complex ML model.
 
