@@ -76,7 +76,7 @@ ParticleNet architecture is also applied on small radius *R*=0.4 jets for the b/
 Recent works in the joint field of HEP and ML also shed light on exploiting the point cloud data structure and GNN-based architectures. We see very active progress in recent years. Here list some useful materials for the reader's reference.
 
  - Some pheno-based work are summarized in the HEP × ML [living review](https://iml-wg.github.io/HEPML-LivingReview/), especially in the "graph" and "sets" categories.
- - An overview of GNN applications to CMS, See [CMS ML forum (CMS internal)](https://indico.cern.ch/event/952419/). Also see more recent GNN application progress in ML forums: [Oct 20](https://indico.cern.ch/event/1051967/), [Nov 3](https://indico.cern.ch/event/1081541/).
+ - An overview of GNN applications to CMS, see [CMS ML forum (CMS internal)](https://indico.cern.ch/event/952419/). Also see more recent GNN application progress in ML forums: [Oct 20](https://indico.cern.ch/event/1051967/), [Nov 3](https://indico.cern.ch/event/1081541/).
  - At the time of writing, various novel GNN-based models are explored and introduced in the recent [ML4Jets2021](https://indico.cern.ch/event/980214/timetable/?view=standard) meeting.
 
 
@@ -86,7 +86,7 @@ Recent works in the joint field of HEP and ML also shed light on exploiting the 
 
 Now we walk through three solid examples to get you familiar with `Weaver`. We use the benchmark of the top tagging task [[arXiv:1707.08966](https://arxiv.org/abs/1707.08966)] in the following example. Some useful information can be found in the "top tagging" section in the [IML public datasets webpage](https://iml.web.cern.ch/public-datasets) (the [gDoc](https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit)).
 
-Our goal is to do some warm-up with `Weaver`, and more importantly, to explore from a technical side the neural net architectures, from a simple multi-layer perceptron (MLP) model, to a more complicated "DeepAK8 tagger" model based on 1D CNN with ResNet, and eventually to the "ParticleNet model" which is based on DGCNN. We will dig deeper into their implementations in `Weaver` and try to illustrate as many details as possible. Finally, we compare their performance and see if we can reproduce the benchmark record with the model. Please clone the repo `weaver-benchmark` and we'll get started. The `Weaver` repo will be cloned as a submodule.
+Our goal is to do some warm-up with `Weaver`, and more importantly, to explore from a technical side the neural net architectures: a simple multi-layer perceptron (MLP) model, a more complicated "DeepAK8 tagger" model based on 1D CNN with ResNet, and the "ParticleNet model," which is based on DGCNN. We will dig deeper into their implementations in `Weaver` and try to illustrate as many details as possible. Finally, we compare their performance and see if we can reproduce the benchmark record with the model. Please clone the repo `weaver-benchmark` and we'll get started. The `Weaver` repo will be cloned as a submodule.
 ```bash
 git clone --recursive https://github.com/colizz/weaver-benchmark.git
 
@@ -97,13 +97,13 @@ ln -s ../top_tagging weaver-benchmark/weaver/top_tagging
 
 ### 1. Build models in `Weaver`
 
-When implementing a new training in `Weaver`, two key elements are crucial: the model and the data configuration file. The model defines the network architecture we are using, and the data configuration includes which variables to use for training, which pre-selection to apply and how to assign truth labels, etc.
+When implementing a new training in `Weaver`, two key elements are crucial: the model and the data configuration file. The model defines the network architecture we are using, and the data configuration includes which variables to use for training, which pre-selection to apply, how to assign truth labels, etc.
 
 Technically, The model configuration file includes a `get_model` function that returns a `torch.nn.Module` type model and a dictionary of model info used to export an ONNX-format model. The data configuration is a YAML file describing how to process the input data. Please see the `Weaver` README for details.
 
 Before moving on, we need a preprocessing of the benchmark datasets. The original sample is an H5 file including branches like energy `E_i` and 3-momenta `PX_i`, `PY_i`, `PZ_i` for each jet constituent *i* (*i*=0, ..., 199) inside a jet. All branches are in the 1D flat structure. We reconstruct the data in a way that the jet features are 2D vectors (e.g., in the `vector<float>` format): `Part_E`, `Part_PX`, `Part_PY`, `Part_PZ`, with variable-length that corresponds to the number of constituents. Note that this is a commonly used data structure, similar to the NanoAOD format in CMS.
 
-The datasets can be found at CERN EOS space `/eos/user/c/coli/public/weaver-benchmark/top_tagging/samples`. The input files used in this page are in fact the ROOT files produced by the preprocessing step, stored under `prep/` subdirectory. It includes three sets of data for training, validation, and test.
+The datasets can be found at CERN EOS space `/eos/user/c/coli/public/weaver-benchmark/top_tagging/samples`. The input files used in this page are in fact the ROOT files produced by the preprocessing step, stored under the `prep/` subdirectory. It includes three sets of data for training, validation, and test.
 
 !!! note
     To preprocess the input files from the original datasets manually, direct to the `weaver-benchmark` base directory and run
@@ -192,7 +192,7 @@ Then, we show three NN model configurations below and provide detailed explanati
             return torch.nn.CrossEntropyLoss()
         ```      
 
-    Below shows the full structure of the MLP network printed by PyTorch. You will see it in the `Weaver` output during the training.
+    The output below shows the full structure of the MLP network printed by PyTorch. You will see it in the `Weaver` output during the training.
 
     ??? hint "The full-scale structure of the MLP network"
         ```
@@ -451,7 +451,7 @@ Then, we show three NN model configurations below and provide detailed explanati
             return torch.nn.CrossEntropyLoss()
         ```
     
-    Below shows the full structure of the DeepAK8 model based on 1D CNN with ResNet. It is printed by PyTorch and you will see it in the `Weaver` output during training.
+    The output below shows the full structure of the DeepAK8 model based on 1D CNN with ResNet. It is printed by PyTorch and you will see it in the `Weaver` output during training.
     
     ??? hint "The full-scale structure of the DeepAK8 architecture"
 
@@ -1135,10 +1135,10 @@ Here we present three ways of training. For readers who have a local machine wit
 
     Here `--gpus 0,1` specifies the GPUs to run with the device ID 1 and 2. For training on CPUs, please use `--gpu ''`.
     
-    A detailed description of the training command can be found in [`Weaver` README](https://github.com/hqucms/weaver). We would say a few more words in the data loading options, because it depends on the scenarios we feed in the input data. Here are several caveats.
+    A detailed description of the training command can be found in [`Weaver` README](https://github.com/hqucms/weaver). Below we will note a few more caveats about the data loading options, though the specific settings will depend on the specifics of the input data.
 
     !!! warning "Caveats on the data loading options"
-        Our goal in data loading is to guarantee that the data loaded in every mini-batch is evenly distributed with different labels, though they are not necessarily stored evenly in the file. Besides, we also need to ensure that the on-the-fly loading and preprocessing of data should be smooth and not be a bottleneck of the data delivering pipeline. The total amount of loaded data also need to be controlled so as not to explode the entire memory. These all guide us on how we choose the correct option.
+        Our goal in data loading is to guarantee that the data loaded in every mini-batch is evenly distributed with different labels, though they are not necessarily stored evenly in the file. Besides, we also need to ensure that the on-the-fly loading and preprocessing of data should be smooth and not be a bottleneck of the data delivering pipeline. The total amount of loaded data also needs to be controlled so as not to explode the entire memory. The following guidelines should be used to choose the best options for your use case:
 
          - in the default case, data are loaded from every input file with a small proportion per fetch-step, provided by `--fetch-step` (default is 0.01). This adapts to the case when we have multiple classes of input, each class having multiple files (e.g., it adapts to the real CMS application because we may have multiple `nano_i.root` files for different input classes). The strategy gathered all pieces per fetch-step from all input files, shuffle them, and present the data we need in each regular mini-batch. One can also append `--num-workers n` with `n` being the number of paralleled workers to load the data.
          - `--fetch-step 1 --num-workers 1`. This strategy helps in the case we have few input files with data in different labels not evenly distributed. In the extreme case, we only have 1 file, with all data at the top being one class (signal) and data at the bottom being another class (background), or we have 2 or multiple files, each containing a specific class. In this option, `--fetch-step 1` guarantees the entire data in the file is loaded and participate in the shuffle. Therefore all classes are safely mixed before sending to the mini-batch. `--num-workers 1` means we only use one worker that takes care of all files to avoid inconsistent loading speeds of multiple workers (depending on CPUs). This strategy can further cooperate with `--in-memory` so that all data are put permanently in memory and will not be reloaded every epoch.
@@ -1389,9 +1389,9 @@ Since our top tagging example is a binary classification problem, there is no sp
 
 The preselection should be chosen in a way that all remaining events passing the selection should fall into one and only one category. In other words, events with no labels attached should not be kept since it will confuse the training process.
 
-Class weights (the `class_weights` option under `weights` in the data config) control the relative importance of input sample categories for training. Implementation-wise, it changes the event possibility in a specific category chosen as training input events. The class weight comes into effect when one trains a multi-class classifier. Take 3-class case (denoted as [A, B, C]) as an example, the `class_weights: [1, 1, 1]` gives equal weights to all categories. Retraining the input with `class_weights: [10, 1, 1]` may result in a better discriminating power for class A vs. B or A vs. C; while the power of B separating with C will be weakened. As a trade-off between separating A vs. C and B vs. C, the class weights need to be intentionally tuned to achieve reasonable performance.
+Class weights (the `class_weights` option under `weights` in the data config) control the relative importance of input sample categories for training. Implementation-wise, it changes the event probability in a specific category chosen as training input events. The class weight comes into effect when one trains a multi-class classifier. Take 3-class case (denoted as [A, B, C]) as an example, the `class_weights: [1, 1, 1]` gives equal weights to all categories. Retraining the input with `class_weights: [10, 1, 1]` may result in a better discriminating power for class A vs. B or A vs. C; while the power of B separating with C will be weakened. As a trade-off between separating A vs. C and B vs. C, the class weights need to be intentionally tuned to achieve reasonable performance.
 
-Despite the different options for the class weights, one method to factor out the interplay across categories is to define "binarized" score between two classes. Suppose the raw score for the three classes are *P*(A), *P*(B), and *P*(C) (their sum should be 1), then one can define the discriminant *P*(BvsC) = *P*(B) / (*P*(B)+*P*(C)) to separate B vs. C. In this way, the saparating power of B vs. C will remain unchanged for `class_weights` configured as either `[1, 1, 1]` or `[10, 1, 1]`. This strategy has been widely used in CMS to define composite tagger discrimant which are applied analysis-wise.
+After the class weights are tuned, one can use another method to further factor out the interplay across categories, i.e., to define a "binarized" score between two classes only. Suppose the raw score for the three classes are *P*(A), *P*(B), and *P*(C) (their sum should be 1), then one can define the discriminant *P*(BvsC) = *P*(B) / (*P*(B)+*P*(C)) to separate B vs. C. In this way, the saparating power of B vs. C will remain unchanged for `class_weights` configured as either `[1, 1, 1]` or `[10, 1, 1]`. This strategy has been widely used in CMS to define composite tagger discrimant which are applied analysis-wise.
 
 -------------
 
