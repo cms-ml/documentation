@@ -95,12 +95,10 @@ The training phase is managed by the `workflow.py` module which performs the fol
 A schematic representation of the steps performed in the MLaaS4HEP pipeline, in particular those inside the Data Streaming and Data Training layers, is:
 ![MLaaS4HEP-workflow](https://github.com/vkuznet/MLaaS4HEP/blob/master/images/mlaas4hep_workflow.png)
 
-:warning: **
+:warning:
 If the dataset is large and exceed the amount of RAM on the training node, then the user should consider the chunk approach. This allows to train the ML model each time using a different chunk, until the entire dataset is completely read. In this case the user should pay close attention to the ML model convergence, and validate it after each chunk. For more information look at [this](https://developers.google.com/machine-learning/glossary#convergence), [this](https://machinelearningmastery.com/premature-convergence/) and [this](https://machinelearningmastery.com/learning-curves-for-diagnosing-machine-learning-model-performance/).
-
 Using different training approach has pros and cons. For instance, training on entire dataset can guarantee the ML model convergence, but the dataset should fits into RAM of the training node. While chunk approach allows to split the dataset to fit in the hardware resources, but it requires proper model evaluation after each chunk training. In terms of training speed, this choice should be faster than training on the entire dataset, since after having used a chunk for training, that chunk is no longer read and used subsequently (this effect is prominent when remote ROOT files are used).
-
-Finally, user should be aware of potential divergence of ML model when training last chunk of the dataset and check for bias towards last chunk. For instance, user may implement a K-fold cross validation approach to train on N-1 chunks (i.e. folds in this case) and use one chunk for validation.**
+Finally, user should be aware of potential divergence of ML model when training last chunk of the dataset and check for bias towards last chunk. For instance, user may implement a K-fold cross validation approach to train on N-1 chunks (i.e. folds in this case) and use one chunk for validation.
 
 A detailed description of how to use the `workflow.py` module for training a ML model reading ROOT files from the opendata portal, can be found [here](https://github.com/vkuznet/MLaaS4HEP/blob/master/doc/workflow_recipe.md). Please see how the user has to provide several information when run the `workflow.py` module, e.g. the definition of the ML model, and then is task of MLaaS4HEP framework to perform all the training procedure using the ML model provided by the user.
 
