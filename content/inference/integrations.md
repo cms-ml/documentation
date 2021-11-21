@@ -1,3 +1,0 @@
-# Successful integrations
-
-Todo.
