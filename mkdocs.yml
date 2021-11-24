@@ -117,3 +117,7 @@ nav:
       - Successful integrations:
         - ParticleNet: inference/particlenet.md
 #    - Benchmarking:
+  - Resources:
+    - GPU Resources: Resources/GPU_Resources/index.md
+    # - Cloud Resources:
+    # - FPGA Resource:
