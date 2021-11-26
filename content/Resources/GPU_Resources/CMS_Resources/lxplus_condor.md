@@ -1,1 +1,5 @@
 # lxplus condor
+
+The `HTCondor` service @ `Lxplus` has GPU support. Therefore one can submit jobs on machine learning tasks to make use of this resources.
+
+A complete documentation can be found from the `GPUs` section in [CERN Batch Docs](https://batchdocs.web.cern.ch/tutorial/exercise10.html). Where a `Tensorflow` example is supplied. For `pytorch` users, it is worthwhile to take a look at [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). This repository not only contains tools for benchmarking, but also offers a good example on how to use `HTCondor` @ `Lxplus` to train `pytorch` ML models with `weaver`. Detailed explanation and tutorial on how to use [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark) can be found at section [`ParticleNet`](../../../inference/particlenet.md) of this documentation.

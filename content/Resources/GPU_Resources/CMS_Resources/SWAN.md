@@ -1,4 +1,5 @@
 # SWAN
+## Preparation
 
 1. Registration:
     1. On CERN service-now, there is a [ticket](https://cern.service-now.com/service-portal/?id=sc_cat_item&name=GPU-request-access&fe=gpu-platform), while we have not managed to access GPU resources with it.
@@ -30,4 +31,10 @@ Another important aspects is the environment script, which will be discussed lat
     
     ![Untitled](SWAN_figs/Untitled%204.png)
     
-3. After installing package, you can then use GPU based machine learning algorithms. Two examples are supplied as an example.
+
+## Examples 
+
+After installing package, you can then use GPU based machine learning algorithms. Two examples are supplied as an example.
+
+> 1). The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [PytorchMNIST](Notebooks/PytorchMNIST.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
+> 2). The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [TopTaggingMLP](Notebooks/TopTaggingMLP.md).
