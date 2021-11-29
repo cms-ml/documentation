@@ -108,6 +108,7 @@ nav:
         - TensorFlow 1: inference/tensorflow1.md
         - TensorFlow 2: inference/tensorflow2.md
 <<<<<<< HEAD
+<<<<<<< HEAD
 	- PyTorch: inference/pytorch.md
 	- PyTorch Geometric (PyG): inference/pyg.md
         - ONNX: inference/onnx.md
@@ -116,6 +117,11 @@ nav:
 	- PyG: inference/pyg.md
 	- ONNX: inference/onnx.md
 >>>>>>> 6ee9fa6... updating mkdocs.yml
+=======
+        - PyTorch: inference/pytorch.md
+	- PyG: inference/pyg.md
+	- ONNX: inference/onnx.md
+>>>>>>> 6ee9fa6af58d54b866118d5e1c2de7ede02c9c94
         - XGBoost: inference/xgboost.md
         - hls4ml: inference/hls4ml.md
       - Inference as a service:
