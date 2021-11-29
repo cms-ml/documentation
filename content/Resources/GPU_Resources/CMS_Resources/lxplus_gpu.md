@@ -48,13 +48,17 @@ Three examples are given below to show how to set up a software environment prop
         pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
         pip3 install jupyterlab matplotlib scikit-hep # install other packages if they are needed
         ```
+3. Using `conda` package manager: `conda` pacakge manager is more convenient to install and use. To begin with, obtaining an `Anaconda` or `Miniconda` installer for Linux x86_64 platform. Then execute it on Lxplus.
+
+    1. Please note that if you update your shell configuration (e.g. `.bashrc` file) by `conda init`, you may encounter failure due to inconsistent environment configuration.
+    2. Installing packages via `conda` also needs special consideration on selecting proper CUDA version as discussed in `pip` part.
+
+4. Container based solution: There exists several container images in `unpacked.cern.ch` inside `CVMFS` which often contain a large set of softwares and thus provide a complete computing environment. If you find a image helpful, you can use `singularity` command to load and use it.
+
 
 ## Examples 
 
 After installing package, you can then use GPU based machine learning algorithms. Two examples are supplied as an example.
 
 > 1). The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [PytorchMNIST](Notebooks/PytorchMNIST.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
-> 2). The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [TopTaggingMLP](Notebooks/TopTaggingMLP.md).## Examples:
-
-In this section two pytorch examples are offered to illustrate how to use them.
-
+> 2). The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [TopTaggingMLP](Notebooks/TopTaggingMLP.md).

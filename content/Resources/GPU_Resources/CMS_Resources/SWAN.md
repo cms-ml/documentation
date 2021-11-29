@@ -2,8 +2,7 @@
 ## Preparation
 
 1. Registration:
-    1. On CERN service-now, there is a [ticket](https://cern.service-now.com/service-portal/?id=sc_cat_item&name=GPU-request-access&fe=gpu-platform), while we have not managed to access GPU resources with it.
-    2. In the ticket thread, we were informed another approach in requiring GPU resources for SWAN: According to [this thread](https://swan-community.web.cern.ch/t/gpu-support-in-swan/108), one can create a ticket through [this link](https://cern.service-now.com/service-portal?id=functional_element&name=swan).
+    To require GPU resources for SWAN: According to [this thread](https://swan-community.web.cern.ch/t/gpu-support-in-swan/108), one can create a ticket through [this link](https://cern.service-now.com/service-portal?id=functional_element&name=swan) to ask for GPU support at SWAN, it is now in beta version and limited to a small scale.
 2. Setup SWAN with GPU resources.
     1. Once the registration is done, one can login [SWAN with Kerberes8 support](https://swan-k8s.cern.ch/) and then create his SWAN environment.
         
