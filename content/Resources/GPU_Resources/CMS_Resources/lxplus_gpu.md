@@ -2,19 +2,17 @@
 
 ## How to use it?
 
-`lxplus-gpu` are special lxplus nodes with GPU support. Therefore, via executing 
+`lxplus-gpu` are special lxplus nodes with GPU support. You can access these nodes by executing 
 
 ```bash
 ssh <your_user_name>@lxplus-gpu.cern.ch
 ```
 
-one can log in to such a node equipped with GPU support.
-
-![Untitled](LxplusGPU_figs/Untitled.png)
+![Untitled](LxplusGPU_figs/Nvidia_SMI.png)
 
 ## Software Environment
 
-Three examples are given below to show how to set up a software environment properly.
+Four examples are given below to show how to set up a software environment properly.
 
 1. Using LCG release software: after checking out an ideal software bundle with Cuda support at [`http://lcginfo.cern.ch/`](http://lcginfo.cern.ch/), one can set up an LCG environment by executing
   
@@ -41,7 +39,7 @@ Three examples are given below to show how to set up a software environment prop
         
     3. To install packages properly, one should carefully check the CUDA version with `nvidia-smi` (as shown in figure before), and then find a proper version, pytorch is used as an example.
       
-        ![Untitled](LxplusGPU_figs/Untitled1.png)
+        ![Untitled](LxplusGPU_figs/pip.png)
         
         ```bash
         # Execute the command shown in your terminal
@@ -53,12 +51,15 @@ Three examples are given below to show how to set up a software environment prop
     1. Please note that if you update your shell configuration (e.g. `.bashrc` file) by `conda init`, you may encounter failure due to inconsistent environment configuration.
     2. Installing packages via `conda` also needs special consideration on selecting proper CUDA version as discussed in `pip` part.
 
-4. Container based solution: There exists several container images in `unpacked.cern.ch` inside `CVMFS` which often contain a large set of softwares and thus provide a complete computing environment. If you find a image helpful, you can use `singularity` command to load and use it.
-
+4. Container based solution: The unpacked.cern.ch mount on CVMFS contains many singularity images, some of which are suitable for machine learning applications. A description of each of the images is beyond the scope of this document. However, if you find an image which is useful for your application, you can use if by running a Singularity container with the appropriate options. For example:
+```bash
+singularity run --nv --bind <bind_mount_path> /cvmfs/unpacked.cern.ch/<path_to_image>
+```
 
 ## Examples 
 
 After installing package, you can then use GPU based machine learning algorithms. Two examples are supplied as an example.
 
-> 1). The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [PytorchMNIST](Notebooks/PytorchMNIST.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
-> 2). The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [TopTaggingMLP](Notebooks/TopTaggingMLP.md).
+1. The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [PytorchMNIST](Notebooks/PytorchMNIST.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
+
+2. The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [TopTaggingMLP](Notebooks/TopTaggingMLP.md).

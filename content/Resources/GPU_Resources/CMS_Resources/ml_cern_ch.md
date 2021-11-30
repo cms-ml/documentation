@@ -6,7 +6,7 @@
 [`Kubeflow`](https://www.kubeflow.org/docs/started/introduction/) is a Kubernetes based ML toolkits aiming at making deployments of ML workflows simple, portable and scalable. In Kubeflow, *pipeline* is an important concept. Machine Learning workflows are discribed as a Kubeflow *pipeline* for execution.
 
 ## How to access
-[`ml.cern.ch`](https://ml.cern.ch) only accepts connection from CERN internet. Therefore, if you are outside of CERN a network tunneling will be needed (e.g. via `ssh -D` dynamical port forwarding as proxy). The main website are shown below.
+[`ml.cern.ch`](https://ml.cern.ch) only accepts connections from within the CERN network. Therefore, if you are outside of CERN, you will need to use a network tunnel (eg. via `ssh -D` dynamic port forwarding as a SOCKS5 proxy)... The main website are shown below.
 
 ![Untitled](./MLCERN_figs/Untitled.png)
 ## Examples

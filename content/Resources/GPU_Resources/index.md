@@ -1,13 +1,9 @@
 # CMS GPU Resources
-
-# Facilities
-
-1. Collaboration-wide GPU resources
     
-    [SWAN](CMS_Resources/SWAN.md)
+1.    [SWAN](CMS_Resources/SWAN.md)
     
-    [lxplus-gpu.cern.ch](CMS_Resources/lxplus_gpu.md)
+2.    [lxplus-gpu.cern.ch](CMS_Resources/lxplus_gpu.md)
 
-    [HTCondor](CMS_Resources/lxplus_condor.md)
+3.    [HTCondor](CMS_Resources/lxplus_condor.md)
         
-    [ml.cern.ch](CMS_Resources/ml_cern_ch.md)
+4.    [ml.cern.ch](CMS_Resources/ml_cern_ch.md)

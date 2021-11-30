@@ -118,6 +118,6 @@ nav:
         - ParticleNet: inference/particlenet.md
 #    - Benchmarking:
   - Resources:
-    - GPU Resources: Resources/GPU_Resources/index.md
     - Cloud Resources: Resources/Cloud_Resources/index.md
     - FPGA Resource: Resources/FPGA_Resources/index.md
+    - GPU Resources: Resources/GPU_Resources/index.md
