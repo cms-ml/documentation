@@ -8,7 +8,7 @@
 ## How to access
 [`ml.cern.ch`](https://ml.cern.ch) only accepts connections from within the CERN network. Therefore, if you are outside of CERN, you will need to use a network tunnel (eg. via `ssh -D` dynamic port forwarding as a SOCKS5 proxy)... The main website are shown below.
 
-![Untitled](./MLCERN_figs/Untitled.png)
+![Untitled](./MLCERN_figs/ML_CERN_Snapshot.png)
 ## Examples
 After logging into the main website, you can click on the `Examples` entry to browser a [gitlab repository](https://gitlab.cern.ch/ai-ml/examples) containing a lot of examples. For instance, below are two examples from that repository with a well-documented `readme` file.
 
