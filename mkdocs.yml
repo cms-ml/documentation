@@ -116,6 +116,9 @@ nav:
       - Performance: inference/performance.md
       - Successful integrations:
         - ParticleNet: inference/particlenet.md
+    - Training:
+      - Training as a Service:
+        - MLaaS4HEP: training/MLaaS4HEP.md
 #    - Benchmarking:
   - Resources:
     - Cloud Resources: Resources/Cloud_Resources/index.md
