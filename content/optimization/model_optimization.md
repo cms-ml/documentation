@@ -179,7 +179,7 @@ At each iteration, more noisy samples are added, until the distance between cons
 
 There are three main limitations to the BO approach. A good overview of these limitations and of possible solutions can be found in [arXiv:1206.2944](https://arxiv.org/abs/1206.2944).
 
-First of all, it is unclear what is an appropriate choice for the covariance function and its associated hyperparameters. In particular, the standard squared exponential kernel is often too smooth. As a workaround, alternative kernels may be used: a common choice is the Mat\'ern 5/2 kernel, which is similar to the squared exponential one but allows for non-smoothness.
+First of all, it is unclear what is an appropriate choice for the covariance function and its associated hyperparameters. In particular, the standard squared exponential kernel is often too smooth. As a workaround, alternative kernels may be used: a common choice is the Mat&eacute;rn 5/2 kernel, which is similar to the squared exponential one but allows for non-smoothness.
 
 Another issue is that, for certain problems, the function evaluation may take very long to compute. To overcome this, often one can replace the function evaluation with the Monte Carlo integration of the expected improvement over the GP hyperparameters, which is faster.
 
