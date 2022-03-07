@@ -1,7 +1,7 @@
-Data plays a crucial role in the process of training any ML model. It is something from which the model learns to solve a given task and therefore care needs to be taken with its handling:
+Data plays a crucial role in the process of training any ML model. It is something from which the model learns to solve a given task and therefore care needs to be taken with its handling. There are two main considerations when collecting and preparing data for an ML task:
 
-1. By making sure that a data set is relevant to the problem and no deviation from expectations is introduced. This makes sure that the model doesn't incorporate undesired fluctuations or features.
-1. By performing a proper preprocessing of the data set so that the training step goes smoothly.
+1. The data set should be relevant to the problem and should represent the underlying structure of the problem without containing potential biases and irrelevant deviations (e.g. MC simulation artefacts).
+1. A proper preprocessing of the data set should be performed so that the training step goes smoothly.
 
 In this section a general [domain perspective](https://en.wikipedia.org/wiki/Domain_adaptation) on data will be covered. In the following sections a more granular look will be taken from the side of features and construction of inputs to the model.
 
@@ -15,14 +15,16 @@ To begin with, one needs to bear in mind that training data should be as close a
 
 ### Solution    
 
+It is particularly not easy to build a model entirely robust to domain shift, so there is no general framework yet to approach and recover for discrepancies between training and inference domains altogether. However, there is research ongoing in this direction and several methods to recover for specific deviations have been already proposed.
+
 It is a widely known practice to introduce **scale factor** (SF) **corrections** to account for possible discrepancies between data and MC simulation. Effectively, that means that the model is probed on some part of the domain on which it wasn't trained on (data) and then corrected for any differences by using a meaningful set of observables to derive SFs. One particularly promising approaches to remedy for data/MC domain difference is to use adversarial approaches to fully leverage the multidimensionality of the problem, as described in a [DeepSF note](https://cds.cern.ch/record/2666647).
 
 Another solution would be to incorporate methods of [**domain adaptation**](https://github.com/zhaoxin94/awesome-domain-adaptation) into an ML pipeline, which essentially guide the model to be invariant and robust towards domain shift. Particularly in HEP, a [Learning to Pivot with Adversarial Networks](https://arxiv.org/pdf/1611.01046.pdf) paper was one of the pioneers to investigate how a pile-up dependency can be mitigated, which can also be easily expanded to building a model robust to domain shift[^1].  
 
-Last but not the least, a usage of [**bayesian neural networks**]() has a great advantage of getting uncertainties estimate along with each prediction. If these uncertainties are significantly larger for some samples, this could indicate that they come from the domain beyond the training one (a so-called [out-of-distribution samples](https://ai.googleblog.com/2019/12/improving-out-of-distribution-detection.html)) - and therefore care needs to be taken in that cases.
+Last but not the least, a usage of [**bayesian neural networks**](../../inference/bayes.md) has a great advantage of getting uncertainties estimate along with each prediction. If these uncertainties are significantly larger for some samples, this could indicate that they come from the domain beyond the training one (a so-called [out-of-distribution samples](https://ai.googleblog.com/2019/12/improving-out-of-distribution-detection.html)). This [post hoc analysis](https://arxiv.org/abs/1904.10004) of prediction uncertainties, for example, can point to inconsistencies in or incompleteness of MC simulation/ data-driven methods of the background estimation.
 
 ## Population
-Furthermore, nowadays analyses are searching for very rare processes and therefore are interested in low-populated regions of the phase space. And even though the domain of interest can be covered in the training data set, it may also happen that not sufficiently in terms of data points populating those regions. That makes the model behaviour on an event which falls into those regions unpredictable - because it couldn't learn how to generalise in those areas due to a lack of data to learn from. Therefore,
+Furthermore, nowadays analyses are searching for very rare processes and therefore are interested in low-populated regions of the phase space. And even though the domain of interest may be covered in the training data set, it may also not be _sufficiently_ covered in terms of the number of samples in the training data set, which populate those regions. That makes the model behaviour on an event which falls into those regions unpredictable - because it couldn't learn how to generalise in those areas due to a lack of data to learn from. Therefore,
 > It is important to make sure that the phase space of interest is well-represented in the training data set.
 
 ??? example "Example"
