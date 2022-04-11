@@ -90,7 +90,7 @@ train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 ### The *Message Passing* Base Class: PyG GNNs 
 The 2017 paper [Neural Message Passing for Quantum Chemistry](https://arxiv.org/abs/1704.01212) presents a unified framework for a swath of GNN architectures known as *message passing neural networks* (MPNNs). MPNNs are GNNs whose feature updates are given by:
 
-$\mathbf{x}_i^{(k)} = \gamma^{(k)} \left( \mathbf{x}_i^{(k-1)}, \square_{j \in \mathcal{N}(i)} \, \phi^{(k)}\left(\mathbf{x}_i^{(k-1)}, \mathbf{x}_j^{(k-1)},\mathbf{e}_{j,i}\right) \right)$
+$$\mathbf{x}_i^{(k)} = \gamma^{(k)} \left( \mathbf{x}_i^{(k-1)}, \square_{j \in \mathcal{N}(i)} \, \phi^{(k)}\left(\mathbf{x}_i^{(k-1)}, \mathbf{x}_j^{(k-1)},\mathbf{e}_{j,i}\right) \right)$$
 
 Here, $\gamma$ and $\phi$ are learnable functions (which we can approximate as multilayer perceptrons), $\square$ is a permutation-invariant function (e.g. mean, max, add), and $\mathcal{N}(i)$ is the neighborhood of node $i$. In PyG, you'd write your own MPNN by using the `MessagePassing` base class, implementing each of the above mathematical objects as an explicit function. 
 
@@ -102,9 +102,10 @@ The specific implementations of `message()`, `propagate()`, and `update()` are u
 
 #### Message-Passing with ZINC Data
 Returning to the ZINC molecular compound dataset, we can design a message-passing layer to aggregate messages across molecular graphs. Here, we'll define a multi-layer perceptron (MLP) class and use it to build a message passing layer (MPL) the following equation:
+
 $$\mathbf{x}_i' = \gamma \left( \mathbf{x}_i, \frac{1}{|\mathcal{N}(i)|}\sum_{j \in \mathcal{N}(i)} \, \phi\left([\mathbf{x}_i, \mathbf{x}_j,\mathbf{e}_{j,i}\right]) \right)$$
 
-Here, the MLP dimensions are constrained. Since $\textbf{x}_i,\textbf{e}_{i,j}\in\mathbb{R}$, the $\phi$ MLP must map $\mathbb{R}^3$ to $\mathbb{R}^{\text{message_size}}$. Similarly, $\gamma$ must map $\mathbb{R}^{1+\text{message_size}}$ to $\mathbb{R}^{\text{output_size}}$. 
+Here, the MLP dimensions are constrained. Since $\textbf{x}_i,\textbf{e}_{i,j}\in\mathbb{R}$, the $\phi$ MLP must map $\mathbb{R}^3$ to $\mathbb{R}^\mathrm{message\_size}$. Similarly, $\gamma$ must map $\mathbb{R}^\mathrm{1+\text{message\_size}}$ to $\mathbb{R}^\mathrm{output\_size}$. 
 ```python
 from torch_geometric.nn import MessagePassing
 import torch.nn as nn
@@ -152,31 +153,3 @@ xprime.shape
 >>> torch.Size([29, 8]) # 29 atoms and 8 features
 ```
 There we have it - the message passing layer has produced 8 new features for each atom. 
-
-## GDL in Particle Physics
-Here we list some examples of GDL in particle physics, citing git repositories where applicable. For a complete list of ML/HEP references, please see the [Living Review of ML for Particle Physics](https://iml-wg.github.io/HEPML-LivingReview/)
-### Survey Papers / Articles 
-- [Graph Neural Networks in Particle Physics](https://arxiv.org/abs/2007.13681) (paper, 2021)
-- [The Next Big Thing: The Use of Graph Neural Networks to Discover New Particles](https://news.fnal.gov/2020/09/the-next-big-thing-the-use-of-graph-neural-networks-to-discover-particles/) (article, 2021)
-- [Graph Neural Networks for Particle Reconstruction in High Energy Physics](https://inspirehep.net/literature/1788428) (paper, 2020)
-
-### GNN Tracking
-#### Exa.TrkX ([git repo](https://exatrkx.github.io/))
-- [Physics and Computing Performance of the Exa.TrkX TrackML Pipeline](https://arxiv.org/abs/2103.06995) (paper, 2021)
-- [Graph Neural Network for Object Reconstruction in Liquid Argon Time Projection Chambers](https://arxiv.org/abs/2103.06233) (paper, 2021)
-#### IRIS-HEP Accelerated GNN Tracking ([project homepage](https://iris-hep.org/projects/accel-gnn-tracking.html))
-- [Charged Particle Tracking via Edge-Classifying Interaction Networks](http://inspirehep.net/record/1854743) (paper, 2021)
-- [Instance Segmentation GNNs for One-Shot Conformal Tracking at the LHC](http://inspirehep.net/record/1851132) (paper, 2020)
-- [Acelerated Charged Particle Tracking with Graph Neural Networks on FPGAs](http://inspirehep.net/record/1834621)
-#### HEP.TrkX ([git repo](https://heptrkx.github.io/))
-- [Charged Particle Tracking Using Graph Neural Networks](https://indico.cern.ch/event/742793/contributions/3274328/) (talk, 2019)
-- [Novel Deep Learning Methods for Track Reconstruction](https://arxiv.org/abs/1810.06111) (paper, 2018)
-
-### GNN Calorimetry
-- [Distance-Weighted Graph Neural Networks on FPGAs for Real-Time Particle Reconstruction in High Energy Physics](https://arxiv.org/abs/2008.03601) (paper, 2020)
-    - PyG Implementation: [GravNetConv]( https://pytorch-geometric.readthedocs.io/en/latest/modules/nn.html#torch_geometric.nn.conv.GravNetConv)
-- [Learning representations of irregular particle-detector geometry with distance-weighted graph networks](https://link.springer.com/article/10.1140/epjc/s10052-019-7113-9) (paper, 2019)
-
-### GNN Jet Classification
-- [Supervised Jet Clustering with Graph Neural Networks for Lorentz Boosted Bosons](https://arxiv.org/abs/2008.06064) (paper, 2020)
-- [Casting a Graph Net to Detect Dark Showers](https://arxiv.org/abs/2006.08639) (paper, 2020)

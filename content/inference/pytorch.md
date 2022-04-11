@@ -143,11 +143,12 @@ The complete list of Torch Tensor operations is available in the [docs](https://
 #### Autograd
 
 Backpropagation occurs automatically through autograd. For example, consider the following function and its derivatives:
-\begin{align} 
+
+$$\begin{aligned} 
 f(\textbf{a}, \textbf{b}) &= \textbf{a}^T \textbf{X} \textbf{b} \\ 
 \frac{\partial f}{\partial \textbf{a}} &= \textbf{b}^T \textbf{X}^T\\
 \frac{\partial f}{\partial \textbf{b}} &= \textbf{a}^T \textbf{X}
-\end{align}
+\end{aligned}$$
 
 Given specific choices of $\textbf{X}$, $\textbf{a}$, and $\textbf{b}$, we can calculate the corresponding derivatives via autograd by requiring a gradient to be stored in each relevant tensor:
 ```python 
@@ -215,11 +216,11 @@ The PyTorch *nn* package specifies a set of modules that correspond to different
 
 As an example, we can design a simple neural network designed to reproduce the output of the XOR operation on binary inputs. To do so, we can compute a simple NN of the form:
 
-\begin{align}
+$$\begin{aligned}
 x_{in}&\in\{0,1\}^{2}\\
 l_1 &= \sigma(W_1^Tx_{in} + b_1); \ W_1\in\mathbb{R}^{2\times2},\ b_1\in\mathbb{R}^{2}\\
 l_2 &= \sigma(W_2^Tx + b_2); \ W_2\in\mathbb{R}^{2},\ b_1\in\mathbb{R}\\
-\end{align}
+\end{aligned}$$
 
 ``` Python
 import torch.nn as nn
@@ -390,7 +391,7 @@ There we have it - the NN learned XOR!
 One way to incorporate your PyTorch models into CMSSW is through the [Open Neural Network Exchange](https://www.onnxruntime.ai/about.html) (ONNX) Runtime tool. In brief, ONNX supports training and inference for a variety of ML frameworks, and is currently integrated into CMSSW (see the CMS ML tutorial).  PyTorch hosts an excellent tutorial on [exporting a model from PyTorch to ONNX](https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html). ONNX is available in CMSSW (see a relevant [discussion](https://github.com/cms-sw/cmssw/issues/27458) in the CMSSW git repo). 
 
 #### Example Use Cases 
-The ZZ\\(\rightarrow\\)4b analysis utilizes trained PyTorch models via ONNX in CMSSW (see the corresponding [repo](https://github.com/patrickbryant/ZZ4b/blob/master/README.md)). Briefly, they run ONNX in CMSSW_11_X via the CMSSW package `PhysicsTools/ONNXRuntime`, using it to define a [multiClassifierONNX](https://github.com/patrickbryant/ZZ4b/blob/5931a21d8005683e23166c0b44b9594b52ad1126/nTupleAnalysis/interface/multiClassifierONNX.h) class. This multiclassifier is capable of loading pre-trained PyTorch models specified by a `modelFile` string as follows:
+The $ZZ\rightarrow 4b$ analysis utilizes trained PyTorch models via ONNX in CMSSW (see the corresponding [repo](https://github.com/patrickbryant/ZZ4b/blob/master/README.md)). Briefly, they run ONNX in CMSSW_11_X via the CMSSW package `PhysicsTools/ONNXRuntime`, using it to define a [multiClassifierONNX](https://github.com/patrickbryant/ZZ4b/blob/5931a21d8005683e23166c0b44b9594b52ad1126/nTupleAnalysis/interface/multiClassifierONNX.h) class. This multiclassifier is capable of loading pre-trained PyTorch models specified by a `modelFile` string as follows:
 
 ``` C++
 #include "PhysicsTools/ONNXRuntime/interface/ONNXRuntime.h"
@@ -407,4 +408,4 @@ Coprocessors (GPUs, FPGAs, etc.) are frequently used to accelerate ML operations
 A Graph Attention Network (GAN) is available via Triton in CMSSW, and can be accessed here: https://github.com/cms-sw/cmssw/tree/master/HeterogeneousCore/SonicTriton/test
 
 ## Training Tips
-- When instantiating a `DataLoader`, `shuffle=True` should be enabled for training data but not for validation and testing data. At each training epoch, this will vary the order of data objects in each batch; accordingly, it is not efficient to load the full dataset (in its original ordering) into GPU  memory before training. Instead, enable `num_workers>1`; this allows the `DataLoader` to load batches to the GPU as they're prepared. Note that this launches muliple processerson the CPU. For more information, see a corresponding [discussion](https://discuss.pytorch.org/t/keras-trains-significantly-faster-than-pytorch-for-simple-network/124303/5) in the PyTorch forum. 
+- When instantiating a `DataLoader`, `shuffle=True` should be enabled for training data but not for validation and testing data. At each training epoch, this will vary the order of data objects in each batch; accordingly, it is not efficient to load the full dataset (in its original ordering) into GPU  memory before training. Instead, enable `num_workers>1`; this allows the `DataLoader` to load batches to the GPU as they're prepared. Note that this launches muliple threads on the CPU. For more information, see a corresponding [discussion](https://discuss.pytorch.org/t/keras-trains-significantly-faster-than-pytorch-for-simple-network/124303/5) in the PyTorch forum. 
