@@ -97,7 +97,7 @@ nav:
 #    - IML:
   - Tutorials:
     - Optimization:
-      - Model optimization: optimization/introduction.md
+      - Model optimization: optimization/model_optimization.md
       - Feature importance: optimization/importance.md
       - Data augmentation: optimization/data_augmentation.md
     - Validation:
