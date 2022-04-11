@@ -7,15 +7,15 @@ A complete reveiw of GDL is available in the following recently-published (and f
 
 
 ### The *Data* Class: PyG Graphs 
-Graphs are data structures involving nodes $\nu_i$ connected by edges $e_{i,j}$. In a fully connected graph, every node is connected by an edge, so that $N_{edges}=N_{nodes}(N_{nodes}-1)/2$. However, graphs are not generally fully-connected; edge connectivity defines the local structure of the graph, specifying the relationship between different nodes. In general, nodes can have positions $\{pos_i\}_{i=1}^{N_{nodes}}$, $pos_i\in\mathcal{R}^{N_{dim}}$, and features (attributes) $\{x_i\}_{i=1}^{N_{nodes}}$, $x_i\in\mathcal{R}^{N_{node\_features}}$.
+Graphs are data structures designed to encode data structured as a set of objects and relations. Objects are embedded as graph nodes $u\in\mathcal{V}$, where $\mathcal{V}$ is the node set. Relations are represented by edges $(i,j)\in\mathcal{E}$ between nodes, where $\mathcal{E}$ is the edge set. Denote the sizes of the node and edge sets as $|\mathcal{V}|=n_\mathrm{nodes}$ and $|\mathcal{E}|=n_\mathrm{edges}$ respectively. The choice of edge connectivity determines the local structure of a graph, which has important downstream effects on graph-based learning algorithms. Graph construction is the process of embedding input data onto a graph structure. Graph-based learning algorithms are correspondingly imbued with a relational inductive bias based on the choice of graph representation; a graph's edge connectivity defines its local structure. The simplest graph construction routine is to construct no edges, yielding a permutation invariant set of objects. On the other hand, fully-connected graphs connect every node-node pair with an edge, yielding $n_\mathrm{edges}=n_\mathrm{nodes}(n_\mathrm{nodes}-1)/2$ edges. This representation may be feasible for small inputs like particle clouds corresponding to a jet, but is intractible for large-scale applications such as high-pileup tracking datasets. Notably, dynamic graph construction techniques operate on input point clouds, constructing edges on them dynamically during inference. For example, EdgeConv and GravNet GNN layers dynamically construct edges between nodes projected into a latent space; multiple such layers may be applied in sequence, yielding many intermediate graph representations on an input point cloud.
 
-Edges, too, can have features $\{a_i\}_{i=1}^{N_{edges}}$, $a_i\in\mathcal{R}^{N_{edge\_features}}$,, but do not have positions; instead, edges are defined by the nodes they connect, and may therefore be represented by two node indices (i.e. $e_{i,j}=[i,j]$ connects $\nu_i$ and $\nu_j$). In PyG, graphs are stored as instances of the `data` class, whose fields fully specify the graph:
+In general, nodes can have positions $\{p_i\}_{i=1}^{n_\mathrm{nodes}}$, $p_i\in\mathbb{R}^{n_\mathrm{space\_dim}}$, and features (attributes) $\{x_i\}_{i=1}^{n_\mathrm{nodes}}$, $x_i\in\mathbb{R}^{n_\mathrm{node\_dim}}$. In some applications like GNN-based particle tracking, node positions are taken to be the features. In others, e.g. jet identification, positional information may be used to seed dynamic graph consturction while kinematic features are propagated as edge features. Edges, too, can have features $\{e_{ij}\}_{(i,j)\in\mathcal{E}}$, $e_{ij}\in\mathbb{R}^{n_\mathrm{edge\_dim}}$, but do not have positions; instead, edges are defined by the nodes they connect, and may therefore be represented by, for example, the distance between the respective node-node pair. In PyG, graphs are stored as instances of the `data` class, whose fields fully specify the graph:
 
-- `data.x`: node feature matrix, $X\in\mathcal{R}^{N_{nodes}\times N_{node\_features}}$
-- `data.edge_index`: node indices at each end of each edge, $E\in\mathcal{R}^{2\times N_{edges}}$ 
-- `data.edge_attr`: edge feature matrix, $A\in\mathcal{R}^{N_{edges}\times N_{edge\_features}}$ 
-- `data.y`: training target with arbitary shape ($y\in\mathcal{R}^{N_{nodes}\times N_*}$ for node-level targets, $y\in\mathcal{R}^{N_{edges}\times N_*}$ for edge-level targets or $y\in\mathcal{R}^{1\times N_*}$ for node-level targets). 
-- `data.pos`: Node position matrix, $P\in\mathcal{R}^{N_{nodes}\times N_{dim}}$
+- `data.x`: node feature matrix, $X\in\mathbb{R}^{n_\mathrm{nodes}\times n_\mathrm{node\_dim}}$
+- `data.edge_index`: node indices at each end of each edge, $I\in\mathbb{R}^{2\times n_\mathrm{edges}}$ 
+- `data.edge_attr`: edge feature matrix, $E\in\mathbb{R}^{n_\mathrm{edges}\times n_\mathrm{edge\_dim}}$ 
+- `data.y`: training target with arbitary shape ($y\in\mathbb{R}^{n_\mathrm{nodes}\times n_\mathrm{out}}$ for node-level targets, $y\in\mathbb{R}^{n_\mathrm{edges}\times n_\mathrm{out}}$ for edge-level targets or $y\in\mathbb{R}^{1\times n_\mathrm{out}}$ for node-level targets). 
+- `data.pos`: Node position matrix, $P\in\mathbb{R}^{n_\mathrm{nodes}\times n_\mathrm{space\_dim}}$
  
  
 The PyG [Introduction By Example](https://pytorch-geometric.readthedocs.io/en/latest/notes/introduction.html) tutorial covers the basics of graph creation, batching, transformation, and inference using this `data` class. 
@@ -90,11 +90,11 @@ train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 ### The *Message Passing* Base Class: PyG GNNs 
 The 2017 paper [Neural Message Passing for Quantum Chemistry](https://arxiv.org/abs/1704.01212) presents a unified framework for a swath of GNN architectures known as *message passing neural networks* (MPNNs). MPNNs are GNNs whose feature updates are given by:
 
-$$\mathbf{x}_i^{(k)} = \gamma^{(k)} \left( \mathbf{x}_i^{(k-1)}, \square_{j \in \mathcal{N}(i)} \, \phi^{(k)}\left(\mathbf{x}_i^{(k-1)}, \mathbf{x}_j^{(k-1)},\mathbf{e}_{j,i}\right) \right)$$
+$$x_i^{(k)} = \gamma^{(k)} \left(x_i^{(k-1)}, \square_{j \in \mathcal{N}(i)} \, \phi^{(k)}\left(x_i^{(k-1)}, x_j^{(k-1)},e_{ij}\right) \right)$$
 
 Here, $\gamma$ and $\phi$ are learnable functions (which we can approximate as multilayer perceptrons), $\square$ is a permutation-invariant function (e.g. mean, max, add), and $\mathcal{N}(i)$ is the neighborhood of node $i$. In PyG, you'd write your own MPNN by using the `MessagePassing` base class, implementing each of the above mathematical objects as an explicit function. 
 
-- `MessagePassing.message()` : define an explicit NN for $\phi$, use it to calculate "messages" between a node $x_i^{(k-1)}$ and its neighbors $x_j^{(k-1)}$, $j\in\mathcal{N}(i)$, leveraging edge features $e_{j,i}$ if applicable
+- `MessagePassing.message()` : define an explicit NN for $\phi$, use it to calculate "messages" between a node $x_i^{(k-1)}$ and its neighbors $x_j^{(k-1)}$, $j\in\mathcal{N}(i)$, leveraging edge features $e_{ij}$ if applicable
 - `MessagePassing.propagate()` : in this step, messages are calculated via the `message` function and aggregated across each receiving node; the keyword `aggr` (which can be `'add'`, `'max'`, or `'mean'`) is used to specify the specific permutation invariant function $\square_{j\in\mathcal{N}(i)}$ used for message aggregation. 
 - `MessagePassing.update()` : the results of message passing are used to update the node features $x_i^{(k)}$ through the $\gamma$ MLP 
 
@@ -103,9 +103,9 @@ The specific implementations of `message()`, `propagate()`, and `update()` are u
 #### Message-Passing with ZINC Data
 Returning to the ZINC molecular compound dataset, we can design a message-passing layer to aggregate messages across molecular graphs. Here, we'll define a multi-layer perceptron (MLP) class and use it to build a message passing layer (MPL) the following equation:
 
-$$\mathbf{x}_i' = \gamma \left( \mathbf{x}_i, \frac{1}{|\mathcal{N}(i)|}\sum_{j \in \mathcal{N}(i)} \, \phi\left([\mathbf{x}_i, \mathbf{x}_j,\mathbf{e}_{j,i}\right]) \right)$$
+$$x_i' = \gamma \left(x_i, \frac{1}{|\mathcal{N}(i)|}\sum_{j \in \mathcal{N}(i)} \, \phi\left([x_i, x_j, e_{j,i}\right]) \right)$$
 
-Here, the MLP dimensions are constrained. Since $\textbf{x}_i,\textbf{e}_{i,j}\in\mathbb{R}$, the $\phi$ MLP must map $\mathbb{R}^3$ to $\mathbb{R}^\mathrm{message\_size}$. Similarly, $\gamma$ must map $\mathbb{R}^\mathrm{1+\text{message\_size}}$ to $\mathbb{R}^\mathrm{output\_size}$. 
+Here, the MLP dimensions are constrained. Since $x_i, e_{i,j}\in\mathbb{R}$, the $\phi$ MLP must map $\mathbb{R}^3$ to $\mathbb{R}^\mathrm{message\_size}$. Similarly, $\gamma$ must map $\mathbb{R}^{1+\mathrm{\mathrm{message\_size}}}$ to $\mathbb{R}^\mathrm{out}$. 
 ```python
 from torch_geometric.nn import MessagePassing
 import torch.nn as nn
