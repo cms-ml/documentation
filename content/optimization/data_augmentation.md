@@ -1,5 +1,7 @@
 # Data augmentation
-*The introduction is based on papers by [Shorten & Khoshgoftaar, 2019][0x] and [Rebuffi et al., 2021][0c] among others*
+
+## Introduction
+*This introduction is based on papers by [Shorten & Khoshgoftaar, 2019][0x] and [Rebuffi et al., 2021][0c] among others*
 
 With the increasing complexity and sizes of neural networks one needs huge amounts of data in order to train a state-of-the-art model. However, generation of this data is often a very resource heavy and time consuming process. Thus one might either augment the existing data with more descriptive variables or combat the data scarcity problem by artificially increasing the size of the dataset by adding new instances without the resource heavy generation process. Both methods, augmenting the existing data without adding new instances and increasing the amount of training data in order to improve the accuracy and robustness of a given model are known in machine learning (ML) applications as *data augmentation (DA)* methods. The first of the methods is more widely known as *feature generation* or *feature engineering* and is done on instance level, whereas the latter one is done on dataset level.
 
@@ -7,30 +9,90 @@ As shown by [Freer & Yang, 2020][0a], then introducing noise into data to form a
 
 The dataset level data augmentation techniques can generally be divided into two main categories: *synthetic data augmentation* (SDA) and *real data augmentation* (RDA). As the name suggests, then with SDA one generates new (genuine-like) data from scratch, whereas with RDA one makes minor changes to the already existing data in order to generate new samples.
 
-Examples of RDA include rotating (e.g if we expect the event to be rotationally symmetric) and zooming among plethora of other methods detailed in this overview, whereas GAN and VAE are examples of SDA.
+Examples of RDA include rotating (e.g if we expect the event to be rotationally symmetric) and zooming among plethora of other methods detailed in this overview article, whereas GAN and VAE are examples of SDA.
 
 
 | ![Data Augmentation](./images/data_augmentation.png "Data augmentation") |
 |:--:|
-| *Generic pipeline of a heuristic DA (figure taken from [Li, 2020][0b])* |
+| Fig. 1: *Generic pipeline of a heuristic DA (figure taken from [Li, 2020][0b])* |
+
+
+Before diving more in depth into the various applications of DA in HEP (and in general), here is a list of the most notable **benefits of using DA** methods in your ML workflow:
+
+- Improvement of model prediction precision
+- More training data for the model
+- Preventing data scarcity for state-of-the-art models
+- Reduction of over overfitting and creation of data variability
+- Increased model generalization properties
+- Help in resolving class imbalance problems in datasets
+- Reduced cost of data collection and labeling
+- Enabling rare event prediction
+
 
 
 <!-- 1. -->
-## DA applications in HEP 
-
-
-### Feature engineering for physics analysis
+## Feature engineering for physics analysis
 *This part is based mostly on [Erdmann et al., 2018][1x]*
 
-Feature engineering is one of the key parts of machine learning workflow. Feature engineering transforms and augments training data with additional features in order to make the training more effective.
-However, with deep learning one could start already with only raw features and the features will be created as the network learns.
+Feature engineering (FE) is one of the key components of a machine learning workflow.
+It transforms and augments training data with additional features in order to make the training more effective.
+
+Usually these features are manually engineered based on physics reasoning.
+As input for ML methods in particle physics, these so-called high-level variables were in many cases superior to the direct use of particle four-momenta, often referred to as low-level variables.
+However, with deep learning one could start already with only raw features and they will be created as the network learns.
+
+Still, it is shown that DNN can perform better if they are trained with both specifically constructed variables and low-level varibales.
+This observation suggests that the networks extract additional information from the training data.
+
+For the purposeses of FE in HEP a novel ML architecture called a *Lorentz Boost Network (LBN)* (see Fig. 2) was proposed and implemented by [Erdmann et al., 2018][1x]. It is a multipurpose method that uses Lorentz transformations to exploit and uncover structures in particle collision events.
+LBN is only the first stage of a two-stage neural network (NN) model, that enables a fully autonomous and comprehensive characterization of collision events by exclusively exploiting the four-momenta of the final-state particles.
+The authors observed leading performance with the LBN and demonstrated that LBN forms physically meaningful particle combinations and autonomously generates suitable characteristic variables.
+
+Within LBN the creation of particle combinations representing rest frames takes place while also enabling the formation of further composite particles, which is realized via linear combinations of N input four-vectors to a number of M particles and rest frames.
+Subsequently these composite particles are then transformed into said rest frames by Lorentz transformations in an efficient and fully vectorized implementation.
+
+The properties of the composite, transformed particles are compiled in the form of characteristic variables like masses, angles, etc. that serve as input for a subsequent network - the second stage, which has to be configured for a specific analysis task, like classification.
 
 
-**To be completed**
+So the usual ML workflow employing the LBN is as follows:
+
+```
+Step-1: LBN(M, F)
+
+    1.0: Input hyperparameters: number of combinations M; number of features F
+    1.0: Choose: number of incoming particles, N, according to the research
+         question
+
+    1.1: Combination of input four-vectors to particles and rest frames
+
+    1.2: Lorentz transformations
+
+    1.3 Extraction of suitable high-level objects
+
+
+Step-2: NN
+
+    2.X: Train some form of a NN using an objective function that depends on
+         the analysis / research question.
+
+```
+
+
+| ![LBN](./images/LBN_architecture.png "Lorentz Boost Network architecture") |
+|:--:|
+| Fig. 2: *The Lorentz Boost Network architecture (figure taken from [Erdmann et al., 2018][1x])* |
+
+
+The [LBN package](https://github.com/riga/LBN) is also pip-installable:
+
+```bash
+pip install lbn
+```
 
 
 
-### Jet tagging
+
+## Jet tagging
 *This section and the following two subsections are based on the papers by [Dolan & Ore, 2021][1a] and [Bradshaw et al., 2019][1b]*
 
 In order to tag jets over a wide range of transverse momenta of jet masses, one often needs multiple networks trained on a specific narrow range of transverse momenta. However this is undesirable, since  training data for the entire range over which the model will be used is necessary. Furthermore this introduces unnecessary complexity to the tagger. One way to overcome the problem is to train a mass-generalized jet tagger, where with a simple DA strategy we standardize the angular scale of jets with different masses - this kind of strategy is shown to produce a strong generalization by [Dolan & Ore, 2021][1a].
@@ -43,7 +105,7 @@ In conclusion [Dolan & Ore, 2021][1a] found that mass-generalization is not nece
 When jets are zoomed, all the models they compared behave similarly with far less correlation than the unzoomed baseline, where zooming provides a strong generalization for all models and leads to relatively small dependence on jet mass.
 
 
-#### Planing
+### Planing
 *This section is based on the papers by [Chang et al., 2018][1c] and [Oliveira et al., 2017][1d]*
 
 Planing is one of many different approaches to understanding a networks discrimination power and is used  for identifying combinations of variables that can discriminate signal from background is done by removing information, where the performance degradation of the new network provides diagnostic value.
@@ -51,7 +113,11 @@ Additionally it allows the investigation of the linear versus nonlinear nature o
 
 Planing was one of the first methods for mass decorrelation that was explored in ML studies of jet physics. The planing procedure introduces reweighing of the data to smooth away the features in a given variable as shown in (1), which in practice corresponds to binning the variable and inverting it. However, doing this produces still some finite bin effects. This weighing results in having uniform distributions in signal and background such that the jet mass no longer provides discrimination. New networks trained on the modified data.
 
-![Planing weights](./images/planing.png "Planing weights") ........................ (1)
+<!-- ![Planing weights](./images/planing.png "Planing weights") ........................ (1) -->
+
+| ![Planing weights](./images/planing.png "Planing weights") |
+|:--:|
+| *Planing weights (Eq. 1)* |
 
 By iteratively planing training data, it is possible to remove the machine's ability to classify. As a by-product, the planed variables determine combinations of input variables that explain the machine's discriminating power.
 
@@ -62,7 +128,7 @@ Yet another method would be to train networks using only the high-level variable
 However planing has two advantages over the previously described methods. First, the number of input parameters would typically change when going from only low level to only high level variables. Unlike planing this requires altering the network architecture. This in turn can impact the [optimization of hyperparameters](./model_optimization.md), thereby complicating the comparison. Furthermore this method suffers the same issue as saturation in that as the limit towards ideal performance is achieved, one is forced to take seriously small variations in the metrics. If there are not enough training trials to adequately determine the errors, these small variations could be incorrectly interpreted as consistent with zero. This can again be contrasted with planing in that our approach yields a qualitative drop in performance and is more straightforward to interpret.
 
 
-#### Zooming
+### Zooming
 *This section is based on the papers by [Barnard et al., 2016][1e]*
 
 Zooming is used in implementations of scale-invariant NN based taggers by reducing the pT dependence of the model. It leads to an improvement of around 10-20% in performance across a wide range of jet transverse momenta.
@@ -84,6 +150,7 @@ Advantage of using the zooming technique is that it makes the construction of sc
 As predicted the zoomed network outperforms the unzoomed one, particularly at low signal efficiency, where the background rejection rises by around 20%. Zooming has the greatest effect at high pT.
 
 Here one can find the full jet image construction and preprocessing steps:
+
 - Jet clustering and trimming
 - translation
 - pixelization
@@ -117,34 +184,7 @@ Qualitatively, no accuracy deterioration was observed due to scaling the dataset
 <!-- 2. -->
 ## DA methods for increasing amount of training data
 
-Some of the common techniques used in data augmentation include:
-
-- Extrapolation Technique: Based on heuristics. The relevant fields are updated or provided with values.
-- Tagging Technique: Common records are tagged to a group, making it easier to understand and differentiate for the group.
-- Aggregation Technique: Using mathematical values of averages and means, values are estimated for relevant fields if needed
-- Probability Technique: Based on heuristics and analytical statistics, values are populated based on the probability of events.
-
-[https://www.techopedia.com/definition/28033/data-augmentation]
-
-**To be completed**
-
-
-### DA for images
-
-Classic image processing activities for data augmentation are:
-
-cropping
-random rotating,
-translation ( image is moved along X, Y direction)
-padding,
-re-scaling,
-vertical and horizontal flipping
-zooming
-darkening & brightening/color modification
-grayscaling
-changing contrast
-adding noise
-
+Although there exist many DA methods in classic image processing like listed below, usually these methods are not suitable for the tasks at hand in HEP.
 
 - Geometric transformations (flip, crop, rotate, translate, etc.)
 - Color space transformations (change RGB color channels, intensify color)
@@ -152,28 +192,48 @@ adding noise
 - Random erasing (of a part of the image)
 - Image mixing
 
+Some common tools used in HEP applications are describen in the following sections.
 
 ### Generative Adversarial Networks (GANs)
 *The following text is written based on the works by [Musella & Pandolfi, 2018][2a] and [Hashemi et al., 2019][2b] and [Kansal et al., 2022][2c] and [Rehm et al., 2021][2d] and [Choi & Lim, 2021][2e] and [Kansal et al., 2020][2f]*
+
+
+In the paper by [Musella & Pandolfi, 2018][2a] they apply generative models parametrized by neural networks (GANs in particular) to the simulation of particle+detector response to hadronic jets and show that this achieves high-fidelity in this task while incresing the speed w.r.t traditional algorithms by several orders of magnitude.
+
+Their model is trained to be capable of predicting the combined effect of particle detector simulation models and reconstruction algorithms to hadronic jets.
+
+[Musella & Pandolfi, 2018][2a]: Generative adversarial networks (GANs) are pairs of neural networks, a generative and a discriminative one, that are trained concurrently as players of a minimax game. The task of the generative network is to produce, starting from a latent space with a ficed distribution, samples that the discriminative model tries to separate from samples drawn from a target dataset. This kind of setup allows the distribution of the target dataset to be learned, provided that both of the networks have high enough capacity.
+
+The architecture of the networks and the problem formulation, that can be classified as a domain mapping one, are based on the **image-to-image** translation, since the hadronic jets are represented as "gray-scale" images of fixed size centered around the jet axis, with the pixel intensity corresponding to the energy fraction in a given cell.
+The few differences taylored explicitly for jet images are that they model the set of non-empty picels in the generated images (much sparser than in natural images) and a good modelling of the pixel intensity is enforced through the combined use of feature matching and of a dedicated adversarial classifier. The generator is also conditioned on a number of auxiliary features.
+
+By predicting directly the objects used at analysis level and thus reproducing the output of both detector simulation and reconstruction algorithms they reduce the computation time. This kind of philosophy is very similar to parametrized detectors simulations, whicha re used in HEP for phenomenological studies. The attained accuracies are comparable to the full simulation and reconstruction chain.
+
 
 More recently, data augmentation studies have begun to focus on the field of deep learning, more specifically on the ability of generative models to create artificial data which is then introduced during the classification model training process.
 
 In data sciences data augmentation techniques are used to increase the amount by either synthetically creating (GAN) data from already existing samples or modifying the data at hand with small noise or rotation. ([Rebuffi et al., 2021][0c])
 
+The generative model approximates the combined response of aparticle detecor simulation and reconstruction algorithms to hadronic jets given the latent space of uniformly distributed noise, auxiliary features and jet image at particle level (jets clustered from the list of stable particles produced by PYTHIA).
 
 
-GANs have been proposed as a fast and accurate way of modeling high energy jet formation[23] and modeling showers through calorimeters of high-energy physics experiments.[24] [25] [26] [27] GANs have also been trained to accurately approximate bottlenecks in computationally expensive simulations of particle physics experiments. Applications in the context of present and proposed CERN experiments have demonstrated the potential of these methods for accelerating simulation and/or improving simulation fidelity.[28] [29]
-
-**To be completed**
+GANs have been proposed as a fast and accurate way of modeling high energy jet formation ([Paganini et al., 2017a][2o]) and modeling showers throughcalorimeters of high-energy physics experiments ([Paganini et al., 2017][2n] ; [Paganini et al., 2012][2m];  [Erdman et al., 2020][2l]; [Musella & Pandolfi, 2018][2a]) GANs have also been trained to accurately approximate bottlenecks in computationally expensive simulations of particle physics experiments. Applications in the context of present and proposed CERN experiments have demonstrated the potential of these methods for accelerating simulation and/or improving simulation fidelity[ (ATLAS Collaboration, 2018][2p];  [SHiP Collaboration, 2019][2q]).
 
 
 <!-- [GANs for generating EFT models](https://arxiv.org/pdf/1809.02612.pdf) -->
 
 ### Variational autoencoders (VAEs)
 *The following section is partly based on [Otten et al., 2021][2g]*
-<!-- also for GANs -->
 
-**To be completed**
+
+In contrast to the vanilla (undercomplete, sparse, contractive or other) autoencoder (AE) that outputs a single value for each encoding dimension, variational autoencoders (VAEs) provide a probabilistic manner for describing an observation in latent space.
+
+In case of VAEs, the encoder model is sometimes referred to as the recognition model and the decoder model as generative model.
+
+By constructing the encoder model to output a distribution of the values from which we randomly sample to feed into our decoder model, we are enforcing a continuous, smooth latent space representation.
+Thus we expect our decoder model to be able to accurately reconstruct the input for any sampling of the latent distributions, which then means that values residing close to each other in latent space should have very similar reconstructions.
+
+
 
 
 <!-- ### Transformation Adversarial Networks for Data Augmentations (TANDA) -->
@@ -183,12 +243,12 @@ GANs have been proposed as a fast and accurate way of modeling high energy jet f
 *Text in part based on [He et al., 2010][2k]*
 
 Generally speaking, imbalanced learning occurs whenever some type of data distribution dominates the instance space compared to other data distributions. The state-of-the-art research methodologies for handling imbalanced learning problems can be into the following five major directions:
+
 - **[Sampling strategies](#sampling)**
 - **Synthetic data generation ([SMOTE](#synthetic-minority-over-sampling-technique-smote) & [ADASYN](#adaptive-synthetic-sampling-approach) & DataBoost-IM)**  - aims to overcome the imbalance by artificially generating data samples.
 - **Cost-sensitive learning** - uses cost-matrix for different types of errors or instance to facilitate learning from imbalanced data sets. This means that cost-sensitive learning does not modify the imbalanced data distribution directly, but targets this problem by using different cost-matrices that describe the cost for misclassifying any particular data sample.
 - **Active learning** - conventionally used to solve problems related to unlabeled data, though recently it has been more actively used in learning imbalanced data sets. Instead of searching the entire training space, this method effectively selects informative instances from a random set of training populations, therefore significantly reducing the computational cost when dealing with large imbalanced data sets.
 - **Kernel-based methods** - by integrating the regularized orthogonal weighed least squares (ROWLS) estimator, a kernel classifier construction algorithm is based on orthogonal forward selection (OFS) to optimize the model generalization for learning from two-class imbalanced data sets.
-
 
 
 Classification tasks benefit when the class distribution of the response variable is well balanced. A popular method in addition to data augmentation to solve the problem of class imbalance is [sampling](#sampling).
@@ -199,8 +259,8 @@ Precision is a better measure of classifier performance for imbalanced dataset t
 Accuracy paradox for imbalance datasets.
 Another way of overcoming this problem would be to sample.
 
-### Sampling
 
+### Sampling
 
 The re-sampling techniques are implemented in four different categories: undersampling the majority class, oversampling the minority class, combining over- and undersampling, and ensembling sampling.
 
@@ -222,7 +282,7 @@ Today there are more promising techniques that try to improve the disadvantages 
 **NOTE:** STS is only useful the population can be exhaustively partitioned into disjoint sobgroups. Also in case of unknown class priors (the ratio of strata to the whole population) might have deleterious effects on the classification performance.
 
 #### Over- and undersampling
-Oversampling means (randmly) duplicating the minority class samples, while undersampling discards the majority class samples in order to modify the class distribution. Though oversampling might lead to overfittings [ref??], since it makes exact copies of the minority samples while undersampling may discard potentially useful majority samples.
+Oversampling means (randmly) duplicating the minority class samples, while undersampling discards the majority class samples in order to modify the class distribution. Though oversampling might lead to overfitting, since it makes exact copies of the minority samples while undersampling may discard potentially useful majority samples.
 
 
 Combination of SMOTE and undersampling performs better than only undersampling the majority class.
@@ -236,9 +296,31 @@ Both oversampling and undersampling involve introducing a bias to select more sa
 #### Synthetic Minority Over-sampling Technique (SMOTE)
 *Text mostly based on [Chawla et al., 2002][2j] and in part on [He et al., 2010][2k]*
 
-Synthetic Minority Over-sampling Technique (SMOTE) generates an arbitrary number of synthetic minority examples to shift the classifier learning bias toward the minority class. There also exist extensions of this work like SMOTE-Boost in which the syntetic procedure was integrated with adaptive boosting techniques to change the method of updating weights to better compensate for skewed distributions.
+In case of Synthetic Minority Over-sampling Technique (SMOTE), the minority class is over sampled by creating synthetic examples instead of oversampling with replacement.
+The minority class is oversampled by taking each minority class sample and introducing synthetic examples along the line segments joining any or all of the k minority class nearest neighbours.
+The synthetic examples cause the classifier to create larger and less specific decision regions, rather than smaller and more specific regions.
+More general regions are now learned for the minority class samples rather than those being subsumed by the majority class samples around them.
+In this way SMOTE shifts the classifier learning bias toward the minority class and thus has the effect of allowing the model to generalize better.
 
-**To be completed**
+There also exist extensions of this work like SMOTE-Boost in which the syntetic procedure was integrated with adaptive boosting techniques to change the method of updating weights to better compensate for skewed distributions.
+
+So in general SMOTE proceeds as follows
+```
+SMOTE(N, X, k)
+Input: N - Number of synthetic samples to be generated
+       X - Underrepresented data
+       k - Hyperparameter of number of nearest neighbours to be chosen
+
+Create an empty list SYNTHETIC_SAMPLES
+While N_SYNTHETIC_SAMPLES < N
+    1. Randomly choose an entry xRand from X
+    2. Find k nearest neighbours from X
+    3. Randomly choose an entry xNeighbour from the k nearest neighbours
+    4. Take difference dx between the xRand and xNeighbour
+    5. Multiply dx by a random number between 0 and 1
+    6. Append the result to SYNTHETIC_SAMPLES
+Extend X by SYNTHETIC_SAMPLES
+```
 
 
 #### Adaptive synthetic sampling approach (ADASYN)
@@ -258,6 +340,7 @@ For more details and comparisons of ADASYN to other algorithms, please see [He e
 [Imbalanced-learn](https://imbalanced-learn.org/stable/user_guide.html) is an open-source Python library which provides a suite of algorithms for treating the class imbalance problem.
 
 For augmentig image data, one can use of of the following:
+
 - Albumentations
 - ImgAug
 - Autoaugment
@@ -267,10 +350,10 @@ For augmentig image data, one can use of of the following:
 But it is also possible to use tools directly implemented by tensorflow, keras etc. For example:
 
 ```python
-flipped_image = tf.image.flip_left_right(iamge)
+flipped_image = tf.image.flip_left_right(image)
 ```
 
-## Tips and Tricks
+## Words of caution
 
 - There is no 'one size fits all' in DA. Each dataset and usecase should be considered separately.
 - Don't trust the augmented data blindly
@@ -278,19 +361,6 @@ flipped_image = tf.image.flip_left_right(iamge)
 - There must be no unnecessary duplication of existing data, only by adding unique information we gain more insights.
 - Ensure the validity of the augmented data before using it in ML models.
 - If a real dataset contains biases, data augmented from it will contain biases, too. So, identification of optimal data augmentation strategy is important. So, double check your DA strategy.
-
-## Benefits of DA
-
-Among the many benefits that DA provides for the model training, the most notable ones are:
-
-- Improvement of model prediction precision
-- More training data for the model
-- Preventing data scarcity for state-of-the-art models
-- Reduction of over overfitting and creation of data variability
-- Increased model generalization properties
-- Help in resolving class imbalance problems in datasets
-- Reduced cost of data collection and labeling
-- Enabling rare event prediction
 
 
 ## Open challenges in Data Augmentation
@@ -315,7 +385,7 @@ Reinforcement learning: Reinforcement learning models train software agents to a
 
 
 
-References:
+References
 -----
 
 - [Shorten & Khoshgoftaar, 2019, "A survey on Image Data Augmentationfor Deep Learning"][0x]
@@ -342,6 +412,12 @@ References:
 - [Au et al., 2010, "Mining Rare Events Data by Sampling and Boosting: A Case Study"][2i]
 - [Chawla et al., 2002, "SMOTE: Synthetic Minority Over-sampling Technique"][2j]
 - [He et al., 2010, "ADASYN: Adaptive Synthetic Sampling Approach for Imbalanced Learning"][2k]
+- [Erdman et al., 2020, "Precise simulation of electromagnetic calorimeter showers using a Wasserstein Generative Adversarial Network"][2l]
+- [Paganini et al., 2012, "CaloGAN: Simulating 3D High Energy Particle Showers in Multi-Layer Electromagnetic Calorimeters with Generative Adversarial Networks"][2m]
+- [Paganini et al., 2017, "Accelerating Science with Generative Adversarial Networks: An Application to 3D Particle Showers in Multi-Layer Calorimeters"][2n]
+- [Paganini et al., 2017, "Learning Particle Physics by Example: Location-Aware Generative Adversarial Networks for Physics Synthesis"][2o]
+- [ATLAS Collaboration, 2018, "Deep generative models for fast shower simulation in ATLAS"][2p]
+- [SHiP Collaboration, 2019, "Fast simulation of muons produced at the SHiP experiment using Generative Adversarial Networks"][2q]
 
 [0x]: https://journalofbigdata.springeropen.com/track/pdf/10.1186/s40537-019-0197-0.pdf
 [0a]: https://iopscience.iop.org/article/10.1088/1741-2552/ab57c0
@@ -367,8 +443,12 @@ References:
 [2i]: https://link.springer.com/chapter/10.1007/978-3-642-12035-0_38
 [2j]: https://www.jair.org/index.php/jair/article/view/10302/24590
 [2k]: http://sci2s.ugr.es/keel/pdf/algorithm/congreso/2008-He-ieee.pdf
-
-
+[2l]: https://arxiv.org/pdf/1807.01954.pdf
+[2m]: https://arxiv.org/pdf/1712.10321.pdf
+[2n]: https://arxiv.org/pdf/1705.02355.pdf
+[2o]: https://arxiv.org/pdf/1701.05927.pdf
+[2p]: https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PUBNOTES/ATL-SOFT-PUB-2018-001/
+[2q]: https://arxiv.org/abs/1909.04451.pdf
 <!-- [CLAMP: Class-conditional Learned Augmentations for Model Patching] -->
 
 
