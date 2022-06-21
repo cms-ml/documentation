@@ -153,8 +153,8 @@ from sklearn.datasets import load_wine
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
 
-breast_cancer = load_breast_cancer()
-X_train, X_val, y_train, y_val = train_test_split(wine.data, wine.target, random_state=0)
+data = load_breast_cancer()
+X_train, X_val, y_train, y_val = train_test_split(data.data, data.target, random_state=0)
 print(X_train.shape)
 >>> (426, 30)
 print(y_train.shape)
@@ -207,7 +207,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer
 
-breast_cancer = load_breast_cancer()
+data = load_breast_cancer()
 X, y = data.data, data.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
