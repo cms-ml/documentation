@@ -95,6 +95,13 @@ nav:
 #    - AI Ethics Primer:
 #    - CMS Internal:
 #    - IML:
+  - Innovation:
+    - ML Journal Club: innovation/journal_club.md
+    - ML Hackathons: innovation/hackathons.md
+  - Resources:
+    - Cloud Resources: Resources/Cloud_Resources/index.md
+    - FPGA Resource: Resources/FPGA_Resources/index.md
+    - GPU Resources: Resources/GPU_Resources/index.md
   - Tutorials:
     - Optimization:
       - Model optimization: optimization/model_optimization.md
@@ -126,7 +133,3 @@ nav:
       - Training as a Service:
         - MLaaS4HEP: training/MLaaS4HEP.md
 #    - Benchmarking:
-  - Resources:
-    - Cloud Resources: Resources/Cloud_Resources/index.md
-    - FPGA Resource: Resources/FPGA_Resources/index.md
-    - GPU Resources: Resources/GPU_Resources/index.md
