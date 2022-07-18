@@ -1,9 +1,10 @@
 # Feature Importance
 Feature importance is the impact a specific input field has on a prediction model's output. In general, these impacts can range from no impact (i.e. a feature with no variance) to perfect correlation with the ouput. There are several reasons to consider feature importance: 
 
-  - Important features can be used in simplified models, e.g. to mitigate overfitting.  
+  - Important features can be used to create simplified models, e.g. to mitigate overfitting.
+  - Using only important features can reduce the latency and memory requirements of the model. 
   - The relative importance of a set of features can yield insight into the nature of an otherwise opaque model (improved interpretability). 
-  - Feature importance rankings can be used to reject unimportant features in applications where sparsity is required. 
+  - If a model is sensitive to noise, rejecting irrelevant inputs may improve its performance. 
 
 In the following subsections, we detail several strategies for evaluating feature importance. We begin with a general discussion of feature importance at a high level before offering a code-based tutorial on some common techniques. We conclude with additional notes and comments in the last section. 
 
@@ -240,11 +241,37 @@ for i in r.importances_mean.argsort()[::-1][:10]:
 
 In this case, even the most permutation important features have mean importance scores $<0.007$, which doesn't indicate much importance. This is surprising, because we saw via RFE that a linear SVM can achieve $\approx 88\%$ classification accuracy with this feature alone. This indicates that worst concave points, in addition to other meaningful features, may belong to subclusters of correlated features. In the corresponding [scikit-learn example](https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py), the authors show that subsets of correlated features can be extracted by calculating a dendogram and selecting representative features from each correlated subset. They achieve $97\%$ accuracy (the same as with the full dataset) by selecting only five such representative variables. 
 
-# Examples from the LHC Community
-## Mapping NN Outputs to Inputs
-Paper: [Identifying the Relevant Dependencies of the Neural Network Response on Characteristics of the Input Space](https://arxiv.org/abs/1803.08782). 
+# Feature Importance in Decision Trees
+Here we focus on decision trees, which are particularly interpretable classifiers that often appear as ensembles (or *boosted decision tree (BDT)* algorithms) in HEP. Consider a classification dataset $X=\{x_n\}_{n=1}^{N}$, $x_n\in\mathbb{R}^{D}$, with truth labels $Y=\{y_n\}_{n=1}^N$, $y_n\in\{1,...,C\}$ corresponding $C$ classes. These truth labels naturally partition $X$ into subsets $X_c$ with class probabilities $p(c)=|X_c|/|X|$. Decision trees begin with a root node $t_0$ containing all of $X$. The tree is grown from the root by recursively splitting the input set $X$ in a principled way; internal nodes (or branch nodes) correspond to a decision of the form 
 
-##
+$$\begin{aligned}
+&(x_n)_d\leq\delta \implies\ \text{sample}\ n\ \text{goes to left child node}\\
+&(x_n)_d>\delta \implies\ \text{sample}\ n\ \text{goes to right child node}
+\end{aligned}$$
+
+We emphasize that the decision boundary is drawn by considering a single feature field $d$ and partitioning the $n^\mathrm{th}$ sample by the value at that feature field. Decision boundaries at each internal parent node $t_P$ are formed by choosing a "split criterion," which describes how to partition the set of elements at this node into left and right child nodes $t_L$, $t_R$ with $X_{t_L}\subset X_{t_P}$ and $X_{t_R}\subset X_{t_P}$, $X_{t_L}\cup X_{t_R}=X_{t_P}$. This partitioning is optimal if $X_{t_L}$ and $X_{t_R}$ are pure, each containing only members of the same class. *Impurity measures* are used to evaluate the degree to which the set of data points at a given tree node $t$ are not pure. One common impurity measure is Gini Impurity, 
+
+$$\begin{aligned} 
+I(t) = \sum_{c=1}^C p(c|t)(1-p(c|t))
+\end{aligned}$$
+
+Here, $p(c|t)$ is the probability of drawing a member of class $c$ from the set of elements at node $t$. For example, the Gini impurity at the root node (corresponding to the whole dataset) is 
+
+$$\begin{aligned} 
+I(t_0) = \sum_{c=1}^C \frac{|X_c|}{|X|}(1-\frac{|X_c|}{|X|})
+\end{aligned}$$
+
+In a balanced binary dataset, this would give $I(t_0)=1/2$. If the set at node $t$ is pure, i.e. class labels corresponding to $X_t$ are identical, then $I(t)=0$. We can use $I(t)$ to produce an optimal splitting from parent $t_p$ to children $t_L$ and $t_R$ by defining an *impurity gain*, 
+
+$$\begin{aligned}
+\Delta I = I(t_P) - I(t_L) - I(t_R)
+\end{aligned}$$
+
+This quantity describes the relative impurity between a parent node and its children. If $X_{t_P}$ contains only two classes, an optimal splitting would separate them into $X_{p_L}$ and $X_{p_R}$, producing pure children nodes with $I(t_L)=I(t_R)=0$ and, correspondingly, $\Delta I = I(t_P)$. Accordingly, good splitting decisions should maximize impurity gain. In general, a pure node cannot be split further and must therefore be a leaf. Likewise, a node for which there is no splitting yielding $\Delta I > 0$ must be labeled a leaf. These splitting decisions are made recursively at each node in a tree until some stopping condition is met. Stopping conditions may include maximum tree depths or leaf node counts, or threshhold on the maximum impurity gain. 
+
+Impurity gain gives us insight into the importance of a decision. In particular, larger $\Delta I$ indicates a more important decision. If some feature $(x_n)_d$ is the basis for several decision splits in a decision tree, the sum of impurity gains at these splits gives insight into the importance of this feature. Accordingly, one measure of the feature importance of $d$ as the average (with respect to the total number of internal nodes) impurity gain imparted by decision split on $d$. This method generalizes to the case of BDTs, in which case one would average this quantity across all weak learner trees in the ensemble. 
+
+Note that though decision trees are based on the feature $d$ producing the best (maximum impurity gain) split at a given branch node, *surrogate splits* are often used to retain additional splits corresponding to features other than $d$. Denote the feature maximizing the impurity gain $d_1$ and producing a split boundary $\delta_1$. Surrogte splitting involves tracking secondary splits with boundaries $\delta_2, \delta_3,...$ corresponding to $d_2,d_3,...$ that have the highest correlation with the maximum impurity gain split. The upshot is that in the event that input data is missing a value at field $d_1$, there are backup decision boundaries to use, mitigating the need to define multiple trees for similar data. Using this generalized notion of a decision tree, wherein each branch node contains a primary decision boundary maximizing impurity gain and several additional surrogate split boundaries, we can average the impurity gain produced at feature field $d$ over all its occurances as a decision split or a surrogate split. This definition of feature importance generalizes the previous to include additional correlations. 
 
 # Additional References
 ## SHAP
