@@ -150,7 +150,7 @@ For this value of $\alpha$, we see that the model has rejected the age, s4, and 
 Another common strategy is recursive feature elimination (RFE). Though RFE can be used for regression applications as well, we turn our attention to a classification task for the sake of variety. The following discussions are based on the [Breast Cancer Wisconsin Diagnostic Dataset](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+Diagnostic), which maps 30 numeric features corresponding to digitized breast mass images to a binary classification of benign or malignant. 
 
 ```python
-from sklearn.datasets import load_wine
+from sklearn.datasets import load_breast_cancer
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
 
@@ -267,18 +267,135 @@ $$\begin{aligned}
 \Delta I = I(t_P) - I(t_L) - I(t_R)
 \end{aligned}$$
 
-This quantity describes the relative impurity between a parent node and its children. If $X_{t_P}$ contains only two classes, an optimal splitting would separate them into $X_{p_L}$ and $X_{p_R}$, producing pure children nodes with $I(t_L)=I(t_R)=0$ and, correspondingly, $\Delta I = I(t_P)$. Accordingly, good splitting decisions should maximize impurity gain. In general, a pure node cannot be split further and must therefore be a leaf. Likewise, a node for which there is no splitting yielding $\Delta I > 0$ must be labeled a leaf. These splitting decisions are made recursively at each node in a tree until some stopping condition is met. Stopping conditions may include maximum tree depths or leaf node counts, or threshhold on the maximum impurity gain. 
+This quantity describes the relative impurity between a parent node and its children. If $X_{t_P}$ contains only two classes, an optimal splitting would separate them into $X_{p_L}$ and $X_{p_R}$, producing pure children nodes with $I(t_L)=I(t_R)=0$ and, correspondingly, $\Delta I(t_p) = I(t_P)$. Accordingly, good splitting decisions should maximize impurity gain. Note that the impurity gain is often weighted, for example Scikit-Learn defines:
 
-Impurity gain gives us insight into the importance of a decision. In particular, larger $\Delta I$ indicates a more important decision. If some feature $(x_n)_d$ is the basis for several decision splits in a decision tree, the sum of impurity gains at these splits gives insight into the importance of this feature. Accordingly, one measure of the feature importance of $d$ as the average (with respect to the total number of internal nodes) impurity gain imparted by decision split on $d$. This method generalizes to the case of BDTs, in which case one would average this quantity across all weak learner trees in the ensemble. 
+$$\begin{aligned}
+\Delta I(t_p) = \frac{|X_{t_p}|}{|X|}\bigg(I(t_p) - \frac{|X_{t_L}|}{|X_{t_p}|} I(t_L) - \frac{|X_{t_R}|}{|X_{t_p}|} I(t_R) \bigg)
+\end{aligned}$$
+
+In general, a pure node cannot be split further and must therefore be a leaf. Likewise, a node for which there is no splitting yielding $\Delta I > 0$ must be labeled a leaf. These splitting decisions are made recursively at each node in a tree until some stopping condition is met. Stopping conditions may include maximum tree depths or leaf node counts, or threshhold on the maximum impurity gain. 
+
+Impurity gain gives us insight into the importance of a decision. In particular, larger $\Delta I$ indicates a more important decision. If some feature $(x_n)_d$ is the basis for several decision splits in a decision tree, the sum of impurity gains at these splits gives insight into the importance of this feature. Accordingly, one measure of the feature importance of $d$ is the average (with respect to the total number of internal nodes) impurity gain imparted by decision split on $d$. This method generalizes to the case of BDTs, in which case one would average this quantity across all weak learner trees in the ensemble. 
 
 Note that though decision trees are based on the feature $d$ producing the best (maximum impurity gain) split at a given branch node, *surrogate splits* are often used to retain additional splits corresponding to features other than $d$. Denote the feature maximizing the impurity gain $d_1$ and producing a split boundary $\delta_1$. Surrogte splitting involves tracking secondary splits with boundaries $\delta_2, \delta_3,...$ corresponding to $d_2,d_3,...$ that have the highest correlation with the maximum impurity gain split. The upshot is that in the event that input data is missing a value at field $d_1$, there are backup decision boundaries to use, mitigating the need to define multiple trees for similar data. Using this generalized notion of a decision tree, wherein each branch node contains a primary decision boundary maximizing impurity gain and several additional surrogate split boundaries, we can average the impurity gain produced at feature field $d$ over all its occurances as a decision split or a surrogate split. This definition of feature importance generalizes the previous to include additional correlations. 
 
-# Additional References
-## SHAP
-Recently, the Shapley Additive Explanations (SHAP, see [A Unified Approach to Interpreting Model Predictions](https://arxiv.org/abs/1705.07874)) framework was introduced as generalized feature importance framework for any prediction model. The framework is validated theoretically and empirically in its original paper and is currently [available via git](https://github.com/slundberg/shap#citations). 
+Let us now turn to an example: 
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import load_wine
+from sklearn.inspection import DecisionBoundaryDisplay
+from sklearn.metrics import log_loss
+from sklearn.model_selection import train_test_split
 
-## Perturbation Ranking
-Paper: Javier Giles - Perturbation ranking
+wine_data = load_wine() 
+print(wine_data.data.shape)
+print(wine_data.feature_names)
+print(np.unique(wine_data.target))
+>>> (178, 13)
+>>> ['alcohol', 'malic_acid', 'ash', 'alcalinity_of_ash', 'magnesium', 'total_phenols', 'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 'color_intensity', 'hue', 'od280/od315_of_diluted_wines', 'proline']
+>>> [0 1 2]
+```
 
-## iNNvestigate Neural Networks! 
-Paper: [iNNvestigate Neural Networks!](https://arxiv.org/pdf/1808.04260.pdf)
+This sklearn wine dataset has 178 entries with 13 features and truth labels corresponding to membership in one of $C=3$ classes. We can train a decision tree classifier as follows: 
+
+```python
+X, y = wine_data.data, wine_data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+classifier = DecisionTreeClassifier(criterion='gini', splitter='best', random_state=27)
+classifier.fit(X_train, y_train)
+X_test_pred = classifier.predict(X_test)
+print('Test Set Performance')
+print('Number misclassified:', sum(X_test_pred!=y_test))
+print(f'Accuracy: {classifier.score(X_test, y_test):.3f}')
+>>> Test Set Performance
+>>> Number misclassified: 0
+>>> Accuracy: 1.000
+```
+
+In this case, the classifier has generalized perfectly, fitting the test set with $100\%$ accuracy. Let's take a look into how it makes predictions:
+
+```python
+tree = classifier.tree_
+n_nodes = tree.node_count
+node_features = tree.feature
+thresholds = tree.threshold
+children_L = tree.children_left
+children_R = tree.children_right
+feature_names = np.array(wine_data.feature_names)
+
+print(f'The tree has {n_nodes} nodes')
+for n in range(n_nodes):
+    if children_L[n]==children_R[n]: continue # leaf node
+    print(f'Decision split at node {n}:',
+          f'{feature_names[node_features[n]]}({node_features[n]}) <=',
+          f'{thresholds[n]:.2f}')
+
+>>> The tree has 13 nodes
+>>> Decision split at node 0: color_intensity(9) <= 3.46
+>>> Decision split at node 2: od280/od315_of_diluted_wines(11) <= 2.48
+>>> Decision split at node 3: flavanoids(6) <= 1.40
+>>> Decision split at node 5: color_intensity(9) <= 7.18
+>>> Decision split at node 8: proline(12) <= 724.50
+>>> Decision split at node 9: malic_acid(1) <= 3.33
+```
+
+Here we see that several features are used to generate decision boundaries. For example, the dataset is split at the root node by a cut on the $\texttt{color_intensity}$ feature. The importance of each feature can be taken to be the average impurity gain it generates across all nodes, so we expect that one (or several) of the five unique features used at the decision splits will be the most important features by this definition. Indeed, we see,
+
+```python
+feature_names = np.array(wine_data.feature_names)
+importances = classifier.feature_importances_
+for i in range(len(importances)):
+    print(f'{feature_names[i]}: {importances[i]:.3f}')
+print('\nMost important features', 
+      feature_names[np.argsort(importances)[-3:]])
+
+>>> alcohol: 0.000
+>>> malic_acid: 0.021
+>>> ash: 0.000
+>>> alcalinity_of_ash: 0.000
+>>> magnesium: 0.000
+>>> total_phenols: 0.000
+>>> flavanoids: 0.028
+>>> nonflavanoid_phenols: 0.000
+>>> proanthocyanins: 0.000
+>>> color_intensity: 0.363
+>>> hue: 0.000
+>>> od280/od315_of_diluted_wines: 0.424
+>>> proline: 0.165
+
+>>> Most important features ['proline' 'color_intensity' 'od280/od315_of_diluted_wines']
+```
+
+This is an embedded method for generating feature importance - it's cooked right into the decision tree model. Let's verify these results using a wrapper method, permutation importance:
+
+```python
+from sklearn.inspection import permutation_importance
+
+print(f'Initial classifier score: {classifier.score(X_test, y_test):.3f}')
+
+r = permutation_importance(classifier, X_test, y_test, n_repeats=30, random_state=0)
+for i in r.importances_mean.argsort()[::-1]:
+    print(f"{feature_names[i]:<8}"
+          f" {r.importances_mean[i]:.3f}"
+          f" +/- {r.importances_std[i]:.3f}")
+
+>>> Initial classifier score: 1.000
+
+>>> color_intensity 0.266 +/- 0.040
+>>> od280/od315_of_diluted_wines 0.237 +/- 0.049
+>>> proline  0.210 +/- 0.041
+>>> flavanoids 0.127 +/- 0.025
+>>> malic_acid 0.004 +/- 0.008
+>>> hue      0.000 +/- 0.000
+>>> proanthocyanins 0.000 +/- 0.000
+>>> nonflavanoid_phenols 0.000 +/- 0.000
+>>> total_phenols 0.000 +/- 0.000
+>>> magnesium 0.000 +/- 0.000
+>>> alcalinity_of_ash 0.000 +/- 0.000
+>>> ash      0.000 +/- 0.000
+>>> alcohol  0.000 +/- 0.000
+```
+
+The tree's performance is hurt the most if the $\texttt{color_intensity}$, $\texttt{od280/od315_of_diluted_wines}$, or $\texttt{proline}$ features are permuted, consistent with the impurity gain measure of feature importance. 
