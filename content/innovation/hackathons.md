@@ -2,7 +2,7 @@
 
 Welcome to the CMS ML Hackathons! Here we encourage the exploration of cutting edge ML methods to particle physics problems through multi-day focused work. Form hackathon teams and work together with the ML Innovation group to get support with organization and announcements, hardware/software infrastructure, follow-up meetings and ML-related technical advise.
 
-If you are interested in proposing a hackathon, please send an e-mail to the [CMS ML Innovation conveners](cms-conveners-ml-innovation@cern.ch) with a potential topic and we will get in touch!
+If you are interested in proposing a hackathon, please send an e-mail to the [CMS ML Innovation conveners](mailto:cms-conveners-ml-innovation@cern.ch) with a potential topic and we will get in touch!
 
 Below follows a list of previous successful hackathons.
 
