@@ -71,11 +71,11 @@ Here we take PyTorch as an example. A PyTorch model can be converted by `torch.o
     ```
 ## Inference in CMSSW (C++)
 
-We will introduce how to write a module to run inference on the ONNX model under the CMSSW framework. CMSSW is known for its multi-threaded ability. In a threaded framework, multiple threads are served for processing events in the event loop. The logic is straightforward: a new event are assigned to idled threads following the first-come-first-serve princlple.
+We will introduce how to write a module to run inference on the ONNX model under the CMSSW framework. CMSSW is known for its multi-threaded ability. In a threaded framework, multiple threads are served for processing events in the event loop. The logic is straightforward: a new event is assigned to idled threads following the first-come-first-serve princlple.
 
 In most cases, each thread is able to process events individually as the majority of event processing workflow can be accomplished only by seeing the information of that event. Thus, the `stream` modules (`stream` `EDAnalyzer` and `stream` `EDFilter`) are used frequently as each thread holds an individual copy of the module instance—they do not need to communicate with each other. It is however also possible to share a global cache object between all threads in case sharing information across threads is necessary. In all, such CMSSW EDAnalyzer modules are declared by `#!cpp class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>>` (similar for `EDFilter`). Details can be found in documentation on the [C++ interface of `stream` modules](https://twiki.cern.ch/twiki/bin/view/CMSPublic/FWMultithreadedFrameworkStreamModuleInterface).
 
-Let's then think about what would happen when interfacing CMSSW with ONNX for model inference. When ONNX Runtime accepts a model, it converts the model into an in-memory representation, and performance a variety of optimizations depending on the operators in the model. The procedure is done when an ONNX Runtime `Session` is created with an inputting model. The economic method will then be to hold only one `Session` for all threads. Upon request from multiple threads to do inference with their input data, the `Session` accepts those requests and serializes them, then produces the output data. ONNX Runtime has by design accepted that multithread threads invoke the `Run()` method on the same inference `Session` object. Therefore, what has left us to do is to
+Let's then think about what would happen when interfacing CMSSW with ONNX for model inference. When ONNX Runtime accepts a model, it converts the model into an in-memory representation, and performance a variety of optimizations depending on the operators in the model. The procedure is done when an ONNX Runtime `Session` is created with an inputting model. The economic method will then be to hold only one `Session` for all threads—this may save memory to a large extent, as the model has only one copy in memory. Upon request from multiple threads to do inference with their input data, the `Session` accepts those requests and serializes them, then produces the output data. ONNX Runtime has by design accepted that multithread threads invoke the `Run()` method on the same inference `Session` object. Therefore, what has left us to do is to
 
 1. create a `Session` as a global object in our CMSSW module and share it among all threads;
 2. in each thread, we process the input data and then call the `Run()` method from that global `Session`.
@@ -87,8 +87,8 @@ With this concept, let's build the module.
 ##### 1. includes
 
 ```cpp linenums="1"
-#include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
 #include "FWCore/Framework/interface/stream/EDAnalyzer.h"
+#include "PhysicsTools/ONNXRuntime/interface/ONNXRuntime.h"
 // further framework includes
 ...
 ```
@@ -263,13 +263,13 @@ Launch the script again, and one could see the same results, but with the infere
 
 ## Inference in CMSSW (Python)
 
-Doing ONNX Runtime inference with python is possible as well. The `onnxruntime` package is also installed in ==`python3`== for those realeased the C++ package is installed. For example, under CMSSW\_11\_2\_5\_patch2, we could quickly check if `onnxruntime` is available by:
+Doing ONNX Runtime inference with python is possible as well. For those releases that have the ONNX Runtime C++ package installed, the `onnxruntime` python package is also installed in ==`python3`== (except for CMSSW\_10\_6\_X). We still use CMSSW\_11\_2\_5\_patch2 to run our examples. We could quickly check if `onnxruntime` is available by:
 
 ```python linenums="1"
 python3 -c "import onnxruntime; print('onnxruntime available')"
 ```
 
-The code is simple to construct: following the quick examples ["Get started with ORT for Python"](https://onnxruntime.ai/docs/get-started/with-python.html), we create the file `MySubsystem/MyModule/test/my_standalone_test.py` as follows:
+The python code is simple to construct: following the quick examples ["Get started with ORT for Python"](https://onnxruntime.ai/docs/get-started/with-python.html), we create the file `MySubsystem/MyModule/test/my_standalone_test.py` as follows:
 
 ```python linenums="1"
 import onnxruntime as ort
