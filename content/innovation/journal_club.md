@@ -29,7 +29,7 @@ Stefan Wunsch, Raphael Friese, Roger Wolf, Günter Quast
 *Abstract: The relation between the input and output spaces of neural networks (NNs) is investigated to identify those characteristics of the input space that have a large influence on the output for a given task. For this purpose, the NN function is decomposed into a Taylor expansion in each element of the input space. The Taylor coefficients contain information about the sensitivity of the NN response to the inputs. A metric is introduced that allows for the identification of the characteristics that mostly determine the performance of the NN in solving a given task. Finally, the capability of this metric to analyze the performance of the NN is evaluated based on a task common to data analyses in high-energy particle physics experiments.*
 
   - [Paper](https://arxiv.org/abs/1803.08782)
-  - 
+  
 ### iNNvestigate neural networks!
 Maximilian Alber, Sebastian Lapuschkin, Philipp Seegerer, Miriam Hägele, Kristof T. Schütt, Grégoire Montavon, Wojciech Samek, Klaus-Robert Müller, Sven Dähne, Pieter-Jan Kindermans
 
