@@ -130,6 +130,7 @@ nav:
       - Successful integrations:
         - ParticleNet: inference/particlenet.md
     - Training:
+      - Decorrelation: training/Decorrelation.md
       - Training as a Service:
         - MLaaS4HEP: training/MLaaS4HEP.md
 #    - Benchmarking:
