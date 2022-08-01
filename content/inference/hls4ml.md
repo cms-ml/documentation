@@ -17,6 +17,7 @@ That said, there have been several cases where the hls4ml developers have given 
 
 | Workshop/Conference | Date | Links |
 | ---                 | ---  | ---   |
+| [23rd Virtual IEEE Real Time Conference](https://indico.cern.ch/event/1109460/) | August 03, 2022 | [Indico](https://indico.cern.ch/event/1109460/contributions/4893316/) |
 | [2022 CMS ML Town Hall](https://indico.cern.ch/event/1166570/) | July 22, 2022 | [Contribution Link](https://indico.cern.ch/event/1166570/contributions/4950297/) |
 | [a3d3 hls4ml @ Snowmass CSS 2022: Tutorial](https://indico.cern.ch/event/1176254/) | July 21, 2022 | [Slides](https://indico.cern.ch/event/1176254/contributions/4940415/attachments/2483939/4264585/snowmass%20hls4ml%20tutorial.pdf), [Recording](https://indico.cern.ch/event/1176254/contributions/4940415/attachments/2483939/4265431/go), [JupyterHub](https://jhub.35.192.180.88.nip.io/) |
 | [Fast Machine Learning for Science Workshop](https://indico.cern.ch/event/924283/) | December 3, 2020 | [Indico](https://indico.cern.ch/event/924283/sessions/353274/#20201203), [Slides](https://indico.cern.ch/event/924283/sessions/353274/attachments/2155012/3636208/hls4ml_tutorial.pdf), [GitHub](https://github.com/fastmachinelearning/hls4ml-tutorial), [Interactive Notebooks](https://cern.ch/ssummers/hls4ml-tutorial) |
