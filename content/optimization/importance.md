@@ -8,10 +8,10 @@ Feature importance is the impact a specific input field has on a prediction mode
 
 In the following subsections, we detail several strategies for evaluating feature importance. We begin with a general discussion of feature importance at a high level before offering a code-based tutorial on some common techniques. We conclude with additional notes and comments in the last section. 
 
-# General Discussion
+## General Discussion
 Most feature importance methods fall into one of three broad categories: filter methods, embedding methods, and wrapper methods. Here we give a brief overview of each category with relevant examples: 
 
-## Filter Methods
+### Filter Methods
 Filter methods do not rely on a specific model, instead considering features in the context of a given dataset. In this way, they may be considered to be pre-processing steps. In many cases, the goal of feature filtering is to reduce high dimensional data. However, these methods are also applicable to data exploration, wherein an analyst simply seeks to learn about a dataset without actually removing any features. This knowledge may help interpret the performance of a downstream predictive model. Relevant examples include, 
 
 - **Domain Knowledge**:
@@ -26,24 +26,24 @@ Fisher scoring can be used to rank features; the analyst would then select the h
 - **Correlations**:
 Correlated features introduce a certain degree of redundancy to a dataset, so reducing the number of strongly correlated variables may not impact a model's downstream performance. 
 
-## Embedded Methods
+### Embedded Methods
 Embedded methods are specific to a prediction model and independent of the dataset. Examples:
 
 - **L1 Regularization (LASSO)**:
 L1 regularization directly penalizes large model weights. In the context of linear regression, for example, this amounts to enforcing sparsity in the output prediction; weights corresponding to less relevant features will be driven to 0, nullifying the feature's effect on the output. 
 
-## Wrapper Methods
+### Wrapper Methods
 Wrapper methods iterate on prediction models in the context of a given dataset. In general they may be computationally expensive when compared to filter methods. Examples:
 
 - **Permutation Importance**: Direct interpretation isn't always feasible, so other methods have been developed to inspect a feature's importance. One common and broadly-applicable method is to randomly shuffle a given feature's input values and test the degredation of model performance. This process allows us to measure [permutation importance](https://scikit-learn.org/stable/modules/permutation_importance.html) as follows. First, fit a model ($f$) to training data, yielding $f(X_\mathrm{train})$, where $X_\mathrm{train}\in\mathbb{R}^{n\times d}$ for $n$ input examples with $d$ features. Next, measure the model's performance on testing data for some loss $\mathcal{L}$, i.e. $s=\mathcal{L}\big(f(X_\mathrm{test}), y_\mathrm{test}\big)$. For each feature $j\in[1\ ..\ d]$, randomly shuffle the corresponding column in $X_\mathrm{test}$ to form $X_\mathrm{test}^{(j)}$. Repeat this process $K$ times, so that for $k\in [1\ ..\ K]$ each random shuffling of feature column $j$ gives a corrupted input dataset $X_\mathrm{test}^{(j,k)}$. Finally, define the permutation importance of feature $j$ as the difference between the un-corrupted validation score and average validation score over the corrupted $X_\mathrm{test}^{(j,k)}$ datasets: 
 
 $$\texttt{PI}_j = s - \frac{1}{K}\sum_{k=1}^{K} \mathcal{L}[f(X_\mathrm{test}^{(j,k)}), y_\mathrm{test}]$$
 
-- **Recursive Feature Elimination (RFE)**: Given a prediction model and test/train dataset splits with $D$ initial features, RFE returns the set of $d<D$ features that maximize model performance. First, the model is trained on the full set of features. The importance of each feature is ranked depending on the model type (e.g. for regression, the slopes are a sufficient ranking measure; permutation importance may also be used). The least important feature is rejected and the model is retrained. This process is repeated until the most significant $d$ features remain. 
+- **Recursive Feature Elimination (RFE)**: Given a prediction model and test/train dataset splits with $D$ initial features, RFE returns the set of $d < D$ features that maximize model performance. First, the model is trained on the full set of features. The importance of each feature is ranked depending on the model type (e.g. for regression, the slopes are a sufficient ranking measure; permutation importance may also be used). The least important feature is rejected and the model is retrained. This process is repeated until the most significant $d$ features remain. 
 
-# Introduction by Example
+## Introduction by Example
 
-## Direct Interpretation
+### Direct Interpretation
 Linear regression is particularly interpretable because the prediction coefficients themselves can be interpreted as a measure of feature importance. Here we will compare this direct interpretation to several model inspection techniques. In the following examples we use the [Diabetes Dataset](https://www4.stat.ncsu.edu/~boos/var.select/diabetes.html) available as a [Scikit-learn toy dataset](https://scikit-learn.org/stable/datasets/toy_dataset.html#diabetes-dataset). This dataset maps 10 biological markers to a 1-dimensional quantitative measure of diabetes progression: 
 
 ```python
@@ -89,7 +89,7 @@ for i in np.argsort(-abs(model.coef_)):
 ```
 These results indicate that the bmi and s5 fields have the largest impact on the output of this regression model, while age, s6, and s2 have the smallest. Further interpretation is subject to the nature of the input data (see [Common Pitfalls in the Interpretation of Coefficients of Linear Models](https://scikit-learn.org/stable/auto_examples/inspection/plot_linear_model_coefficient_interpretation.html#sphx-glr-auto-examples-inspection-plot-linear-model-coefficient-interpretation-py)). Note that scikit-learn has [tools](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFromModel.html#sklearn.feature_selection.SelectFromModel) available to faciliate feature selections. 
 
-## Permutation Importance
+### Permutation Importance
 In the context of our ridge regression example, we can calculate the permutation importance of each feature as follows (based on [scikit-learn docs](https://scikit-learn.org/stable/modules/permutation_importance.html])):
 
 ```python
@@ -118,7 +118,7 @@ for i in r.importances_mean.argsort()[::-1]:
 ```
 These results are roughly consistent with the direct interpretation of the linear regression parameters; s5 and bmi are the most permutation-important features. This is because both have significant permutation importance scores (0.204, 0.176) when compared to the initial model score (0.357), meaning their random permutations significantly degraded the model perforamnce. On the other hand, s2 and age have approximately no permutation importance, meaning that the model's performance was robust to random permutations of these features. 
 
-## L1-Enforced Sparsity
+### L1-Enforced Sparsity
 In some applications it may be useful to reject features with low importance. Models biased towards sparsity are one way to achieve this goal, as they are designed to ignore a subset of features with the least impact on the model's output. In the context of linear regression, sparsity can be enforced by imposing L1 regularization on the regression coefficients (LASSO regression):
 
 $$\mathcal{L}_\mathrm{LASSO} = \frac{1}{2n}||y - Xw||^2_2 + \alpha||w||_1$$
@@ -146,7 +146,7 @@ for i in np.argsort(-abs(model.coef_)):
 ```
 For this value of $\alpha$, we see that the model has rejected the age, s4, and s6 features as unimportant (consistent with the permutation importance measures above) while achieving a similar model score as the previous ridge regression strategy. 
 
-## Recursive Feature Elimination
+### Recursive Feature Elimination
 Another common strategy is recursive feature elimination (RFE). Though RFE can be used for regression applications as well, we turn our attention to a classification task for the sake of variety. The following discussions are based on the [Breast Cancer Wisconsin Diagnostic Dataset](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+Diagnostic), which maps 30 numeric features corresponding to digitized breast mass images to a binary classification of benign or malignant. 
 
 ```python
@@ -198,7 +198,7 @@ for n_features in np.arange(1, 30, 1):
 ```
 Here we've shown a subset of the output. In the first output lines, we see that the 'worst concave points' feature alone leads to 88.1% accuracy. Including the next two most important features actually degrades the classification accuracy. We then skip to the top 17 features, which in this case we observe to yield the best performance for the linear SVM classifier. The addition of more features does not lead to additional perforamnce boosts. In this way, RFE can be treated as a model wrapper introducing an additional hyperparameter, n_features_to_select, which can be used to optimize model performance. A more principled optimization using k-fold cross validation with RFE is available in the [scikit-learn docs](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_rfe_with_cross_validation.html#sphx-glr-auto-examples-feature-selection-plot-rfe-with-cross-validation-py). 
 
-## Feature Correlations 
+### Feature Correlations 
 In the above, we have focused specifically on interpreting the importance of single features. However, it may be that several features are correlated, sharing the responsibility for the overall prediction of the model. In this case, some measures of feature importance may inappropriately downweight correlated features in a so-called correlation bias (see [Classification with Correlated Features: Unrelability of Feature Ranking and Solutions](https://pubmed.ncbi.nlm.nih.gov/21576180/)). For example, the permutation invariance of $d$ correlated features is shown to decrease (as a function of correlation strength) faster for higher $d$ (see [Correlation and Variable importance in Random Forests](https://link.springer.com/article/10.1007/s11222-016-9646-1)). 
 
 We can see these effects in action using the breast cancer dataset, following the corresponding [scikit-learn example](https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py)
@@ -241,7 +241,7 @@ for i in r.importances_mean.argsort()[::-1][:10]:
 
 In this case, even the most permutation important features have mean importance scores $<0.007$, which doesn't indicate much importance. This is surprising, because we saw via RFE that a linear SVM can achieve $\approx 88\%$ classification accuracy with this feature alone. This indicates that worst concave points, in addition to other meaningful features, may belong to subclusters of correlated features. In the corresponding [scikit-learn example](https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py), the authors show that subsets of correlated features can be extracted by calculating a dendogram and selecting representative features from each correlated subset. They achieve $97\%$ accuracy (the same as with the full dataset) by selecting only five such representative variables. 
 
-# Feature Importance in Decision Trees
+## Feature Importance in Decision Trees
 Here we focus on decision trees, which are particularly interpretable classifiers that often appear as ensembles (or *boosted decision tree (BDT)* algorithms) in HEP. Consider a classification dataset $X=\{x_n\}_{n=1}^{N}$, $x_n\in\mathbb{R}^{D}$, with truth labels $Y=\{y_n\}_{n=1}^N$, $y_n\in\{1,...,C\}$ corresponding $C$ classes. These truth labels naturally partition $X$ into subsets $X_c$ with class probabilities $p(c)=|X_c|/|X|$. Decision trees begin with a root node $t_0$ containing all of $X$. The tree is grown from the root by recursively splitting the input set $X$ in a principled way; internal nodes (or branch nodes) correspond to a decision of the form 
 
 $$\begin{aligned}
@@ -279,6 +279,7 @@ Impurity gain gives us insight into the importance of a decision. In particular,
 
 Note that though decision trees are based on the feature $d$ producing the best (maximum impurity gain) split at a given branch node, *surrogate splits* are often used to retain additional splits corresponding to features other than $d$. Denote the feature maximizing the impurity gain $d_1$ and producing a split boundary $\delta_1$. Surrogte splitting involves tracking secondary splits with boundaries $\delta_2, \delta_3,...$ corresponding to $d_2,d_3,...$ that have the highest correlation with the maximum impurity gain split. The upshot is that in the event that input data is missing a value at field $d_1$, there are backup decision boundaries to use, mitigating the need to define multiple trees for similar data. Using this generalized notion of a decision tree, wherein each branch node contains a primary decision boundary maximizing impurity gain and several additional surrogate split boundaries, we can average the impurity gain produced at feature field $d$ over all its occurances as a decision split or a surrogate split. This definition of feature importance generalizes the previous to include additional correlations. 
 
+### Example
 Let us now turn to an example: 
 ```python
 import numpy as np
