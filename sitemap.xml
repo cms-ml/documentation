@@ -1,107 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://cms-ml.github.io/documentation/index.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/innovation/journal_club.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/innovation/hackathons.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/Resources/Cloud_Resources/index.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/Resources/FPGA_Resources/index.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/Resources/GPU_Resources/index.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/optimization/model_optimization.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/optimization/importance.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/optimization/data_augmentation.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://cms-ml.github.io/documentation/validation/overtraining.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <loc>https://cms-ml.github.io/documentation/validation/intro.html</loc>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://cms-ml.github.io/documentation/validation/cross_validation.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <loc>https://cms-ml.github.io/documentation/validation/before/domains.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/before/features.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/before/inputs.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/before/model.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/before/metrics.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/throughout/overfitting.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/throughout/xvalidation.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/throughout/opt.html</loc>
+     <lastmod>2022-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://cms-ml.github.io/documentation/validation/after/after.html</loc>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/tensorflow1.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/tensorflow2.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/pytorch.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/pyg.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/onnx.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/xgboost.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/hls4ml.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/sonic_triton.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/tfaas.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/standalone.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/swan_aws.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/checklist.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/performance.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/inference/particlenet.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://cms-ml.github.io/documentation/training/MLaaS4HEP.html</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
