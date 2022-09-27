@@ -21,7 +21,7 @@ Being an extremely simplified and naive example, one would be lucky to have the 
 
 Therefore, this section is intended to **review potential issues on the ML side and how they can be approached** in order to train a robust and optimal model. The section is designed to be, to a large extent, analysis-agnostic. It will focus on common, generalized validation steps from ML perspective, without paying particular emphasis on the physical context. However, for illustrative purposes, it will be supplemented with some examples from HEP and additional links for further reading. As the last remark, in the following there will mostly an emphasis on the validation items specific to _supervised learning_. This includes classification and regression problems as being so far the most common use cases amongst HEP analysts.
 
-The validation chapter is divided into into 3 sections. Things become logically aligned if presented from the perspective of the training procedure (fitting/loss minimisation part). That is, the sections will group validation items as they need to be investigated:
+The General Advice chapter is divided into into 3 sections. Things become logically aligned if presented from the perspective of the training procedure (fitting/loss minimisation part). That is, the sections will group validation items as they need to be investigated:
 
 * Before training
 * During training
