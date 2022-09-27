@@ -2,7 +2,7 @@ After data is preprocessed as a whole, there is a question of how this data shou
 
 ## Data split
 
-The first thing one should consider to do is to **perform a split of the entire data set into train/validation(/test) data sets.** This is an important one because it serves the purpose of diagnosis for _overfitting_. The topic will be covered in more details in the corresponding [section](../throughout/overfitting.md) and here a brief introduction will be given.
+The first thing one should consider to do is to **perform a split of the entire data set into train/validation(/test) data sets.** This is an important one because it serves the purpose of diagnosis for _overfitting_. The topic will be covered in more details in the corresponding [section](../during/overfitting.md) and here a brief introduction will be given.
 
 <figure>
 <img src="../../images/validation/overfitting.webp"/>
@@ -27,9 +27,9 @@ Clearly, the simplest way to find this data set is to put aside a part of the or
 
     Secondly, note that the split should be done in a way that each subset is as close as possible to the one which the model will face at the final inference stage. But since usually it isn't feasible to bridge the [gap between domains](domains.md), the split at least should be uniform between training/testing to be able to judge fairly the model performance.
 
-    Lastly, in extreme case there might be no sufficient amount of data to perform the training, not even speaking of setting aside a part of it for validation. Here a way out would be to go for a [few-shot learning](https://research.aimultiple.com/few-shot-learning/), [using cross-validation](../throughout/xvalidation.md) during the training, [regularising the model]((https://en.wikipedia.org/wiki/Regularization_(mathematics))) to avoid overfitting or to try to find/generate more (possibly similar) data.
+    Lastly, in extreme case there might be no sufficient amount of data to perform the training, not even speaking of setting aside a part of it for validation. Here a way out would be to go for a [few-shot learning](https://research.aimultiple.com/few-shot-learning/), [using cross-validation](../during/xvalidation.md) during the training, [regularising the model](https://en.wikipedia.org/wiki/Regularization_(mathematics)) to avoid overfitting or to try to find/generate more (possibly similar) data.
 
-Lastly, one can also considering to put aside yet another fraction of original data set, what was called "validation" data set. This can be used to monitor the model during the training and more details on that will follow in the [overfitting](../throughout/overfitting.md) section.
+Lastly, one can also considering to put aside yet another fraction of original data set, what was called "validation" data set. This can be used to monitor the model during the training and more details on that will follow in the [overfitting](../during/overfitting.md) section.
 
 ## Batches
 Usually it is the case the training/validation/testing data set can't entirely fit into the memory due to a large size. That is why it gets split into _batches_ (chunks) of a given size which are then fed one by one into the model during the training/testing.

@@ -15,7 +15,7 @@ However, there are in any case several common remarks to be pointed out, all glu
 5. Lastly, more advanced architectures can be probed. At this point the choice of *data representation* plays a crucial role since more complex architectures are designed to adopt more sophisticated patterns in data. While in ML research is still ongoing to [unify together](https://arxiv.org/abs/2104.13478) all the complexity of such models (and promisingly, also [using effective field theory approach](https://ai.facebook.com/blog/advancing-ai-theory-with-a-first-principles-understanding-of-deep-neural-networks/)), in HEP there's an ongoing process of probing various architectures to see which type fits the most in HEP field.
 
 ??? example "Models in HEP"
-    One of the most prominent benchmarks so far is the one done by [G. Kasieczka et. al](https://arxiv.org/abs/1902.09914) on the top tagging data set, where in particular [ParticleNet](../../inference/particlenet) turned out to be a state of the art. This had been a yet another solid argument in favour of using [graph neural networks in HEP](https://arxiv.org/abs/2007.13681) due to its natural suitability in terms of data representation.
+    One of the most prominent benchmarks so far is the one done by [G. Kasieczka et. al](https://arxiv.org/abs/1902.09914) on the top tagging data set, where in particular [ParticleNet](../../inference/particlenet.md) turned out to be a state of the art. This had been a yet another solid argument in favour of using [graph neural networks in HEP](https://arxiv.org/abs/2007.13681) due to its natural suitability in terms of data representation.
 
     <figure>
     <img src="../../images/validation/top_taggers_landscape.png"/>
