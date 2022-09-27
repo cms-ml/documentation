@@ -15,8 +15,6 @@ copyright: Copyright &copy; 2020 CMS Machine Learning Group
 
 theme:
   name: material
-#  logo: content/images/logo.png
-#  favicon: content/images/favicon.png
   logo: images/logo.png
   favicon: images/favicon.png
   palette:
@@ -120,7 +118,7 @@ nav:
       - Model optimization: optimization/model_optimization.md
       - Feature importance: optimization/importance.md
       - Data augmentation: optimization/data_augmentation.md
-    - Validation:
+    - General Advice:
       - Introduction: validation/intro.md
       - Before training:
         - Domains: validation/before/domains.md
