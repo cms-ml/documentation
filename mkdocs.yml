@@ -15,6 +15,8 @@ copyright: Copyright &copy; 2020 CMS Machine Learning Group
 
 theme:
   name: material
+#  logo: content/images/logo.png
+#  favicon: content/images/favicon.png
   logo: images/logo.png
   favicon: images/favicon.png
   palette:
@@ -86,7 +88,8 @@ extra:
     - icon: fontawesome/brands/docker
       link: https://hub.docker.com/orgs/cmsml/repositories
     - icon: fontawesome/solid/comment-dots
-      link: https://hypernews.cern.ch/HyperNews/CMS/get/machine-learning.html
+      link: https://cms-talk.web.cern.ch/c/physics/ml/104
+#      link: https://hypernews.cern.ch/HyperNews/CMS/get/machine-learning.html
     - icon: fontawesome/solid/envelope
       link: mailto:hn-cms-machine-learning@cern.ch
 
@@ -102,7 +105,16 @@ nav:
   - Resources:
     - Cloud Resources: Resources/Cloud_Resources/index.md
     - FPGA Resource: Resources/FPGA_Resources/index.md
-    - GPU Resources: Resources/GPU_Resources/index.md
+    - GPU Resources:
+      - Overview: Resources/GPU_Resources/index.md
+      - CMS Resources:
+        - SWAN: Resources/GPU_Resources/CMS_Resources/SWAN.md
+        - LXPLUS Condor: Resources/GPU_Resources/CMS_Resources/lxplus_condor.md
+        - LXPLUS GPU: Resources/GPU_Resources/CMS_Resources/lxplus_gpu.md
+        - ml.cern.ch: Resources/GPU_Resources/CMS_Resources/ml_cern_ch.md
+        - Notebooks:
+          - PytorchMNIST: Resources/GPU_Resources/CMS_Resources/Notebooks/PytorchMNIST.md
+          - TopTaggingMLP: Resources/GPU_Resources/CMS_Resources/Notebooks/TopTaggingMLP.md
   - Tutorials:
     - Optimization:
       - Model optimization: optimization/model_optimization.md
@@ -116,7 +128,7 @@ nav:
         - Inputs: validation/before/inputs.md
         - Model: validation/before/model.md
         - Metrics & Losses: validation/before/metrics.md
-      - Throughout training: 
+      - During training:
         - Overfitting: validation/throughout/overfitting.md
         - Cross-validation: validation/throughout/xvalidation.md
         - Optimisation problems: validation/throughout/opt.md

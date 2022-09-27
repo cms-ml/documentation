@@ -5,7 +5,7 @@ After data is preprocessed as a whole, there is a question of how this data shou
 The first thing one should consider to do is to **perform a split of the entire data set into train/validation(/test) data sets.** This is an important one because it serves the purpose of diagnosis for _overfitting_. The topic will be covered in more details in the corresponding [section](../throughout/overfitting.md) and here a brief introduction will be given.
 
 <figure>
-<img src="../../../images/validation/overfitting.webp"/>
+<img src="../../images/validation/overfitting.webp"/>
 <figcaption>Figure 1.  Decision boundaries for underfitted, optimal and overfitted models. [source: ibm.com/cloud/learn/overfitting]</figcaption>
 </figure>
 
@@ -16,11 +16,11 @@ One of examples would be that the model learns to predict _exactly_ the training
 Hence the solution to check for ability to generalise and **to spot overfitting**: test a trained model on a separate data set, which is the same[^1] as the training one. If the model performance gets significantly worse there, it is a sign that something went wrong and the model's predictive power isn't generalising to the same population.       
 
 <figure>
-<img src="../../../images/validation/splits.png"/>
+<img src="../../images/validation/splits.png"/>
 <figcaption>Figure 2.  Data split worflow before the training. Also cross-validation is shown as the technique to find optimal hyperparameters. [source: scikit-learn.org/stable/modules/cross_validation.html]</figcaption>
 </figure>
 
-Clearly, the simplest way to find this data set is to put aside a part of the original one and leave it untouched until the final model is trained - this is what is called "test" data set in the first paragraph of this subsection. When the model has been finalised and optimised, this data set is "unblinded" and model performance on it is evaluated. Practically, this split can be easily performed with [`train_test_split()`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) method of `sklearn` library. 
+Clearly, the simplest way to find this data set is to put aside a part of the original one and leave it untouched until the final model is trained - this is what is called "test" data set in the first paragraph of this subsection. When the model has been finalised and optimised, this data set is "unblinded" and model performance on it is evaluated. Practically, this split can be easily performed with [`train_test_split()`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) method of `sklearn` library.
 
 ??? warning "But it might be not that simple"
     Indeed, there are few things to be aware of. Firstly, there is a question of how much data needs to be left for validation. Usually it is common to take the test fraction in the range [0.1, 0.4], however it is mostly up for analyzers to decide. The important trade-off which needs to be taken into account here is that between robustness of the test metric estimate (too small test data set - poorly estimated metric) and robustness of the trained model (too little training data - less performative model).

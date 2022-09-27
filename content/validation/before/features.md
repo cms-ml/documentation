@@ -18,7 +18,7 @@ Although seemingly obvious, for the sake of completeness the point of achieving 
     For example, classical feed-forward neural network is just a continuous function mapping the input space to the output one, so any discrepancies in the input might propagate to the output. In case of boosted decision trees it is also applicable: any ([domain](domains.md)) differences in the shape of input (training) distribution w.r.t. true "data" distribution might sizeably affect the construction of decision boundary in the feature space.  
 
 <figure>
-<img src="../../../images/validation/m_vis.png"/>
+<img src="../../images/validation/m_vis.png"/>
 <figcaption>Figure 1.  Control plot for a visible mass of tau lepton pair in emu final state. [source: CMS-TAU-18-001]</figcaption>
 </figure>
 

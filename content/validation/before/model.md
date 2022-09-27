@@ -18,6 +18,6 @@ However, there are in any case several common remarks to be pointed out, all glu
     One of the most prominent benchmarks so far is the one done by [G. Kasieczka et. al](https://arxiv.org/abs/1902.09914) on the top tagging data set, where in particular [ParticleNet](../../inference/particlenet) turned out to be a state of the art. This had been a yet another solid argument in favour of using [graph neural networks in HEP](https://arxiv.org/abs/2007.13681) due to its natural suitability in terms of data representation.
 
     <figure>
-    <img src="../../../images/validation/top_taggers_landscape.png"/>
+    <img src="../../images/validation/top_taggers_landscape.png"/>
     <figcaption>Illustration from G. Kasieczka et. al showing ROC curves for all evaluated algorithms.</figcaption>
     </figure>
