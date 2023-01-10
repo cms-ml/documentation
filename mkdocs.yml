@@ -11,22 +11,34 @@ repo_name: cms-ml/documentation
 repo_url: https://github.com/cms-ml/documentation
 
 use_directory_urls: false
-copyright: Copyright &copy; 2020 CMS Machine Learning Group
+copyright: Copyright &copy; 2020-2023 CMS Machine Learning Group
 
 theme:
   name: material
   logo: images/logo.png
   favicon: images/favicon.png
   palette:
-    scheme: preference
-    primary: indigo
-    accent: orange
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
   features:
     - instant
+    - navigation.sections
 
 plugins:
   - search:
-      min_search_length: 2
+      lang: en
   - minify:
       minify_html: true
   - markdownextradata
@@ -73,8 +85,7 @@ markdown_extensions:
   - pymdownx.tilde
 
 extra_javascript:
-  - https://unpkg.com/mermaid@8.6/dist/mermaid.min.js
-  - javascripts/mathjax.js
+  - https://unpkg.com/mermaid@9.3/dist/mermaid.min.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
@@ -88,7 +99,7 @@ extra:
     - icon: fontawesome/solid/comment-dots
       link: https://cms-talk.web.cern.ch/c/physics/ml/104
     - icon: fontawesome/solid/envelope
-      link: mailto:hn-cms-machine-learning@cern.ch
+      link: mailto:cms-conveners-ml-knowledge@cern.ch
 
 nav:
   - Home: index.md
@@ -100,9 +111,13 @@ nav:
     - ML Journal Club: innovation/journal_club.md
     - ML Hackathons: innovation/hackathons.md
   - Resources:
-    - Cloud Resources: Resources/Cloud_Resources/index.md
-    - FPGA Resource: Resources/FPGA_Resources/index.md
-    - GPU Resources: Resources/GPU_Resources/index.md
+    - Cloud Resources: resources/cloud_resources/index.md
+    - FPGA Resource: resources/fpga_resources/index.md
+    - GPU Resources:
+      - lxplus-gpu: resources/gpu_resources/cms_resources/lxplus_gpu.md
+      - CERN HTCondor: resources/gpu_resources/cms_resources/lxplus_htcondor.md
+      - SWAN: resources/gpu_resources/cms_resources/swan.md
+      - ml.cern.ch: resources/gpu_resources/cms_resources/ml_cern_ch.md
   - Guides:
     - Optimization:
       - Model optimization: optimization/model_optimization.md
