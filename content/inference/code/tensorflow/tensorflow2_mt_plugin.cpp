@@ -11,24 +11,17 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
 
-// define the cache object
-// it could handle graph loading and destruction on its own,
-// but in this example, we define it as a logicless container
-struct CacheData {
-  CacheData() : graphDef(nullptr) {}
-  std::atomic<tensorflow::GraphDef*> graphDef;
-};
-
-class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
+// put a tensorflow::SessionCache into the global cache structure
+// the session cache wraps both a tf graph and a tf session instance and also handles their deletion
+class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<tensorflow::SessionCache>> {
 public:
-  explicit MyPlugin(const edm::ParameterSet&, const CacheData*);
+  explicit MyPlugin(const edm::ParameterSet&, const tensorflow::SessionCache*);
   ~MyPlugin(){};
 
   static void fillDescriptions(edm::ConfigurationDescriptions&);
 
-  // two additional static methods for handling the global cache
-  static std::unique_ptr<CacheData> initializeGlobalCache(const edm::ParameterSet&);
-  static void globalEndJob(const CacheData*);
+  // an additional static method for initializing the global cache
+  static std::unique_ptr<tensorflow::SessionCache> initializeGlobalCache(const edm::ParameterSet&);
 
 private:
   void beginJob();
@@ -38,28 +31,14 @@ private:
   std::string inputTensorName_;
   std::string outputTensorName_;
 
-  tensorflow::Session* session_;
+  // a pointer to the session created by the global session cache
+  const tensorflow::Session* session_;
 };
 
-std::unique_ptr<CacheData> MyPlugin::initializeGlobalCache(const edm::ParameterSet& config) {
-  // this method is supposed to create, initialize and return a CacheData instance
-  CacheData* cacheData = new CacheData();
-
-  // load the graph def and save it
-  std::string graphPath = config.getParameter<std::string>("graphPath");
-  cacheData->graphDef = tensorflow::loadGraphDef(graphPath);
-
-  // set tensorflow log leven to warning
-  tensorflow::setLogging("2");
-
-  return std::unique_ptr<CacheData>(cacheData);
-}
-
-void MyPlugin::globalEndJob(const CacheData* cacheData) {
-  // reset the graphDef
-  if (cacheData->graphDef != nullptr) {
-    delete cacheData->graphDef;
-  }
+std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const edm::ParameterSet& config) {
+  // this method is supposed to create, initialize and return a SessionCache instance
+  std::string graphPath = edm::FileInPath(params.getParameter<std::string>("graphPath")).fullPath();
+  return std::make_unique<tensorflow::SessionCache>(graphPath);
 }
 
 void MyPlugin::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
@@ -71,10 +50,10 @@ void MyPlugin::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   descriptions.addWithDefaultLabel(desc);
 }
 
-MyPlugin::MyPlugin(const edm::ParameterSet& config, const CacheData* cacheData)
+MyPlugin::MyPlugin(const edm::ParameterSet& config,  const tensorflow::SessionCache* cache)
     : inputTensorName_(config.getParameter<std::string>("inputTensorName")),
       outputTensorName_(config.getParameter<std::string>("outputTensorName")),
-      session_(tensorflow::createSession(cacheData->graphDef)) {}
+      session_(cache->getSession()) {}
 
 void MyPlugin::beginJob() {}
 
@@ -90,8 +69,13 @@ void MyPlugin::analyze(const edm::Event& event, const edm::EventSetup& setup) {
     input.matrix<float>()(0, i) = float(i);
   }
 
-  // define the output and run
+  // define the output
   std::vector<tensorflow::Tensor> outputs;
+
+  // evaluate
+  // note: in case this line causes the compile to complain about the const'ness of the session_ in
+  //       this call, your CMSSW version might not yet support passing a const session, so in this
+  //       case, pass "const_cast<tensorflow::Session*>(session_)"
   tensorflow::run(session_, {{inputTensorName_, input}}, {outputTensorName_}, &outputs);
 
   // print the output
