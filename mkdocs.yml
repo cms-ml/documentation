@@ -45,11 +45,11 @@ plugins:
   - git-revision-date-localized
 
 markdown_extensions:
-  - markdown.extensions.admonition
-  - markdown.extensions.attr_list
-  - markdown.extensions.def_list
-  - markdown.extensions.footnotes
-  - markdown.extensions.meta
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
   - markdown.extensions.toc:
       permalink: true
   - pymdownx.arithmatex:
@@ -77,8 +77,9 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_div_format
-  - pymdownx.tabbed
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
       clickable_checkbox: true
