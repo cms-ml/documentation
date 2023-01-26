@@ -112,13 +112,13 @@ nav:
     - ML Journal Club: innovation/journal_club.md
     - ML Hackathons: innovation/hackathons.md
   - Resources:
-    - Cloud Resources: resources/cloud_resources/index.md
-    - FPGA Resource: resources/fpga_resources/index.md
+    - Cloud Resources: Resources/Cloud_Resources/index.md
+    - FPGA Resource: Resources/FPGA_Resources/index.md
     - GPU Resources:
-      - lxplus-gpu: resources/gpu_resources/cms_resources/lxplus_gpu.md
-      - CERN HTCondor: resources/gpu_resources/cms_resources/lxplus_htcondor.md
-      - SWAN: resources/gpu_resources/cms_resources/swan.md
-      - ml.cern.ch: resources/gpu_resources/cms_resources/ml_cern_ch.md
+      - lxplus-gpu: Resources/GPU_Resources/CMS_Resources/lxplus_gpu.md
+      - CERN HTCondor: Resources/GPU_Resources/CMS_Resources/lxplus_htcondor.md
+      - SWAN: Resources/GPU_Resources/CMS_Resources/SWAN.md
+      - ml.cern.ch: Resources/GPU_Resources/CMS_Resources/ml_cern_ch.md
   - Guides:
     - Optimization:
       - Model optimization: optimization/model_optimization.md
