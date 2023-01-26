@@ -276,19 +276,19 @@ delete graphDef;
     === "plugins/MyPlugin.cpp"
 
         ```cpp linenums="1" hl_lines="2"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_st_plugin.cpp"
+        --8<-- "content/inference/code/tensorflow2_st_plugin.cpp"
         ```
 
     === "plugins/BuildFile.xml"
 
         ```xml linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_buildfile.xml"
+        --8<-- "content/inference/code/tensorflow_buildfile.xml"
         ```
 
     === "test/my_plugin_cfg.py"
 
         ```python linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_cfg.py"
+        --8<-- "content/inference/code/tensorflow2_cfg.py"
         ```
 
 
@@ -411,19 +411,19 @@ delete cacheData->graphDef;
     === "plugins/MyPlugin.cpp"
 
         ```cpp linenums="1" hl_lines="2"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_mt_plugin.cpp"
+        --8<-- "content/inference/code/tensorflow2_mt_plugin.cpp"
         ```
 
     === "plugins/BuildFile.xml"
 
         ```xml linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_buildfile.xml"
+        --8<-- "content/inference/code/tensorflow_buildfile.xml"
         ```
 
     === "test/my_plugin_cfg.py"
 
         ```python linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_cfg.py"
+        --8<-- "content/inference/code/tensorflow2_cfg.py"
         ```
 
 

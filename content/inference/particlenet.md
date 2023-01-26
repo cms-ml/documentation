@@ -3,7 +3,7 @@
 ParticleNet [[arXiv:1902.08570](https://arxiv.org/abs/1902.08570)] is an advanced neural network architecture that has many applications in CMS, including heavy flavour jet tagging, jet mass regression, etc. The network is fed by various low-level point-like objects as input, e.g., the particle-flow candidates, to predict a feature of a jet.
 
 <figure>
-<img src="../images/inference/particlenet_full_arch.png"/>
+<img src="images/particlenet_full_arch.png"/>
 <figcaption>The full architecture of the ParticleNet model. We'll walk through the details in the following sections.</figcaption>
 </figure>
 
@@ -48,7 +48,7 @@ We will disassemble the ParticleNet model and provide a detailed exploration in 
 Intuitively, ParticleNet treats all candidates inside an object as a "point cloud", which is a permutational-invariant set of points (e.g. a set of PF candidates), each carrying a feature vector (*η*, *φ*, *p*<sub>T</sub>, charge, etc.). The DGCNN uses the EdgeConv operation to exploit their spatial correlations (two-dimensional on the *η*-*φ* plain) by finding the *k*-nearest neighbours of each point and generate a new latent graph layer where points are scattered on a high-dimensional latent space. This is a graph-type analogue of the classical 2D convolution operation, which acts on a regular 2D grid (e.g., a picture) using a 3×3 local patch to explore the relations of a single-pixel with its 8 nearest pixels, then generates a new 2D grid.
 
 <figure>
-<img src="../images/inference/convolution_cartoon.png" width="60%"/>
+<img src="images/convolution_cartoon.png" width="60%"/>
 <figcaption>The cartoon illustrates the convolutional operation acted on the regular grid and on the point cloud (plot from <a href="https://indico.cern.ch/event/745718/contributions/3202526/attachments/1753880/2842817/jet_as_particle_cloud_ml4jets_20181115_hqu.pdf">ML4Jets 2018</a> talk).</figcaption>
 </figure>
 
@@ -118,7 +118,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 === "A simple MLP"
 
     <figure>
-    <img src="../images/inference/mlp_full_arch.png" width="70%"/>
+    <img src="images/mlp_full_arch.png" width="70%"/>
     <figcaption>The full architecture of the proof-of-concept multi-layer perceptron model.</figcaption>
     </figure>
 
@@ -190,7 +190,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 
         def get_loss(data_config, **kwargs):
             return torch.nn.CrossEntropyLoss()
-        ```
+        ```      
 
     The output below shows the full structure of the MLP network printed by PyTorch. You will see it in the `Weaver` output during the training.
 
@@ -295,7 +295,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 === "DeepAK8 (1D CNN)"
 
     <figure>
-    <img src="../images/inference/deepak8_full_arch.png"/>
+    <img src="images/deepak8_full_arch.png"/>
     <figcaption>The full architecture of the DeepAK8 model, which is based on 1D CNN with ResNet architecture.</figcaption>
     </figure>
 
@@ -546,7 +546,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 === "ParticleNet (DGCNN)"
 
     <figure>
-    <img src="../images/inference/particlenet_full_arch.png"/>
+    <img src="images/particlenet_full_arch.png"/>
     <figcaption>The full architecture of the ParticleNet model, which is based on DGCNN and EdgeConv.</figcaption>
     </figure>
 
@@ -556,7 +556,7 @@ Then, we show three NN model configurations below and provide detailed explanati
     We will elaborate on the ParticleNet model and focus more on the technical side in this section. The model is defined in `top_tagging/networks/particlenet_pf.py`, but it imports some constructor, the EdgeConv block, in `weaver/utils/nn/model/ParticleNet.py`. The EdgeConv is illustrated in the cartoon.
 
     <figure>
-    <img src="../images/inference/edgeconv_cartoon.png" width="60%"/>
+    <img src="images/edgeconv_cartoon.png" width="60%"/>
     <figcaption>Illustration of the EdgeConv block</figcaption>
     </figure>
 
@@ -564,7 +564,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 
     What happens inside the EdgeConv block? And how is the output feature vector transferred from the input features using the topology of the point cloud? The answer is encoded in the edge convolution (EdgeConv).
 
-    ![edgeconv_architecture](../images/inference/edgeconv_architecture.png){ loading=lazy align=left width=200 }
+    ![edgeconv_architecture](images/edgeconv_architecture.png){ loading=lazy align=left width=200 }
 
     The edge convolution is an analogue convolution method defined on a point cloud, whose shape is given by the "coordinates" of points. Specifically, the input "coordinates" provide a view of spatial relations of the points in the Euclidean space. It determines the *k*-nearest neighbouring points for each point that will guide the update of the feature vector of a point. For each point, the updated feature vector is based on the current state of the point and its *k* neighbours. Guided by this spirit, all features of the point cloud forms a 3D vector with dimensions `(C, P, K)`, where `C` is the per-point feature size (e.g., *η*, *φ*, *p*<sub>T</sub>，...), `P` is the number of points, and K the *k*-NN number. The structured vector is linearly transformed by acting 2D CNN on the feature dimension `C`. This helps to aggregate the feature information and exploit the correlations of each point with its adjacent points. A shortcut connection is also introduced inspired by the ResNet.
 
@@ -663,7 +663,7 @@ Then, we show three NN model configurations below and provide detailed explanati
 
     With the EdgeConv architecture as the building block, the ParticleNet model is constructed as follow.
 
-    ![particlenet_architecture](../images/inference/particlenet_architecture.png){ loading=lazy align=left width=200 }
+    ![particlenet_architecture](images/particlenet_architecture.png){ loading=lazy align=left width=200 }
 
     The ParticleNet model stacks three EdgeConv blocks to construct higher-level features and passing them through the pipeline. The points (i.e., in our case, the particle candidates inside a jet) are not changing, but the per-point "coordinates" and "features" vectors changes, in both values and dimensions.
 
@@ -1272,7 +1272,7 @@ In the `output` folder, we find the trained PyTorch models after every epoch and
 
 The predict step also produces a predicted root file in the `output` folder, including the truth label, the predicted store, and several observer variables we provided in the data card. With the predicted root file, we make the ROC curve comparing the performance of the three trained models.
 
-![roc.png](../images/inference/roc.png){ width=50% }
+![roc.png](images/roc.png){ width=50% }
 
 Here is the result from my training:
 
@@ -1312,7 +1312,7 @@ in the command, then a specific learning-rate finder program will be launched. T
 
 Below shows the results from LR finder by specifying `--lr-finder 5e-6,5e0,200`, for the `--optimizer adamW` (left) and the `--optimizer ranger` (right) case.
 
-![lr_finder_adamW_ranger.png](../images/inference/lr_finder_adamW_ranger.png){ width=80% }
+![lr_finder_adamW_ranger.png](images/lr_finder_adamW_ranger.png){ width=80% }
 
 The training loss forms a basin shape which indicates that the optimal learning rate falls somewhere in the middle. We extract two aspects from the plots. First, the basin covers a wide range, meaning that the LR finder only provides a rough estimation. But it is a good attempt to first run the LR finder to have an overall feeling. For the Ranger case (right figure), one can choose the range 1e-3 to 1e-2 and further determine the optminal learning rate by delivering the full training. Second, we should be aware that different optimizer takes different optimal LR values. As can be seen here, the AdamW in general requires a small LR than Ranger.
 
@@ -1332,7 +1332,7 @@ to start the TensorBoard service and go to URL `https://localhost:6006` to view 
 
 The below plots show the training and evaluation loss, in our standard choice with LR being 5e-3, and in the case of a small LR 2e-3 and a large LR 1e-2. Note that all tested LR values are within the basin in the LR finder plots.
 
-![pnet_lr_tensorboard_loss.png](../images/inference/pnet_lr_tensorboard_loss.png)
+![pnet_lr_tensorboard_loss.png](images/pnet_lr_tensorboard_loss.png)
 
 We see that in the evaluated loss plot, the standard LR outperforms two variational choices. The reason may be that a larger LR finds difficulty in converging to the global minima, while a smaller LR may not be adequate to reach the minima point in a journey of 20 epochs. Overall, we see 5e-3 as a good choice as the starting LR for the Ranger optimizer.
 
@@ -1377,7 +1377,7 @@ to adopt a lite version.
 
 The Tensorboard monitoring plots in the training/evaluation loss is shown as follows.
 
-![pnet_compl_tensorboard_loss.png](../images/inference/pnet_compl_tensorboard_loss.png)
+![pnet_compl_tensorboard_loss.png](images/pnet_compl_tensorboard_loss.png)
 
 We see that the "heavy" model reaches even smaller training loss, meaning that the model does not meet the degradation issue yet. However, the evaluation loss is not catching up with the training loss, showing some degree of overtraining in this scheme. From the evaluation result, we see no improvement by moving to a heavy model.
 
