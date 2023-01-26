@@ -12,7 +12,7 @@ datadir = os.path.join(os.path.dirname(thisdir), "data")
 
 # setup minimal options
 options = VarParsing("python")
-options.setDefault("inputFiles", "root://xrootd-cms.infn.it//store/mc/RunIISummer20UL17MiniAODv2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/106X_mc2017_realistic_v9-v1/00000/005708B7-331C-904E-88B9-189011E6C9DD.root")  # noqa
+options.setDefault("inputFiles", "root://xrootd-cms.infn.it//store/mc/RunIIFall17MiniAOD/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/9A439935-1FFF-E711-AE07-D4AE5269F5FF.root")  # noqa
 options.parseArguments()
 
 # define the process to run
@@ -21,13 +21,9 @@ process = cms.Process("TEST")
 # minimal configuration
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
-process.maxEvents = cms.untracked.PSet(
-    input=cms.untracked.int32(10),
-)
-process.source = cms.Source(
-    "PoolSource",
-    fileNames=cms.untracked.vstring(options.inputFiles),
-)
+process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(10))
+process.source = cms.Source("PoolSource",
+    fileNames=cms.untracked.vstring(options.inputFiles))
 
 # process options
 process.options = cms.untracked.PSet(

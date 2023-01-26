@@ -2,45 +2,45 @@
 
 ## How to use it?
 
-`lxplus-gpu` are special lxplus nodes with GPU support. You can access these nodes by executing
+`lxplus-gpu` are special lxplus nodes with GPU support. You can access these nodes by executing 
 
 ```bash
 ssh <your_user_name>@lxplus-gpu.cern.ch
 ```
 
-![Untitled](../../../images/resources/lxplusgpu_figs/Nvidia_SMI.png)
+![Untitled](LxplusGPU_figs/Nvidia_SMI.png)
 
 ## Software Environment
 
 Four examples are given below to show how to set up a software environment properly.
 
 1. Using LCG release software: after checking out an ideal software bundle with Cuda support at [`http://lcginfo.cern.ch/`](http://lcginfo.cern.ch/), one can set up an LCG environment by executing
-
+  
     ```bash
     source /cvmfs/sft.cern.ch/lcg/views/<name of bundle>/**x86_64-centos7-gcc8-opt**/setup.sh
     ```
-
+    
 2. Using `pip`, especially with `virtualenv`:  using `pip` only to install software may mess up the global environment. Thus, it is better to create a "virtual environment" with `virtualenv` in order to eliminate potential issues in the package environment.
     1. As on lxplus, the default `virtualenv` command is installed with `python2` , it better to firstly install `virtualenv` with `python3`
-
+      
         ```bash
         pip3 install virtualenv --user
         # Add following line to .bashrc and re-log in or source .bashrc
         # export PATH="/afs/cern.ch/user/<first letter of your username>/<username>/.local/bin:$PATH"
         ```
-
+        
     2. Make sure you have `virtualenv` with `python3` correctly. Then go to the desired directory and create a virtual environment
-
+      
         ```bash
         virtualenv <env name>
         source <env name>/bin/activate
         # now you are inside the virtual environment, your shell prompt will begin with "(<env name>)"
         ```
-
+        
     3. To install packages properly, one should carefully check the CUDA version with `nvidia-smi` (as shown in figure before), and then find a proper version, pytorch is used as an example.
-
-        ![Untitled](../../../images/resources/lxplusgpu_figs/pip.png)
-
+      
+        ![Untitled](LxplusGPU_figs/pip.png)
+        
         ```bash
         # Execute the command shown in your terminal
         pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
@@ -56,10 +56,10 @@ Four examples are given below to show how to set up a software environment prope
 singularity run --nv --bind <bind_mount_path> /cvmfs/unpacked.cern.ch/<path_to_image>
 ```
 
-## Examples
+## Examples 
 
 After installing package, you can then use GPU based machine learning algorithms. Two examples are supplied as an example.
 
-1. The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [pytorch_mnist](notebooks/pytorch_mnist.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
+1. The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [PytorchMNIST](Notebooks/PytorchMNIST.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
 
-2. The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [toptagging_mlp](notebooks/toptagging_mlp.md).
+2. The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [TopTaggingMLP](Notebooks/TopTaggingMLP.md).

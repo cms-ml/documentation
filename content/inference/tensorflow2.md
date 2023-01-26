@@ -4,60 +4,31 @@
 TensorFlow 2 is available since CMSSW\_11\_1\_X ([cmssw#28711](https://github.com/cms-sw/cmssw/pull/28711), [cmsdist#5525](https://github.com/cms-sw/cmsdist/pull/5525)).
 The integration into the software stack can be found in [cmsdist/tensorflow.spec](https://github.com/cms-sw/cmsdist/blob/latest/tensorflow.spec) and the interface is located in [cmssw/PhysicsTools/TensorFlow](https://github.com/cms-sw/cmssw/tree/master/PhysicsTools/TensorFlow).
 
+The current version is 2.1.0 and, at the moment, only supports inference on CPU.
+GPU support is planned for the integration of version 2.3.
 
-## Available versions
-
-=== "Python 3 on el8"
-
-    | TensorFlow | el8\_amd64\_gcc10 | el8\_amd64\_gcc11 |
-    | :--------: | ----------------- | ----------------- |
-    |   v2.6.0   | ≥ CMSSW\_12\_3\_4 | -                 |
-    |   v2.6.4   | ≥ CMSSW\_12\_5\_0 | ≥ CMSSW\_12\_5\_0 |
-
-=== "Python 3 on slc7"
-
-    | TensorFlow | slc7\_amd64\_gcc900 | slc7\_amd64\_gcc10 | slc7\_amd64\_gcc11 |
-    | :--------: | :------------------ | ------------------ | ------------------ |
-    |   v2.1.0   | ≥ CMSSW\_11\_1\_0   | -                  | -                  |
-    |   v2.3.1   | ≥ CMSSW\_11\_2\_0   | -                  | -                  |
-    |   v2.4.1   | ≥ CMSSW\_11\_3\_0   | -                  | -                  |
-    |   v2.5.0   | ≥ CMSSW\_12\_0\_0   | ≥ CMSSW\_12\_0\_0  | -                  |
-    |   v2.6.0   | ≥ CMSSW\_12\_1\_0   | ≥ CMSSW\_12\_1\_0  | ≥ CMSSW\_12\_3\_0  |
-    |   v2.6.4   | -                   | ≥ CMSSW\_12\_5\_0  | ≥ CMSSW\_13\_0\_0  |
-
-=== "Python 2 on slc7"
-
-    | TensorFlow | slc7\_amd64\_gcc900 |
-    | :--------: | ------------------- |
-    |   v2.1.0   | ≥ CMSSW\_11\_1\_0   |
-    |   v2.3.1   | ≥ CMSSW\_11\_2\_0   |
-
-
-At this time, only CPU support is provided.
-While GPU support is generally possible, it is currently disabled due to some interference with production workflows but will be enabled once they are resolved.
+See the guide on [inference with TensorFlow 1](tensorflow1.md) for earlier versions.
 
 
 ## Software setup
 
 To run the examples shown below, create a mininmal inference setup with the following snippet.
-==Adapt== the `SCRAM_ARCH` according to your operating system and desired compiler.
 
 ```shell linenums="1"
-export SCRAM_ARCH="el8_amd64_gcc11"
-export CMSSW_VERSION="CMSSW_12_6_0"
+export SCRAM_ARCH="slc7_amd64_gcc820"
+export CMSSW_VERSION="CMSSW_11_1_2"
 
-source "/cvmfs/cms.cern.ch/cmsset_default.sh" ""
+source /cvmfs/cms.cern.ch/cmsset_default.sh
 
-cmsrel "${CMSSW_VERSION}"
-cd "${CMSSW_VERSION}/src"
+cmsrel "$CMSSW_VERSION"
+cd "$CMSSW_VERSION/src"
 
 cmsenv
 scram b
 ```
 
 Below, the [`cmsml`](https://github.com/cms-ml/cmsml) Python package is used to convert models from TensorFlow objects (`tf.function`'s or Keras models) to protobuf graph files ([documentation](https://cmsml.readthedocs.io)).
-It should be available after executing the commands above.
-You can check its version via
+It should be available after executing the commands above. You can check its version via
 
 ```shell
 python -c "import cmsml; print(cmsml.__version__)"
@@ -94,7 +65,7 @@ If you want to install a newer version from either the [master branch of the cms
 ## Saving your model
 
 After successfully training, you should save your model in a protobuf graph file which can be read by the interface in CMSSW.
-Naturally, you only want to save that part of your model that is required to run the network prediction, i.e., it should ==not== contain operations related to model training or loss functions (unless explicitely required).
+Naturally, you only want to save that part of your model is required to run the network prediction, i.e., it should ==not== contain operations related to model training or loss functions (unless explicitely required).
 Also, to reduce the memory footprint and to accelerate the inference, variables should be converted to constant tensors.
 Both of these model transformations are provided by the `cmsml` package.
 
@@ -166,8 +137,7 @@ Instructions on how to transform and save your model are shown below, depending 
     ```python linenums="20" hl_lines="7"
     # create a concrete function
     cmodel = model.get_concrete_function(
-        tf.TensorSpec(shape=[2, 10], dtype=tf.float32),
-    )
+        tf.TensorSpec(shape=[2, 10], dtype=tf.float32))
 
     # convert to binary (.pb extension) protobuf
     # with variables converted to constants
@@ -224,12 +194,11 @@ If you are using the interface inside the `src/` or `interface/` directory of yo
 Despite `tf.Session` being removed in the Python interface as of TensorFlow 2, the concepts of
 
 - `Graph`'s, containing the *constant* computational structure and trained variables of your model,
-- `Session`'s, handling execution and data exchange, and
+- `Session`'s, handling execution, data exchange and device placement, and
 - the separation between them
 
-live on in the C++ interface.
+lives on in the C++ interface.
 Thus, the overall inference approach is **1)** include the interface, **2)** initialize `Graph` and `session`, **3)** per event create input tensors and run the inference, and **4)** cleanup.
-
 
 ##### 1. Includes
 
@@ -239,7 +208,6 @@ Thus, the overall inference approach is **1)** include the interface, **2)** ini
 // further framework includes
 ...
 ```
-
 
 ##### 2. Initialize objects
 
@@ -253,7 +221,6 @@ tensorflow::GraphDef* graphDef = tensorflow::loadGraphDef("/path/to/constantgrap
 // create a session
 tensorflow::Session* session = tensorflow::createSession(graphDef);
 ```
-
 
 ##### 3. Inference
 
@@ -278,7 +245,6 @@ tensorflow::run(session, { { "input", input } }, { "output" }, &outputs);
 std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
 // -> float
 ```
-
 
 ##### 4. Cleanup
 
@@ -310,37 +276,31 @@ delete graphDef;
     === "plugins/MyPlugin.cpp"
 
         ```cpp linenums="1" hl_lines="2"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_st_plugin.cpp"
+        --8<-- "content/inference/code/tensorflow2_st_plugin.cpp"
         ```
 
     === "plugins/BuildFile.xml"
 
         ```xml linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_buildfile.xml"
+        --8<-- "content/inference/code/tensorflow_buildfile.xml"
         ```
 
     === "test/my_plugin_cfg.py"
 
         ```python linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_cfg.py"
+        --8<-- "content/inference/code/tensorflow2_cfg.py"
         ```
 
 
 ### Multi-threaded inference
 
-Compared to the single-threaded implementation [above](#single-threaded-inference), the multi-threaded version has one major difference: ==both the `Graph` and the `Session` are no longer members of a particular module instance, but rather shared between all instances in all threads==.
+Compared to the single-threaded implementation [above](#single-threaded-inference), the multi-threaded version has one major difference: ==the `Graph` is no longer a member of a particular module instance, but rather shared between all instances in all threads==.
+This is possible since the `Graph` is actually a constant object that does not change over the course of the inference process.
+All volatile, device dependent information is kept in a `Session` which we keep instantiating per module instance.
+The `Graph` on the other hand is stored in a `#!cpp edm::GlobalCache<T>`.
 See the documentation on the [C++ interface of `stream` modules](https://twiki.cern.ch/twiki/bin/view/CMSPublic/FWMultithreadedFrameworkStreamModuleInterface) for details.
 
-!!! danger "Recommendation updated"
-
-    The previous recommendation stated that the `Session` is not constant and thus, should not be placed in the global cache, but rather created once per stream module instance.
-    However, it was discovered that, although not explicitely declared as constant in the `tensorflow::run()` / `Session::run()` interface, the session is actually not changed during evaluation and can be treated as being effectively constant.
-
-    As a result, it is safe to move it to the global cache, next to the `Graph` object.
-    The TensorFlow interface in CMSSW was adjusted in order to accept `const` objects in [cmssw#40161](https://github.com/cms-sw/cmssw/pull/40161).
-
-Thus, the overall inference approach is **1)** include the interface, **2)** let your plugin inherit from `#!c++ edm::stream::EDAnalyzerasdasd` and declare the `GlobalCache`, **3)** store in c`#!cpp const Session*`, pointing to the cached session, and **4)** per event create input tensors and run the inference.
-
+Thus, the overall inference approach is **1)** include the interface, **2)** define the `#!cpp edm::GlobalCache<T>` holding the `Graph`, **3)** initialize the `Session` with the cached `Graph`, **4)** per event create input tensors and run the inference, and **5)** cleanup.
 
 ##### 1. Includes
 
@@ -353,84 +313,45 @@ Thus, the overall inference approach is **1)** include the interface, **2)** let
 
 Note that `stream/EDAnalyzer.h` is included rather than `one/EDAnalyzer.h`.
 
+##### 2. Define and use the cache
 
-##### 2. Define and use the global cache
+The cache definition is done by declaring a simle struct.
 
-The cache definition is done by declaring a simple struct.
-However, for the purpose of just storing a graph and a session object, a so-called [`tensorflow::SessionCache`](https://github.com/cms-sw/cmssw/blob/cf78146456e111d5943da222cfac22e57f3c0355/PhysicsTools/TensorFlow/interface/TensorFlow.h#L184-L215) struct is already provided centrally.
-It was added in [cmssw#40284](https://github.com/cms-sw/cmssw/pull/40284) and its usage is shown in the following.
-In case the `tensorflow::SessionCache` is not (yet) available in your version of CMSSW, expand the "Custom cache struct" section below.
+```cpp linenums="1"
+struct MyCache {
+  MyCache() : graphDef(nullptr) {}
+  std::atomic<tensorflow::GraphDef*> graphDef;
+};
+```
 
 Use it in the `#!cpp edm::GlobalCache` template argument and adjust the plugin accordingly.
 
 ```cpp linenums="1"
-class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<tensorflow::SessionCache>> {
+class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
 public:
-    explicit GraphLoadingMT(const edm::ParameterSet&, const tensorflow::SessionCache*);
+    explicit GraphLoadingMT(const edm::ParameterSet&, const CacheData*);
     ~GraphLoadingMT();
 
-    // an additional static method for initializing the global cache
-    static std::unique_ptr<tensorflow::SessionCache> initializeGlobalCache(const edm::ParameterSet&);
+    // two additional static methods for handling the global cache
+    static std::unique_ptr<CacheData> initializeGlobalCache(const edm::ParameterSet&);
     static void globalEndJob(const CacheData*);
 ...
 ```
 
-Implement `initializeGlobalCache` to control the behavior of how the cache object is created.
-The destructor of `tensorflow::SessionCache` already handles the closing of the session itself and the deletion of all objects.
+Implement `initializeGlobalCache` and `globalEndJob` to control the behavior of how the cache object is created and destroyed.
 
-```cpp
-std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const edm::ParameterSet& config) {
-  std::string graphPath = edm::FileInPath(params.getParameter<std::string>("graphPath")).fullPath();
-  return std::make_unique<tensorflow::SessionCache>(graphPath);
-}
-```
-
-??? hint "Custom cache struct"
-
-    ```cpp linenums="1"
-    struct MyCache {
-      MyCache() : {
-      }
-
-      std::atomic<tensorflow::GraphDef*> graph;
-      std::atomic<tensorflow::Session*> session;
-    };
-    ```
-
-    Use it in the `#!cpp edm::GlobalCache` template argument and adjust the plugin accordingly.
-
-    ```cpp linenums="1"
-    class MyPlugin : public edm::stream::EDAnalyzer<edm::GlobalCache<CacheData>> {
-    public:
-        explicit GraphLoadingMT(const edm::ParameterSet&, const CacheData*);
-        ~GraphLoadingMT();
-
-        // two additional static methods for handling the global cache
-        static std::unique_ptr<CacheData> initializeGlobalCache(const edm::ParameterSet&);
-        static void globalEndJob(const CacheData*);
-    ...
-    ```
-
-    Implement `initializeGlobalCache` and `globalEndJob` to control the behavior of how the cache object is created and destroyed.
-
-See the [full example](#full-example_1) below for more details.
+See the [full example](#full-example_1) below for details.
 
 
 ##### 3. Initialize objects
 
-In your module constructor, you can get a pointer to the constant session to perform model evaluation during the event loop.
-
 ```cpp linenums="1"
-// declaration in header
-const tensorflow::Session* _session;
+// configure logging to show warnings (see table below)
+tensorflow::setLogging("2");
 
-// get a pointer to the const session stored in the cache in the constructor init
-MyPlugin::MyPlugin(const edm::ParameterSet& config,  const tensorflow::SessionCache* cache)
-    : session_(cache->getSession()) {
-  ...
-}
+// create a session using the graphDef stored in the cache
+tensorflow::Session* session = tensorflow::createSession(cacheData->graphDef);
 ```
-
 
 ##### 4. Inference
 
@@ -446,14 +367,9 @@ for (size_t i = 0; i < 10; i++) {
     input.matrix<float>()(0, i) = float(i);
 }
 
-// define the output
+// run the evaluation
 std::vector<tensorflow::Tensor> outputs;
-
-// evaluate
-// note: in case this line causes the compiler to complain about the const'ness of the session_ in
-//       this call, your CMSSW version might not yet support passing a const session, so in this
-//       case, pass "const_cast<tensorflow::Session*>(session_)"
-tensorflow::run(session_, { { inputTensorName, input } }, { outputTensorName }, &outputs);
+tensorflow::run(session, { { inputTensorName, input } }, { outputTensorName }, &outputs);
 
 // process the output tensor
 // (example: print the 5th value of the 0th (the only) example)
@@ -461,14 +377,15 @@ std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
 // -> float
 ```
 
-!!! danger "Note"
+##### 5. Cleanup
 
-    If the TensorFlow interface in your CMSSW release does not yet accept `#!cpp const` sessions, line 19 in the example above will cause an error during compilation.
-    In this case, replace `#!cpp session_` in that line to
+```cpp linenums="1"
+// per module instance
+tensorflow::closeSession(session_);
 
-    ```cpp
-    const_cast<tensorflow::Session*>(session_)
-    ```
+// in globalEndJob
+delete cacheData->graphDef;
+```
 
 
 ##### Full example
@@ -494,19 +411,19 @@ std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
     === "plugins/MyPlugin.cpp"
 
         ```cpp linenums="1" hl_lines="2"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_mt_plugin.cpp"
+        --8<-- "content/inference/code/tensorflow2_mt_plugin.cpp"
         ```
 
     === "plugins/BuildFile.xml"
 
         ```xml linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_buildfile.xml"
+        --8<-- "content/inference/code/tensorflow_buildfile.xml"
         ```
 
     === "test/my_plugin_cfg.py"
 
         ```python linenums="1"
-        --8<-- "content/inference/code/tensorflow/tensorflow2_cfg.py"
+        --8<-- "content/inference/code/tensorflow2_cfg.py"
         ```
 
 
