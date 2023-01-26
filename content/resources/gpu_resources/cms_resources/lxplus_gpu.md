@@ -63,4 +63,3 @@ After installing package, you can then use GPU based machine learning algorithms
 1. The first example aims at using a CNN to perform handwritten digits classification with `MNIST` dataset. The whole notebook can be found at [pytorch_mnist](notebooks/pytorch_mnist.md). This example is modified from [an official `pytorch` example](https://github.com/pytorch/examples/tree/master/mnist).
 
 2. The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The whole notebook can be found at [toptagging_mlp](notebooks/toptagging_mlp.md).
-
