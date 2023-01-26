@@ -12,7 +12,7 @@ The dataset level data augmentation techniques can generally be divided into two
 Examples of RDA include rotating (e.g if we expect the event to be rotationally symmetric) and zooming among plethora of other methods detailed in this overview article, whereas GAN and VAE are examples of SDA.
 
 
-| ![Data Augmentation](../images/optimization/data_augmentation.png "Data augmentation") |
+| ![Data Augmentation](./images/data_augmentation.png "Data augmentation") |
 |:--:|
 | Fig. 1: *Generic pipeline of a heuristic DA (figure taken from [Li, 2020][0b])* |
 
@@ -78,7 +78,7 @@ Step-2: NN
 ```
 
 
-| ![LBN](../images/optimization/LBN_architecture.png "Lorentz Boost Network architecture") |
+| ![LBN](./images/LBN_architecture.png "Lorentz Boost Network architecture") |
 |:--:|
 | Fig. 2: *The Lorentz Boost Network architecture (figure taken from [Erdmann et al., 2018][1x])* |
 
@@ -113,9 +113,9 @@ Additionally it allows the investigation of the linear versus nonlinear nature o
 
 Planing was one of the first methods for mass decorrelation that was explored in ML studies of jet physics. The planing procedure introduces reweighing of the data to smooth away the features in a given variable as shown in (1), which in practice corresponds to binning the variable and inverting it. However, doing this produces still some finite bin effects. This weighing results in having uniform distributions in signal and background such that the jet mass no longer provides discrimination. New networks trained on the modified data.
 
-<!-- ![Planing weights](../images/optimization/planing.png "Planing weights") ........................ (1) -->
+<!-- ![Planing weights](./images/planing.png "Planing weights") ........................ (1) -->
 
-| ![Planing weights](../images/optimization/planing.png "Planing weights") |
+| ![Planing weights](./images/planing.png "Planing weights") |
 |:--:|
 | *Planing weights (Eq. 1)* |
 
@@ -277,7 +277,7 @@ Today there are more promising techniques that try to improve the disadvantages 
 
 
 
-**Stratified sampling (STS)** is used in cases where the data can be partitioned into strata (subpopulations), where each strata should be collectively exhaustive and mutually exclusive. The process of dividing the data into homogeneus subgroups before samnpling is referred to as *stratification*. The two common strategies of STS are *proportionate allocation (PA)* and *optimum (disproportionate) allocation (OA)*, where the former uses a fraction in each of the stata that is proportional to that of the total populations and the latter uses additionally also the standard deviation of the distribution of the variable, so that the larger samples are taken from the strata that has the greatest variability to generate the least possible sampling variance. The advantages of using STS include smaller error in estimation (if measurements within strata have lower standard deviation) and ensurance that in case of great variablity of a given strata the estimates over all the data have similar uncertainties across all strata, this being more representative of the whole population than a simple [random sampling](#random-sampling) or [systematic sampling](#systematic-sampling).
+**Stratified sampling (STS)** is used in cases where the data can be partitioned into strata (subpopulations), where each strata should be collectively exhaustive and mutually exclusive. The process of dividing the data into homogeneus subgroups before samnpling is referred to as *stratification*. The two common strategies of STS are *proportionate allocation (PA)* and *optimum (disproportionate) allocation (OA)*, where the former uses a fraction in each of the stata that is proportional to that of the total populations and the latter uses additionally also the standard deviation of the distribution of the variable, so that the larger samples are taken from the strata that has the greatest variability to generate the least possible sampling variance. The advantages of using STS include smaller error in estimation (if measurements within strata have lower standard deviation) and ensurance that in case of great variablity of a given strata the estimates over all the data have similar uncertainties across all strata, this being more representative of the whole population than a simple [random sampling](#random-sampling) or [systematic sampling](#systematic-sampling). 
 
 **NOTE:** STS is only useful the population can be exhaustively partitioned into disjoint sobgroups. Also in case of unknown class priors (the ratio of strata to the whole population) might have deleterious effects on the classification performance.
 
@@ -375,7 +375,7 @@ The limitations of conventional data augmentation approaches reveal huge opportu
 
 <!-- In deep learning, architecture engineering is the new feature engineering -->
 
-<!--
+<!-- 
 Advanced models for data augmentation are
 
 Adversarial training/Adversarial machine learning: It generates adversarial examples which disrupt a machine learning model and injects them into a dataset to train.

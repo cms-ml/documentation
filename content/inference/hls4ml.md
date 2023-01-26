@@ -1,14 +1,14 @@
 # Direct inference with hls4ml
 
 <p align="center">
-  <img src="../images/inference/hls4ml_logo.png" alt="drawing" width="50%" />
+  <img src="images/hls4ml_logo.png" alt="drawing" width="50%" />
 </p>
 
 
 [hls4ml](https://fastmachinelearning.org/hls4ml/) is a Python package developed by the [Fast Machine Learning Lab](https://fastmachinelearning.org/). It's primary purpose is to create firmware implementations of machine learning (ML) models to be run on FPGAs. The package interfaces with a high-level synthesis (HLS) backend (i.e. Xilinx Vivado HLS) to transpile the ML model into hardware description language (HDL). The primary hls4ml documentation, including API reference pages, is located [here](https://fastmachinelearning.org/hls4ml/).
 
 <p align="center">
-  <img src="../images/inference/hls4ml_overview.jpg" alt="drawing" width="75%" />
+  <img src="images/hls4ml_overview.jpg" alt="drawing" width="75%" />
 </p>
 
 The main hls4ml tutorial code is kept on [GitHub](https://github.com/fastmachinelearning/hls4ml-tutorial). Users are welcome to walk through the notebooks at their own pace. There is also a set of slides linked to the [README](https://github.com/fastmachinelearning/hls4ml-tutorial/blob/master/README.md).
