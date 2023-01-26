@@ -14,3 +14,4 @@ After logging into the main website, you can click on the `Examples` entry to br
 
 1. [`mnist-kfp`](https://gitlab.cern.ch/ai-ml/examples/-/tree/master/mnist-kfp) is an example on how to use jupyter notebooks to create a Kubeflow pipeline (kfp) and how to access CERN EOS files.
 2. [`katib`](https://gitlab.cern.ch/ai-ml/examples/-/tree/master/katib) gives an example on how to use the `katib` to operate hyperparameter tuning for jet tagging with ParticleNet.
+
