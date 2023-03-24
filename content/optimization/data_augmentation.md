@@ -8,10 +8,11 @@ With the increasing complexity and sizes of neural networks one needs huge amoun
 The first type of these methods is more widely known as *feature generation* or *feature engineering* and is done on instance level. Feature engineering focuses on crafting informative input features for the algorithm, often inspired or derived from first principles specific to the algorithm's application domain.
 
 
-The second type of method is done on the dataset level. These types of techniques can generally be divided into two main categories: *real data augmentation* (RDA) and *synthetic data augmentation* (SDA). As the name suggests, RDA makes minor changes to the already existing data in order to generate new samples, whereas SDA generates new data from scratch. Examples of RDA include rotating (especially useful if we expect the event to be rotationally symmetric) and zooming, among a plethora of other methods detailed in this overview article. Examples of SDA include traditional sampling methods and more complex generative models like Generative Adversaial Netoworks (GANs) and Variational Autoencoders (VAE). 
+The second type of method is done on the dataset level. These types of techniques can generally be divided into two main categories: *real data augmentation* (RDA) and *synthetic data augmentation* (SDA). As the name suggests, RDA makes minor changes to the already existing data in order to generate new samples, whereas SDA generates new data from scratch. Examples of RDA include rotating (especially useful if we expect the event to be rotationally symmetric) and zooming, among a plethora of other methods detailed in this overview article. Examples of SDA include traditional sampling methods and more complex generative models like Generative Adversaial Netoworks (GANs) and Variational Autoencoders (VAE). Going further, the generative methods used for synthetic data augmentation could also be used in fast simulation, which is a notable bottleneck in the overall physics analysis workflow.
 
 
 Dataset augmentation may lead to more successful algorithm outcomes. For example, introducing noise into data to form additional data points improves the learning ability of several models which otherwise performed relatively poorly, as shown by [Freer & Yang, 2020][0a]. This finding implies that this form of DA creates variations that the model may see in the real world. If done [right](#tips-and-tricks), preprocessing the data with DA will result in superior training outcomes. This improvement in performance is due to the fact that DA methods act as a regularizer, reducing overfitting during training. In addition to simulating real-world variations, DA methods can also even out categorical data with [imbalanced classes](#class-imbalance).
+
 
 | ![Data Augmentation](../images/optimization/data_augmentation.png "Data augmentation") |
 |:--:|
@@ -50,7 +51,7 @@ This process transforms and augments training data with additional features in o
 
 With multi-variate analyeses (MVAs), such boosted decision trees (BDTs) and neural networks, one could start with raw, "low-level" features, like four-momenta, and the algorithm can learn higher level patterns, correlations, metrics, etc. However, using "high-level" variables, in many cases, leads to outcomes superior to the use of low-level variables. As such, features used in MVAs are handcrafted from physics first principles. 
 
-Still, it is shown that DNN can perform better if they are trained with both specifically constructed variables and low-level varibales. This observation suggests that the network extracts additional information from the training data.
+Still, it is shown that a deep neural network (DNN) can perform better if it is trained with both specifically constructed variables and low-level variables. This observation suggests that the network extracts additional information from the training data.
 
 ### HEP Application - Lorentz Boosted Network
 For the purposeses of FE in HEP, a novel ML architecture called a *Lorentz Boost Network (LBN)* (see Fig. 2) was proposed and implemented by [Erdmann et al., 2018][1x]. It is a multipurpose method that uses Lorentz transformations to exploit and uncover structures in particle collision events. LBN is the first stage of a two-stage neural network (NN) model, that enables a fully autonomous and comprehensive characterization of collision events by exploiting exclusively the four-momenta of the final-state particles. 
@@ -112,7 +113,7 @@ RDA methods augment the existing dataset by performance some transformation on t
 
 In [Barnard et al., 2016][1e], the authors investigate the effect of parton shower modelling in DNN jet taggers using images of hadronically decaying W bosons. They introduce a method known as zooming to study the scale invariance of these networks. This is the RDA strategy used by [Dolan & Ore, 2021][1a]. Zooming is similar to a normalization procedure such that it standardizes features in signal data, but it aims to not create similar features in background. 
 
-After some standard data processing steps, including jet trimming and clustering via the $k_t$ algorithm, and some further processing to remove spatial symmetries, the resulting jet image depicts the leading subjet and subleading subjet directly below. [Barnard et al., 2016][1e] notes that the separation between the leading and subleading subjets varies linearly as $2m/p_T$ where $m$ and $p_T$ are the mass and transverse momentum of the jet. Standardizing this separation, or removing the linear dependence, would allow the DNN tagger to generalize to a wide range of jet $p_T$. To this end, the authors construct a factor $R/\DeltaR_{act}$, where $R$ is some fixed value and $\DeltaR_{act}$ is the separation between the leading and subleading subjets. To discriminate between signal and background images with this factor, the authors enlarge the jet images by a scaling factor of $\text{max}(R/s,1)$ where $s = 2m_W/p_T$ and $R$ is the original jet clustering size. This process of jet image enlargement by a linear mass and $p_T$ dependent factor to account for the distane between the leading and subleading jet is known as zooming. This process can be thought of as an RDA technique to augment the data in a domain-specific way.
+After some standard data processing steps, including jet trimming and clustering via the $k_t$ algorithm, and some further processing to remove spatial symmetries, the resulting jet image depicts the leading subjet and subleading subjet directly below. [Barnard et al., 2016][1e] notes that the separation between the leading and subleading subjets varies linearly as $2m/p_T$ where $m$ and $p_T$ are the mass and transverse momentum of the jet. Standardizing this separation, or removing the linear dependence, would allow the DNN tagger to generalize to a wide range of jet $p_T$. To this end, the authors construct a factor, $R/\DeltaR_{act}$, where $R$ is some fixed value and $\DeltaR_{act}$ is the separation between the leading and subleading subjets. To discriminate between signal and background images with this factor, the authors enlarge the jet images by a scaling factor of $\text{max}(R/s,1)$ where $s = 2m_W/p_T$ and $R$ is the original jet clustering size. This process of jet image enlargement by a linear mass and $p_T$ dependent factor to account for the distane between the leading and subleading jet is known as zooming. This process can be thought of as an RDA technique to augment the data in a domain-specific way.
 
 Advantage of using the zooming technique is that it makes the construction of scale invariant taggers easier. Scale invariant searches which are able to interpolate between the boosted and resolved parts of phase space have the advantage of being applicable over a broad range of masses and kinematics, allowing a single search or analysis to be effective where previously more than one may have been necessary.
 
@@ -131,62 +132,46 @@ When jets are zoomed, all the models they compared behave similarly with far les
 <!-- ## Class imbalance -->
 *Text in part based on [He et al., 2010][2k]*
 
-Generally speaking, imbalanced learning occurs whenever some type of data distribution dominates the instance space compared to other data distributions. The state-of-the-art research methodologies for handling imbalanced learning problems can be into the following five major directions:
+Generally speaking, imbalanced learning occurs whenever some type of data distribution dominates the instance space compared to other data distributions. Methods for handling imbalanced learning problems can be divided into the following five major categories:
 
 - **[Sampling strategies](#sampling)**
 - **Synthetic data generation ([SMOTE](#synthetic-minority-over-sampling-technique-smote) & [ADASYN](#adaptive-synthetic-sampling-approach) & DataBoost-IM)**  - aims to overcome the imbalance by artificially generating data samples.
 - **Cost-sensitive learning** - uses cost-matrix for different types of errors or instance to facilitate learning from imbalanced data sets. This means that cost-sensitive learning does not modify the imbalanced data distribution directly, but targets this problem by using different cost-matrices that describe the cost for misclassifying any particular data sample.
-- **Active learning** - conventionally used to solve problems related to unlabeled data, though recently it has been more actively used in learning imbalanced data sets. Instead of searching the entire training space, this method effectively selects informative instances from a random set of training populations, therefore significantly reducing the computational cost when dealing with large imbalanced data sets.
+- **Active learning** - conventionally used to solve problems related to unlabeled data, though recently it has been used in learning imbalanced data sets. Instead of searching the entire training space, this method effectively selects informative instances from a random set of training populations, therefore significantly reducing the computational cost when dealing with large imbalanced data sets.
 - **Kernel-based methods** - by integrating the regularized orthogonal weighed least squares (ROWLS) estimator, a kernel classifier construction algorithm is based on orthogonal forward selection (OFS) to optimize the model generalization for learning from two-class imbalanced data sets.
 
 
-Classification tasks benefit when the class distribution of the response variable is well balanced. A popular method in addition to data augmentation to solve the problem of class imbalance is [sampling](#sampling).
-
-technique used to adjust the class distribution of the dataset (i.e. the ratio between the different classes/categories represented).
-
-Precision is a better measure of classifier performance for imbalanced dataset than accuracy.
-Accuracy paradox for imbalance datasets.
-Another way of overcoming this problem would be to sample.
+<!--Classification tasks benefit when the class distribution of the response variable is well balanced. A popular method in addition to data augmentation to solve the problem of class imbalance is [sampling](#sampling). This technique is used to adjust the class distribution of the dataset (i.e. the ratio between the different classes represented).-->
 
 
 ### Sampling
 
-The re-sampling techniques are implemented in four different categories: undersampling the majority class, oversampling the minority class, combining over- and undersampling, and ensembling sampling.
-
-Oversampling and undersampling are found to work well in improving the classification for the imbalanced dataset. [Yap et al., 2013][2h]
+When the percentage of the minority class is less than 5%, it can be considered a rare event. When a dataset is imbalanced or when a rare event occurs, it will be difficult to get a meaningful and good predictive model due to lack of information about the rare event [Au et al., 2010][2i]. In these cases, re-sampling techniques can be helpful. The re-sampling techniques are implemented in four different categories: undersampling the majority class, oversampling the minority class, combining over- and undersampling, and ensembling sampling. Oversampling and undersampling are found to work well in improving the classification for the imbalanced dataset. [Yap et al., 2013][2h]
 
 
-When the percentage of the minority class is less than 5%, it is known as a rare event. When a dataset is imbalanced or when a rare event occurs, it will be difficult to get a meaningful and good predictive model due to lack of information to learn about the rare event [Au et al., 2010][2i]
+<!--**Random sampling**
+I'm not sure why you mention random sampling if you say there are better methods without first describing it/pros + cons.
+[[ref]](https://www.aaai.org/Papers/KDD/1998/KDD98-011.pdf)
+
+Today there are more promising techniques that try to improve the disadvantages of random approaches, such as synthetic data augmentation ([SMOTE](#synthetic-minority-over-sampling-technique-smote), [ADASYN](#adaptive-synthetic-sampling-approach-adasyn)) or clustering-based under-sampling techniques ([ENN](https://ieeexplore.ieee.org/document/4309137?TB_iframe=true&width=370.8&height=658.8)).-->
 
 
-**Random sampling**
-<!-- [[ref]](https://www.aaai.org/Papers/KDD/1998/KDD98-011.pdf) -->
+**Stratified sampling (STS)** 
+This technique is used in cases where the data can be partitioned into strata (subpopulations), where each strata should be collectively exhaustive and mutually exclusive. The process of dividing the data into homogeneus subgroups before sampling is referred to as *stratification*. The two common strategies of STS are *proportionate allocation (PA)* and *optimum (disproportionate) allocation (OA)*. The former uses a fraction in each of the stata that is proportional to that of the total population. The latter uses the standard deviation of the distribution of the variable as well, so that the larger samples are taken from the strata that has the greatest variability to generate the least possible sampling variance. The advantages of using STS include smaller error in estimation (if measurements within strata have lower standard deviation) and similarity in uncertainties across all strata in case there is high variability in a given strata.
 
-Today there are more promising techniques that try to improve the disadvantages of random-based approaches, such as synthetic data augmentation ([SMOTE](#synthetic-minority-over-sampling-technique-smote), [ADASYN](#adaptive-synthetic-sampling-approach-adasyn)) or clustering-based under-sampling techniques ([ENN](https://ieeexplore.ieee.org/document/4309137?TB_iframe=true&width=370.8&height=658.8)).
+**NOTE:** STS is only useful if the population can be exhaustively partitioned into subgroups. Also in case of unknown class priors (the ratio of strata to the whole population) might have deleterious effects on the classification performance.
 
+**Over- and undersampling**
+Oversampling randomly duplicates minority class samples, while undersampling discards majority class samples in order to modify the class distribution. While oversampling might lead to overfitting, since it makes exact copies of the minority samples, undersampling may discard potentially useful majority samples.
 
+Oversampling and undersampling are essentially opposite and roughly equivalent techniques. There are also more complex oversampling techniques, including the creation of artificial data points with algorithms like Synthetic Minority Over-sampling TEchnique (SMOTE). 
 
-**Stratified sampling (STS)** is used in cases where the data can be partitioned into strata (subpopulations), where each strata should be collectively exhaustive and mutually exclusive. The process of dividing the data into homogeneus subgroups before samnpling is referred to as *stratification*. The two common strategies of STS are *proportionate allocation (PA)* and *optimum (disproportionate) allocation (OA)*, where the former uses a fraction in each of the stata that is proportional to that of the total populations and the latter uses additionally also the standard deviation of the distribution of the variable, so that the larger samples are taken from the strata that has the greatest variability to generate the least possible sampling variance. The advantages of using STS include smaller error in estimation (if measurements within strata have lower standard deviation) and ensurance that in case of great variablity of a given strata the estimates over all the data have similar uncertainties across all strata, this being more representative of the whole population than a simple [random sampling](#random-sampling) or [systematic sampling](#systematic-sampling).
+It has been shown that the combination of SMOTE and undersampling performs better than only undersampling the majority class. However, over- and undersampling remain popular as it each is much easier to implement alone than in some complex hybrid approach.
 
-**NOTE:** STS is only useful the population can be exhaustively partitioned into disjoint sobgroups. Also in case of unknown class priors (the ratio of strata to the whole population) might have deleterious effects on the classification performance.
-
-#### Over- and undersampling
-Oversampling means (randmly) duplicating the minority class samples, while undersampling discards the majority class samples in order to modify the class distribution. Though oversampling might lead to overfitting, since it makes exact copies of the minority samples while undersampling may discard potentially useful majority samples.
-
-
-Combination of SMOTE and undersampling performs better than only undersampling the majority class.
-
-Over- and undersampoling remain popular as it is much easier to implement than some complex hybrid approaches.
-
-Oversampling and undersampling are opposite and roughly equivalent techniques. There are also more complex oversampling techniques, including the creation of artificial data points with algorithms like Synthetic minority oversampling technique.
-
-Both oversampling and undersampling involve introducing a bias to select more samples from one class than from another, to compensate for an imbalance that is either already present in the data, or likely to develop if a purely random sample were taken. Data Imbalance can be of the following types:
-
-#### Synthetic Minority Over-sampling Technique (SMOTE)
+**Synthetic Minority Over-sampling Technique (SMOTE)**
 *Text mostly based on [Chawla et al., 2002][2j] and in part on [He et al., 2010][2k]*
 
-In case of Synthetic Minority Over-sampling Technique (SMOTE), the minority class is over sampled by creating synthetic examples instead of oversampling with replacement.
-The minority class is oversampled by taking each minority class sample and introducing synthetic examples along the line segments joining any or all of the k minority class nearest neighbours.
+In case of Synthetic Minority Over-sampling Technique (SMOTE), the minority class is oversampled by creating synthetic examples along the line segments joining any or all of the $k$-nearest neighbours in the minority class.
 The synthetic examples cause the classifier to create larger and less specific decision regions, rather than smaller and more specific regions.
 More general regions are now learned for the minority class samples rather than those being subsumed by the majority class samples around them.
 In this way SMOTE shifts the classifier learning bias toward the minority class and thus has the effect of allowing the model to generalize better.
@@ -212,16 +197,14 @@ Extend X by SYNTHETIC_SAMPLES
 ```
 
 
-#### Adaptive synthetic sampling approach (ADASYN)
+**Adaptive synthetic sampling approach (ADASYN)**
 *Text mostly based on [He et al., 2010][2k]*
 
-Adaptive synthetic sampling approach (ADASYN) is a sampling approach for learning from imbalanced datasets, with the main idea of being to use a weighted distribution for different minority class examples according to their level of difficulty in learning, where more synthetic data is generated for minority class examples that are harder to learn compared to those minority examples that are easier to learn. Thus, ADASYN improves learning with respect to the data distributions in by reducing the bias introduced by the class imbalance and by adaptively shifting the classification boundary toward the difficult examples.
+Adaptive synthetic sampling approach (ADASYN) is a sampling approach for learning from imbalanced datasets. The main idea is to use a weighted distribution for different minority class examples according to their level of difficulty in learning, where more synthetic data is generated for minority class examples that are harder to learn compared to those minority examples that are easier to learn. Thus, ADASYN improves learning with respect to the data distributions by reducing the bias introduced by the class imbalance and by adaptively shifting the classification boundary toward the difficult examples.
 
-The objectives of ADASYN are reducing the bias and learn adaptively. The key idea of this algorithms is to use a density distribution as a criterion to automatically decide the number of synthetic samples that need to be generated for each minority data example. Physically this density distribution is a measurement of the distribution of weights for different minority class examples according to their level of difficulty in learning. The resulting dataset after using ADASYN will not only provide a balanced representation of the data distribution (according to the desired balance level defined in the configuration), but it also forces the learning algorithm to focus on those difficult to learn examples.
+The objectives of ADASYN are reducing bias and learning adaptively. The key idea of this algorithm is to use a density distribution as a criterion to decide the number of synthetic samples that need to be generated for each minority data example. Physically, this density distribution is a distribution of weights for different minority class examples according to their level of difficulty in learning. The resulting dataset after using ADASYN will not only provide a balanced representation of the data distribution (according to the desired balance level defined in the configuration), but it also forces the learning algorithm to focus on those difficult to learn examples. It has been shown [He et al., 2010][2k], that this algorithm improves accuracy for both minority and majority classes and does not sacrifice one class in preference for another.
 
-[He et al., 2010][2k] show, that this algorithm provides improved accuracy for both minority and majority classes and does not sacrifice one class in preference for another.
-
-ADASYN is not limited to only two-class learning, but can also be generalized to multiple-class imbalanced learning problems as well as modified to facilitate incremental learning applications.
+ADASYN is not limited to only two-class learning, but can also be generalized to multiple-class imbalanced learning problems as well as incremental learning applications.
 
 For more details and comparisons of ADASYN to other algorithms, please see [He et al., 2010][2k].
 
@@ -244,8 +227,12 @@ flipped_image = tf.image.flip_left_right(image)
 
 
 <!-- 2. -->
-## Generative SDA Techniques
+## Deep Learning-based SDA Techniques
+In data science, data augmentation techniques are used to increase the amount of data by either synthetically creating data from already existing samples via a GAN or modifying the data at hand with small noise or rotation. ([Rebuffi et al., 2021][0c])
 
+More recently, data augmentation studies have begun to focus on the field of deep learning (DL), more specifically on the ability of generative models, like Generative Adversarial Networks (GANs) and Variational Autoencoders (VAEs), to create artificial data. This synthetic data is then introduced during the classification model training process to improve performance and results.
+<!--
+I have no idea why this list is here it's also not entirely true - people use rotations, kernel filters, etc. for image processing - like in the zooming paper - in physics analyses
 Although there exist many DA methods in classic image processing, like those listed below, usually these methods are not suitable for the tasks at hand in HEP.
 
 - Geometric transformations (flip, crop, rotate, translate, etc.)
@@ -254,32 +241,28 @@ Although there exist many DA methods in classic image processing, like those lis
 - Random erasing (of a part of the image)
 - Image mixing
 
-Some common tools used in HEP applications are describen in the following sections.
+Some common tools used in HEP applications are describen in the following sections.-->
 
-### Generative Adversarial Networks (GANs)
+**Generative Adversarial Networks (GANs)**
 *The following text is written based on the works by [Musella & Pandolfi, 2018][2a] and [Hashemi et al., 2019][2b] and [Kansal et al., 2022][2c] and [Rehm et al., 2021][2d] and [Choi & Lim, 2021][2e] and [Kansal et al., 2020][2f]*
 
-
-In the paper by [Musella & Pandolfi, 2018][2a] they apply generative models parametrized by neural networks (GANs in particular) to the simulation of particle+detector response to hadronic jets and show that this achieves high-fidelity in this task while incresing the speed w.r.t traditional algorithms by several orders of magnitude.
-
-Their model is trained to be capable of predicting the combined effect of particle detector simulation models and reconstruction algorithms to hadronic jets.
-
-[Musella & Pandolfi, 2018][2a]: Generative adversarial networks (GANs) are pairs of neural networks, a generative and a discriminative one, that are trained concurrently as players of a minimax game. The task of the generative network is to produce, starting from a latent space with a ficed distribution, samples that the discriminative model tries to separate from samples drawn from a target dataset. This kind of setup allows the distribution of the target dataset to be learned, provided that both of the networks have high enough capacity.
-
-The architecture of the networks and the problem formulation, that can be classified as a domain mapping one, are based on the **image-to-image** translation, since the hadronic jets are represented as "gray-scale" images of fixed size centered around the jet axis, with the pixel intensity corresponding to the energy fraction in a given cell.
-The few differences taylored explicitly for jet images are that they model the set of non-empty picels in the generated images (much sparser than in natural images) and a good modelling of the pixel intensity is enforced through the combined use of feature matching and of a dedicated adversarial classifier. The generator is also conditioned on a number of auxiliary features.
-
-By predicting directly the objects used at analysis level and thus reproducing the output of both detector simulation and reconstruction algorithms they reduce the computation time. This kind of philosophy is very similar to parametrized detectors simulations, whicha re used in HEP for phenomenological studies. The attained accuracies are comparable to the full simulation and reconstruction chain.
-
-
-More recently, data augmentation studies have begun to focus on the field of deep learning, more specifically on the ability of generative models to create artificial data which is then introduced during the classification model training process.
-
-In data sciences data augmentation techniques are used to increase the amount by either synthetically creating (GAN) data from already existing samples or modifying the data at hand with small noise or rotation. ([Rebuffi et al., 2021][0c])
+GANs have been proposed as a fast and accurate way of modeling high energy jet formation ([Paganini et al., 2017a][2o]) and modeling showers throughcalorimeters of high-energy physics experiments ([Paganini et al., 2017][2n] ; [Paganini et al., 2012][2m];  [Erdman et al., 2020][2l]; [Musella & Pandolfi, 2018][2a]) GANs have also been trained to accurately approximate bottlenecks in computationally expensive simulations of particle physics experiments. Applications in the context of present and proposed CERN experiments have demonstrated the potential of these methods for accelerating simulation and/or improving simulation fidelity[ (ATLAS Collaboration, 2018][2p];  [SHiP Collaboration, 2019][2q]).
 
 The generative model approximates the combined response of aparticle detecor simulation and reconstruction algorithms to hadronic jets given the latent space of uniformly distributed noise, auxiliary features and jet image at particle level (jets clustered from the list of stable particles produced by PYTHIA).
 
 
-GANs have been proposed as a fast and accurate way of modeling high energy jet formation ([Paganini et al., 2017a][2o]) and modeling showers throughcalorimeters of high-energy physics experiments ([Paganini et al., 2017][2n] ; [Paganini et al., 2012][2m];  [Erdman et al., 2020][2l]; [Musella & Pandolfi, 2018][2a]) GANs have also been trained to accurately approximate bottlenecks in computationally expensive simulations of particle physics experiments. Applications in the context of present and proposed CERN experiments have demonstrated the potential of these methods for accelerating simulation and/or improving simulation fidelity[ (ATLAS Collaboration, 2018][2p];  [SHiP Collaboration, 2019][2q]).
+In the paper by [Musella & Pandolfi, 2018][2a], the authors apply generative models parametrized by neural networks (GANs in particular) to the simulation of particles-detector response to hadronic jets. They show that this parametrization achieves high-fidelity while increasing the processing speed by several orders of magnitude.
+
+Their model is trained to be capable of predicting the combined effect of particle-detector simulation models and reconstruction algorithms to hadronic jets.
+
+Generative adversarial networks (GANs) are pairs of neural networks, a generative and a discriminative one, that are trained concurrently as players of a minimax game ([Musella & Pandolfi, 2018][2a]). The task of the generative network is to produce, starting from a latent space with a fixed distribution, samples that the discriminative model tries to distinguish from samples drawn from a target dataset. This kind of setup allows the distribution of the target dataset to be learned, provided that both of the networks have high enough capacity.
+
+The input to these networks are hadronic jets, represented as "gray-scale" images of fixed size centered around the jet axis, with the pixel intensity corresponding to the energy fraction in a given cell. The architectures of the networks are based on the **image-to-image** translation. There few differences between this approach and image-to-image translation. Firstly, non-empty pixels are explicitly modelled in the generated images since these are much sparser than the natural ones. Secondly, feature matching and a dedicated adversarial classifier enforce good modelling of the total pixel intensity (energy). Lastly, the generator is conditioned on some auxiliary inputs.
+
+
+By predicting directly the objects used at analysis level and thus reproducing the output of both detector simulation and reconstruction algorithms, computation time is reduced. This kind of philosophy is very similar to parametrized detector simulations, which are used in HEP for phenomenological studies. The attained accuracies are comparable to the full simulation and reconstruction chain.
+
+
 
 
 <!-- [GANs for generating EFT models](https://arxiv.org/pdf/1809.02612.pdf) -->
@@ -288,17 +271,13 @@ GANs have been proposed as a fast and accurate way of modeling high energy jet f
 *The following section is partly based on [Otten et al., 2021][2g]*
 
 
-In contrast to the vanilla (undercomplete, sparse, contractive or other) autoencoder (AE) that outputs a single value for each encoding dimension, variational autoencoders (VAEs) provide a probabilistic manner for describing an observation in latent space.
+In contrast to the traditional autoencoder (AE) that outputs a single value for each encoding dimension, variational autoencoders (VAEs) provide a probabilistic interpretation for describing an observation in latent space.
 
 In case of VAEs, the encoder model is sometimes referred to as the recognition model and the decoder model as generative model.
 
-By constructing the encoder model to output a distribution of the values from which we randomly sample to feed into our decoder model, we are enforcing a continuous, smooth latent space representation.
-Thus we expect our decoder model to be able to accurately reconstruct the input for any sampling of the latent distributions, which then means that values residing close to each other in latent space should have very similar reconstructions.
+By constructing the encoder model to output a distribution of the values from which we randomly sample to feed into our decoder model, we are enforcing a continuous, smooth latent space representation. Thus we expect our decoder model to be able to accurately reconstruct the input for any sampling of the latent distributions, which then means that values residing close to each other in latent space should have very similar reconstructions.
 
-
-
-
-
+<!-- need VAE data augmentation example -->
 
 
 
@@ -307,16 +286,15 @@ Thus we expect our decoder model to be able to accurately reconstruct the input 
 *The following text is based on this [Chen et al., 2020][1f]*
 
 
-We rely on accurate simulation of physics processes, however currently it is very common for LHC physics to be affected by large systematic uncertanties due to the limited amount of simulated data, especially for precise measurements of SM processes for which large datasets are already available. So far the most widely used simulator is GEANT4 that provides state-of-the-art of simulation accuracy. But running this is demanding in terms of time and resources. Consequently, delivering synthetic data at the pace at which LHC delivers real data is one of the most challenging tasks for computing infrastructures of the LHC experiments. The typical time it takes to simulate one single event is in the ballpark of 100 seconds.
+We rely on accurate simulation of physics processes, however currently it is very common for LHC physics to be affected by large systematic uncertanties due to the limited amount of simulated data, especially for precise measurements of SM processes for which large datasets are already available. So far the most widely used simulator is GEANT4 that provides state-of-the-art accuracy. But running this is demanding, both in terms of time and resources. Consequently, delivering synthetic data at the pace at which LHC delivers real data is one of the most challenging tasks for computing infrastructures of the LHC experiments. The typical time it takes to simulate one single event is in the ballpark of 100 seconds.
 
-Recently, generative algorithms based on deep learning (DL) have been proposed as a possible solution to speed up GEANT4, though one needs to work beyond the collision-as-image paradigm so that the DL-based simulation accounts for the irregular geometry of a typical detector while delivering a dataset in a format compatible with downstream reconstruction software.
+Recently, generative algorithms based on deep learning have been proposed as a possible solution to speed up GEANT4. However, one needs to work beyond the collision-as-image paradigm so that the DL-based simulation accounts for the irregular geometry of a typical detector while delivering a dataset in a format compatible with downstream reconstruction software.
 
-Another method to solve the issue was proposed by [Chen et al., 2020][1f]. They adopt a generative DL model to convert an analysis specific representation of collision events at generator level to the corresponding representation at reconstruction level. Thus, this novel, fast-simulation workflow starts from a large amount of generator-level events to deliver large analysis-specific samples.
+One method to solve this bottleneck was proposed by [Chen et al., 2020][1f]. They adopt a generative DL model to convert an analysis specific representation of collision events at generator level to the corresponding representation at reconstruction level. Thus, this novel, fast-simulation workflow starts from a large amount of generator-level events to deliver large analysis-specific samples.
 
-They trained a neural network to model detector resolution effects as a transfer function acting on an analysis-specific set of relevant features, computed at generation level, i.e, in absence of detector effects. However, their model does not sample events from a latent space (like a [GAN](#generative-adversarial-networks-gans) or a plain [VAE](#variational-autoencoders-vaes)). Instead, it works as a fast simulator of a given generator-level event, preserving the correspondence between the reconstructed and the generated event, which allows us to compare event-by-event residual distributions.
-Furthermore, this model is much simpler than a generative model like a [GAN](#generative-adversarial-networks-gans).
+They trained a neural network to model detector resolution effects as a transfer function acting on an analysis-specific set of relevant features, computed at generator level. However, their model does not sample events from a latent space (like a [GAN](#generative-adversarial-networks-gans) or a plain [VAE](#variational-autoencoders-vaes)). Instead, it works as a fast simulator of a given generator-level event, preserving the correspondence between the reconstructed and the generated event, which allows us to compare event-by-event residual distributions. Furthermore, this model is much simpler than a generative model.
 
-Step one in this whole workflow, which is generating events in full format is the most resource heavy task, where, as noted before, generating one event takes roughly 100 seconds. However with this new proposed method O(1000) events are generated per second. Also one would save on storage: for the full format O(1) MB/event is needed, then for the DL model only 8MB was used to store 100000 events. To train the model, they used NVIDIA RTX2080 and it trained for 30 minutes, which in terms of overall production time is negligible. For generating N=1M events and n=10%N, one would save 90% of the CPU resources and 79% of the disk storage. Thus augmenting the centrally produced data is a viable method and could help the HEP community to face the computing challenges of the High-Luminosity LHC.
+Step one in this workflow is generating events in their full format, which is the most resource heavy task, where, as noted before, generating one event takes roughly 100 seconds. However, with this new proposed method O(1000) events are generated per second. This would save on storage: for the full format O(1) MB/event is needed, where for the DL model only 8 MB was used to store 100000 events. To train the model, they used NVIDIA RTX2080 and it trained for 30 minutes, which in terms of overall production time is negligible. For generating N=1M events and n=10%N, one would save 90% of the CPU resources and 79% of the disk storage. Thus augmenting the centrally produced data is a viable method and could help the HEP community to face the computing challenges of the High-Luminosity LHC.
 
 Another more extreme approach investigated the use of GANs and VAEs for generating physics quantities which are relevant to a specific analysis. In this case, one learns the N-dimensional density function of the event, in a space defined by the quantities of interest for a given analysis. So sampling from this function, one can generate new data. Trade-off between statistical precision (decreases with the increasing amount of generated events) and the systematic uncertainty that could be induced by a non accurate description of the n-dim pdf.
 
@@ -345,7 +323,7 @@ Generative adversarial networks (GANs): GAN algorithms can learn patterns from i
 Neural style transfer: Neural style transfer models can blend content image and style image and separate style from content.
 Reinforcement learning: Reinforcement learning models train software agents to attain their goals and make decisions in a virtual environment. -->
 
-
+<!--
 ## Appendix
 
 ### Planing
@@ -354,9 +332,8 @@ Reinforcement learning: Reinforcement learning models train software agents to a
 Planing is one of many different approaches to understanding a networks discrimination power and is used for identifying combinations of variables that can discriminate signal from background is done by removing information, where the performance degradation of the new network provides diagnostic value.
 Additionally it allows the investigation of the linear versus nonlinear nature of the boundaries between signal and background.
 
-Planing was one of the first methods for mass decorrelation that was explored in ML studies of jet physics. The planing procedure introduces reweighting of the data to smooth away the features in a given variable as shown in (1), which in practice corresponds to binning the variable and inverting it. However, doing this produces still some finite bin effects. This weighing results in having uniform distributions in signal and background such that the jet mass no longer provides discrimination. New networks trained on the modified data.
+Planing was one of the first methods for mass decorrelation that was explored in ML studies of jet physics. The planing procedure introduces reweighting of the data to smooth away the features in a given variable as shown in (1), which in practice corresponds to binning the variable and inverting it. However, doing this produces still some finite bin effects. This weighing results in having uniform distributions in signal and background such that the jet mass no longer provides discrimination. New networks trained on the modified data. 
 
-<!-- ![Planing weights](../images/optimization/planing.png "Planing weights") ........................ (1) -->
 
 | ![Planing weights](../images/optimization/planing.png "Planing weights") |
 |:--:|
@@ -369,7 +346,7 @@ Another method of inferring the discrimination power of variables is *saturation
 Yet another method would be to train networks using only the high-level variable(s) of interest as inputs, where in contrast to the saturation technique, no low level information is being provided to the network. The diagnostic test would be to compute if the resulting network can achieve performance similar to that of a deep network that has been trained on only the low level inputs.
 
 However planing has two advantages over the previously described methods. First, the number of input parameters would typically change when going from only low level to only high level variables. Unlike planing this requires altering the network architecture. This in turn can impact the [optimization of hyperparameters](./model_optimization.md), thereby complicating the comparison. Furthermore this method suffers the same issue as saturation in that as the limit towards ideal performance is achieved, one is forced to take seriously small variations in the metrics. If there are not enough training trials to adequately determine the errors, these small variations could be incorrectly interpreted as consistent with zero. This can again be contrasted with planing in that our approach yields a qualitative drop in performance and is more straightforward to interpret.
-
+-->
 
 
 
