@@ -52,12 +52,8 @@ Denoising autoencoders then must learn to undo the effect of the noise in the en
 
 
 
-Regularized autoencoders (can be overcomplete, nonlinear)
-
-	- penalized
-
-
 ## History
+The idea of using neural networks for dimensionality reduction or feature learning dates back to the early 1990s. Autoencoders, or "autoassociative neural networks," were originally proposed as a nonlinear generalization of principle component analysis (PCA)[Kramer][3a]. More recently, connections between autoencoders and latent variable models have brought these types of algorithms into the generative modeling space.
 
 ## Variational Autoencoders
 
@@ -70,10 +66,12 @@ References
 - [Goodfellow, et. al., 2016, *Deep Learning*][1a]
 - [Alain, Bengio, 2013, "What Regularized Auto-Encoders Learn from the Data Generating Distribution"][2a]
 - [Bengio, et. al., 2013, "Generalized Denoising Auto-Encoders as Generative Models"][2b]
+- [Kramer, 1991, "Nonlinear principle component analysis using autoassociative neural networks"]
 
 [1a]: https://www.deeplearningbook.org/contents/generative_models.html
 [2a]: https://arxiv.org/abs/1211.4246
 [2b]: https://arxiv.org/abs/1305.6663
+[3a]: https://aiche.onlinelibrary.wiley.com/doi/10.1002/aic.690370209
 
 
 
