@@ -3,10 +3,12 @@
 ## Introduction
 Autoencoders are a powerful tool that has gained popularity in HEP and beyond recently. These types of algorithms are neural networks that learn to decompress data with minimal reconstruction error [Goodfellow, et. al.][1a].
 
+The idea of using neural networks for dimensionality reduction or feature learning dates back to the early 1990s. Autoencoders, or "autoassociative neural networks," were originally proposed as a nonlinear generalization of principle component analysis (PCA)[Kramer][3a]. More recently, connections between autoencoders and latent variable models have brought these types of algorithms into the generative modeling space.
+
 The two main parts of an autoencoder algorithm are the encoder function $f(x)$ and the decoder function $g(x)$. The learning process of an autoencoder is a minimization of a loss function, $L(x,g(f(x)))$, that compares the original data to the output of the decoder, similar to that of a neural network. As such, these algorithms can be trained using the same techniques, like minibatch gradient descent with backpropagation.
 
 ### Constrained Autoencoders (Undercomplete and Regularized)
-*Information in this section can be found in [Goodfellow, et. al.][1a]]*
+*Information in this section can be found in [Goodfellow, et. al.][1a]*
 
 An autoencoder that is able to perfectly reconstruct the original data one-to-one, such that $g(f(x)) = x$, is not very useful for extracting salient information from the data. There are several methods imposed on simple autoencoders to encourage them to extract useful aspects of the data.
 
@@ -16,17 +18,21 @@ One way of avoiding perfect data reconstruction is by constraining the dimension
 However, if undercomplete encoders are given too much capacity, they will struggle to learn anything of importance from the data. Similarly, this problem occurs in autoencoders with encoder dimensionality greater than or equal to the data (the overcomplete case). In order to train any architecture of AE successfully, constraints based on the complexity of the target distribution must be imposed, apart from small dimensionality. These *regularized autoencoders* can have constraints on  sparsity, robustness to noise, and robustness to changes in data (the derivative).
 
 #### Sparse Autoencoders
-Sparse autoencoders place a penalty to enforce sparsity in the encoding layer $\mathbf{h} = f(\mathbf{x})$ such that $L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\mathbf{h})$. This penalty prevents the autoencoder from learning the identity transformation, extracting useful features of the data to be used in later tasks, such as classification. While the penalty term can be thought of as a regularizing term for a feedforward network, we can expand this view to think of the entire sparse autoencoder framework as approximating the maximum likelihood estimation of a generative model with latent variables $h$. When approximating the maximum likelihood, the joint distribution $p_{\text{model}(\mathbf{x}, \mathbf{h})$ can be approximated as
+Sparse autoencoders place a penalty to enforce sparsity in the encoding layer $\mathbf{h} = f(\mathbf{x})$ such that $L(\mathbf{x}, g(f(\mathbf{x}))) + \Omega(\mathbf{h})$. This penalty prevents the autoencoder from learning the identity transformation, extracting useful features of the data to be used in later tasks, such as classification. While the penalty term can be thought of as a regularizing term for a feedforward network, we can expand this view to think of the entire sparse autoencoder framework as approximating the maximum likelihood estimation of a generative model with latent variables $h$. When approximating the maximum likelihood, the joint distribution $p_{\text{model}}(\mathbf{x}, \mathbf{h})$ can be approximated as
+
 $$
-\text{log} p_{\text{model}(\mathbf{x}) = \text{log} p_{\text{model}(\mathbf{h}) + l\text{log} p_{\text{model}(\mathbf{x} | \mathbf{h})
+\text{log} [ p_{\text{model}}(\mathbf{x})] = \text{log} [p_{\text{model}}(\mathbf{h})] + [\text{log} p_{\text{model}}(\mathbf{x} | \mathbf{h})]
 $$
-where $p_{\text{model}(\mathbf{h})$ is the prior distribution over the latent variables, instead of the model's parameters. Here, we approximate the sum over all possible prior distribution values to be a point estimate at one highly likely value of $\mathbf{h}$. This prior term is what introduces the sparsity requirement, for example with the Laplace prior,
+
+where $p_{\text{model}}(\mathbf{h})$ is the prior distribution over the latent variables, instead of the model's parameters. Here, we approximate the sum over all possible prior distribution values to be a point estimate at one highly likely value of $\mathbf{h}$. This prior term is what introduces the sparsity requirement, for example with the Laplace prior,
 $$
-p_{\text{model}(h_i) = \frac{\lambda}{2}e^{-\lambda|h_i|}.
+p_{\text{model}}(h_i) = \frac{\lambda}{2}e^{-\lambda|h_i|}.
 $$
+
 The log-prior is then
+
 $$
-\text{log} p_{\text{model}(\mathbf{h}) = \sum_i (\lambda|h_i| - \text{log}\frac{\lambda}{2}) = \Omega(\mathbf{h}) + \text{const}.
+\text{log} [p_{\text{model}}(\mathbf{h})] = \sum_i (\lambda|h_i| - \text{log}\frac{\lambda}{2}) = \Omega(\mathbf{h}) + \text{const}.
 $$
 This example demonstrates how the model's distribution over latent variables (prior) gives rise to a sparsity penalty.
 
@@ -51,11 +57,8 @@ $$
 Denoising autoencoders then must learn to undo the effect of the noise in the encoded/decoded data. The autoencoder is able to learn the structure of the probability density function of the data ($p_{\text{data}}$) as a function of the input variables ($x$) through this process ([Alain, Bengio][2a], [Bengio, et. al.][2b]). With this type of cost function, even overcomplete, high-capacity autoencoders can avoid learning the identity transformation.
 
 
-
-## History
-The idea of using neural networks for dimensionality reduction or feature learning dates back to the early 1990s. Autoencoders, or "autoassociative neural networks," were originally proposed as a nonlinear generalization of principle component analysis (PCA)[Kramer][3a]. More recently, connections between autoencoders and latent variable models have brought these types of algorithms into the generative modeling space.
-
 ## Variational Autoencoders
+
 
 ## Applications in HEP
 
@@ -66,12 +69,14 @@ References
 - [Goodfellow, et. al., 2016, *Deep Learning*][1a]
 - [Alain, Bengio, 2013, "What Regularized Auto-Encoders Learn from the Data Generating Distribution"][2a]
 - [Bengio, et. al., 2013, "Generalized Denoising Auto-Encoders as Generative Models"][2b]
-- [Kramer, 1991, "Nonlinear principle component analysis using autoassociative neural networks"]
+- [Kramer, 1991, "Nonlinear principle component analysis using autoassociative neural networks"][3a]
+- [Kingma, Welling, 2013, "Auto-Encoding Variational Bayes"][4a]
 
 [1a]: https://www.deeplearningbook.org/contents/generative_models.html
 [2a]: https://arxiv.org/abs/1211.4246
 [2b]: https://arxiv.org/abs/1305.6663
 [3a]: https://aiche.onlinelibrary.wiley.com/doi/10.1002/aic.690370209
+[4a]: https://arxiv.org/abs/1312.6114
 
 
 
