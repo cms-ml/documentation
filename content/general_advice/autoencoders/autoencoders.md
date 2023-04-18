@@ -59,6 +59,20 @@ Denoising autoencoders then must learn to undo the effect of the noise in the en
 
 ## Variational Autoencoders
 
+- introduced by [Kigma and Welling][4a]
+- similar to normal AEs, comprised of neural nets
+	- use NN to map from input to parameters of latent space (encoder) and back (decoder)
+		- low dim, latent space is variational distribution
+- bidirectional: can be generative or used for estimation
+- initially designed for unsupervised learning but is very useful in semi-supervised and fully supervised scenarios
+- ususally trained with EM meta-algo (like probabilistic PCA)
+- optimizes model parameters $\theta$ via *amoritzed inference* to reduce reconstruction error between input and output and to get approximate posterior as close as possible to real one
+	- approximate posterior to avoid intractability
+	- likelihood conditioned on latent variables is calculated by a probabilistic decoder and approximated posterior is calculated by probabilistic encoder
+- optimize KL divergence for approximate and real posteriors
+	- want to maximize evidence lower bound (ELBO) = maximizing log likelihood of data + minimizing divergence bw approximate and actual posteriors
+
+
 
 ## Applications in HEP
 
