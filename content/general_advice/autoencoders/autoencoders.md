@@ -58,25 +58,53 @@ Denoising autoencoders then must learn to undo the effect of the noise in the en
 
 
 ## Variational Autoencoders
+Variational autoencoders (VAEs), introduced by [Kigma and Welling][4a], are similar to normal AEs. They are comprised of neural nets, which maps the input to latent space (encoder) and back (decoder), where the latent space is a low-dimensional, variational distribution. VAEs are bidirectional, generating data or estimating distributions, and were initially designed for unsupervised learning but can also be very useful in semi-supervised and fully supervised scenarios [Goodfellow, et. al.][1a].
 
-- introduced by [Kigma and Welling][4a]
-- similar to normal AEs, comprised of neural nets
-	- use NN to map from input to parameters of latent space (encoder) and back (decoder)
-		- low dim, latent space is variational distribution
-- bidirectional: can be generative or used for estimation
-- initially designed for unsupervised learning but is very useful in semi-supervised and fully supervised scenarios
-- ususally trained with EM meta-algo (like probabilistic PCA)
+VAEs are trained by maximizing the variational lower bound associated with data point $\mathbf{x}$, which is a function of the approximate posterior (inference network, or encoder), $q(\mathbf{z})$. Latent variable $\mathbf{z}$ is drawn from this encoder distribution, with $p_\text{model}(\mathbf{x} | \mathbf{z})$ viewed as the decoder network. The variational lower bound (also called the evidence lower bound or ELBO) is a trade-off between the join log-likelihood of the visible and latent variables, and the KL divergence between the model prior and the approximate posterior, shown below [Goodfellow, et. al.][1a].
+
+$$
+\mathcal{L}(q) = \mathbb{E}_{\mathbf{z} \sim q(\mathbf{z} | \mathbf{x})} \text{log}p_\text{model}(\mathbf{x} | \mathbf{z}) - D_\text{KL}(q || p)
+$$.
+
+Methods for optimizing the VAE by learning the variational lower bound include EM meta-algorithms like probabilistic PCA [Goodfellow, et. al.][1a].
+
+<!--
 - optimizes model parameters $\theta$ via *amoritzed inference* to reduce reconstruction error between input and output and to get approximate posterior as close as possible to real one
 	- approximate posterior to avoid intractability
 	- likelihood conditioned on latent variables is calculated by a probabilistic decoder and approximated posterior is calculated by probabilistic encoder
-- optimize KL divergence for approximate and real posteriors
-	- want to maximize evidence lower bound (ELBO) = maximizing log likelihood of data + minimizing divergence bw approximate and actual posteriors
+-->
 
 
 
 ## Applications in HEP
+One of the more popular applications of AEs in HEP include anomaly detection. Because autoencoders are trained to learn latent features of a dataset, any new data that does not match those features could be classified as an anomaly and picked out by the AE. Examples of AEs for anomaly detection in HEP are listed below:
 
+- [Anomaly detection in high-energy physics using a quantum autoencoder](https://arxiv.org/abs/2112.04958)
+- [Particle Graph Autoencoders and Differentiable, Learned Energy Mover's Distance
+](https://arxiv.org/abs/2111.12849)
+- [Bump Hunting in Latent Space](https://arxiv.org/abs/2103.06595)
+
+
+Another application of (V)AEs in HEP is data generation, as once the likelihood of the latent variables is approximated it can be used to generate new data. Examples of this application in HEP for simulation of various physics processes are listed below:
+
+- [Deep generative models for fast shower simulation in ATLAS](http://cds.cern.ch/record/2630433)
+- [Sparse Data Generation for Particle-Based Simulation of Hadronic Jets in the LHC
+](https://arxiv.org/abs/2109.15197)
+- [Variational Autoencoders for Jet Simulation
+](https://arxiv.org/abs/2009.04842)
+
+Finally, the latent space learned by (V)AEs give a parsimonius and information-rich phase space from which one can derive information. Examples of using (V)AEs to learn approximate and/or compressed representations of data are given below:
+
+- [An Exploration of Learnt Representations of W Jets](https://arxiv.org/abs/2109.10919)
+- [Machine-Learning Compression for Particle Physics Discoveries](https://arxiv.org/abs/2210.11489)
+- [Decoding Photons: Physics in the Latent Space of a BIB-AE Generative Network](https://arxiv.org/abs/2102.12491)
+
+More examples of (V)AEs in HEP can be found at the [HEP ML Living Review](https://iml-wg.github.io/HEPML-LivingReview/).
+
+<!--
 ## Tensorflow Example
+-->
+
 
 References
 --
