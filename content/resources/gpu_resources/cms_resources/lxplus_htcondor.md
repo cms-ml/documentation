@@ -10,7 +10,16 @@ request_gpus = n # n equal to the number of GPUs required
 ```
 ## Further documentation
 
-There are good materials providing detailed documentation on how to run HTCondor jobs with GPU support at both machines. 
+There are good materials providing detailed documentation on how to run HTCondor jobs with GPU support at both
+machines. 
+
+
+The configuration of the software environment for lxplus-gpu and HTcondor is described in the [Software
+Environments](../../../software_envs/lcg_environments.md) page. Moreover the page [Using
+container](../../../software_envs/containers.md) explains step by step how to build a docker image to be run on HTCondor
+jobs. 
+
+#### More available resources
 
 1. A complete documentation can be found from the `GPUs` section in [CERN Batch Docs](https://batchdocs.web.cern.ch/tutorial/exercise10.html). Where a `Tensorflow` example is supplied. This documentation also contains instructions on advanced HTCondor configuration, for instance constraining GPU device or CUDA version.
 2. A good example on submitting GPU HTCondor job @ Lxplus is the [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark) project. It provides a concrete example on how to setup environment for `weaver` framework and operate trainning and testing process within a single job. Detailed description can be found at section [`ParticleNet`](../../../inference/particlenet.md) of this documentation.  
