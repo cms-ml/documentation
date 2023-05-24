@@ -42,7 +42,7 @@ The first approach is cleaner but requires downloading the full set of libraries
 
 2. To install packages properly, one should carefully check the CUDA version with `nvidia-smi` (as shown in figure before), and then find a proper version, pytorch is used as an example.
 
-    ![Untitled](../../../images/resources/lxplusgpu_figs/pip.png)
+    ![Untitled](../images/resources/lxplusgpu_figs/pip.png)
 
     ```bash
     # Execute the command shown in your terminal
