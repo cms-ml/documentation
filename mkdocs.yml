@@ -163,5 +163,5 @@ nav:
     - Training:
       - Training as a Service:
         - MLaaS4HEP: training/MLaaS4HEP.md
-	- Autoencoders: training/autoencoders.md
+      - Autoencoders: training/autoencoders.md
 #    - Benchmarking:
