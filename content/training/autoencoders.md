@@ -1,11 +1,13 @@
 # Autoencoders
 
 ## Introduction
-Autoencoders are a powerful tool that has gained popularity in HEP and beyond recently. These types of algorithms are neural networks that learn to decompress data with minimal reconstruction error [Goodfellow, et. al.][1a].
+Autoencoders are a powerful tool that has gained popularity in HEP and beyond recently. These types of algorithms are neural networks that learn to decompress data with minimal reconstruction error ([Goodfellow, et. al.][1a]).
 
-The idea of using neural networks for dimensionality reduction or feature learning dates back to the early 1990s. Autoencoders, or "autoassociative neural networks," were originally proposed as a nonlinear generalization of principle component analysis (PCA)[Kramer][3a]. More recently, connections between autoencoders and latent variable models have brought these types of algorithms into the generative modeling space.
+The idea of using neural networks for dimensionality reduction or feature learning dates back to the early 1990s. Autoencoders, or "autoassociative neural networks," were originally proposed as a nonlinear generalization of principle component analysis (PCA) ([Kramer][3a]). More recently, connections between autoencoders and latent variable models have brought these types of algorithms into the generative modeling space.
 
-The two main parts of an autoencoder algorithm are the encoder function $f(x)$ and the decoder function $g(x)$. The learning process of an autoencoder is a minimization of a loss function, $L(x,g(f(x)))$, that compares the original data to the output of the decoder, similar to that of a neural network. As such, these algorithms can be trained using the same techniques, like minibatch gradient descent with backpropagation.
+The two main parts of an autoencoder algorithm are the encoder function $f(x)$ and the decoder function $g(x)$. The learning process of an autoencoder is a minimization of a loss function, $L(x,g(f(x)))$, that compares the original data to the output of the decoder, similar to that of a neural network. As such, these algorithms can be trained using the same techniques, like minibatch gradient descent with backpropagation. Below is a representation of an autoencoder from Mathworks.
+
+![autoencoder_model](content/images/training/autoencoder_model.png)
 
 ### Constrained Autoencoders (Undercomplete and Regularized)
 *Information in this section can be found in [Goodfellow, et. al.][1a]*
@@ -58,15 +60,15 @@ Denoising autoencoders then must learn to undo the effect of the noise in the en
 
 
 ## Variational Autoencoders
-Variational autoencoders (VAEs), introduced by [Kigma and Welling][4a], are similar to normal AEs. They are comprised of neural nets, which maps the input to latent space (encoder) and back (decoder), where the latent space is a low-dimensional, variational distribution. VAEs are bidirectional, generating data or estimating distributions, and were initially designed for unsupervised learning but can also be very useful in semi-supervised and fully supervised scenarios [Goodfellow, et. al.][1a].
+Variational autoencoders (VAEs), introduced by [Kigma and Welling][4a], are similar to normal AEs. They are comprised of neural nets, which maps the input to latent space (encoder) and back (decoder), where the latent space is a low-dimensional, variational distribution. VAEs are bidirectional, generating data or estimating distributions, and were initially designed for unsupervised learning but can also be very useful in semi-supervised and fully supervised scenarios ([Goodfellow, et. al.][1a]).
 
-VAEs are trained by maximizing the variational lower bound associated with data point $\mathbf{x}$, which is a function of the approximate posterior (inference network, or encoder), $q(\mathbf{z})$. Latent variable $\mathbf{z}$ is drawn from this encoder distribution, with $p_\text{model}(\mathbf{x} | \mathbf{z})$ viewed as the decoder network. The variational lower bound (also called the evidence lower bound or ELBO) is a trade-off between the join log-likelihood of the visible and latent variables, and the KL divergence between the model prior and the approximate posterior, shown below [Goodfellow, et. al.][1a].
+VAEs are trained by maximizing the variational lower bound associated with data point $\mathbf{x}$, which is a function of the approximate posterior (inference network, or encoder), $q(\mathbf{z})$. Latent variable $\mathbf{z}$ is drawn from this encoder distribution, with $p_\text{model}(\mathbf{x} | \mathbf{z})$ viewed as the decoder network. The variational lower bound (also called the evidence lower bound or ELBO) is a trade-off between the join log-likelihood of the visible and latent variables, and the KL divergence between the model prior and the approximate posterior, shown below ([Goodfellow, et. al.][1a]).
 
 $$
-\mathcal{L}(q) = \mathbb{E}_{\mathbf{z} \sim q(\mathbf{z} | \mathbf{x})} \text{log}p_\text{model}(\mathbf{x} | \mathbf{z}) - D_\text{KL}(q || p)
+\mathcal{L}(q) = E_{\mathbf{z} \sim q(\mathbf{z} | \mathbf{x})} \text{log}p_\text{model}(\mathbf{x} | \mathbf{z}) - D_\text{KL}(q || p)
 $$.
 
-Methods for optimizing the VAE by learning the variational lower bound include EM meta-algorithms like probabilistic PCA [Goodfellow, et. al.][1a].
+Methods for optimizing the VAE by learning the variational lower bound include EM meta-algorithms like probabilistic PCA ([Goodfellow, et. al.][1a]).
 
 <!--
 - optimizes model parameters $\theta$ via *amoritzed inference* to reduce reconstruction error between input and output and to get approximate posterior as close as possible to real one
@@ -93,7 +95,7 @@ Another application of (V)AEs in HEP is data generation, as once the likelihood 
 - [Variational Autoencoders for Jet Simulation
 ](https://arxiv.org/abs/2009.04842)
 
-Finally, the latent space learned by (V)AEs give a parsimonius and information-rich phase space from which one can derive information. Examples of using (V)AEs to learn approximate and/or compressed representations of data are given below:
+Finally, the latent space learned by (V)AEs give a parsimonious and information-rich phase space from which one can make inferences. Examples of using (V)AEs to learn approximate and/or compressed representations of data are given below:
 
 - [An Exploration of Learnt Representations of W Jets](https://arxiv.org/abs/2109.10919)
 - [Machine-Learning Compression for Particle Physics Discoveries](https://arxiv.org/abs/2210.11489)
@@ -114,7 +116,7 @@ References
 - [Kramer, 1991, "Nonlinear principle component analysis using autoassociative neural networks"][3a]
 - [Kingma, Welling, 2013, "Auto-Encoding Variational Bayes"][4a]
 
-[1a]: https://www.deeplearningbook.org/contents/generative_models.html
+[1a]: https://www.deeplearningbook.org
 [2a]: https://arxiv.org/abs/1211.4246
 [2b]: https://arxiv.org/abs/1305.6663
 [3a]: https://aiche.onlinelibrary.wiley.com/doi/10.1002/aic.690370209
