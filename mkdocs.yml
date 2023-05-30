@@ -120,6 +120,9 @@ nav:
       - SWAN: resources/gpu_resources/cms_resources/swan.md
       - ml.cern.ch: resources/gpu_resources/cms_resources/ml_cern_ch.md
   - Guides:
+    - Software environments:
+      - LCG environments: software_envs/lcg_environments.md
+      - Using containers: software_envs/containers.md
     - Optimization:
       - Model optimization: optimization/model_optimization.md
       - Feature importance: optimization/importance.md
@@ -146,6 +149,7 @@ nav:
         - ONNX: inference/onnx.md
         - XGBoost: inference/xgboost.md
         - hls4ml: inference/hls4ml.md
+        - conifer: inference/conifer.md
       - Inference as a service:
         - Sonic/Triton: inference/sonic_triton.md
         - TFaaS: inference/tfaas.md
