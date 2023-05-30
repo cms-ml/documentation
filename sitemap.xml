@@ -16,11 +16,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://cms-ml.github.io/documentation/general_advice/autoencoders/autoencoders.html</loc>
-         <lastmod>2023-05-30</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://cms-ml.github.io/documentation/general_advice/before/domains.html</loc>
          <lastmod>2023-05-30</lastmod>
          <changefreq>daily</changefreq>
@@ -212,6 +207,11 @@
     </url>
     <url>
          <loc>https://cms-ml.github.io/documentation/training/MLaaS4HEP.html</loc>
+         <lastmod>2023-05-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://cms-ml.github.io/documentation/training/autoencoders.html</loc>
          <lastmod>2023-05-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
