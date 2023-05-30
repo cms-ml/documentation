@@ -7,7 +7,7 @@ The idea of using neural networks for dimensionality reduction or feature learni
 
 The two main parts of an autoencoder algorithm are the encoder function $f(x)$ and the decoder function $g(x)$. The learning process of an autoencoder is a minimization of a loss function, $L(x,g(f(x)))$, that compares the original data to the output of the decoder, similar to that of a neural network. As such, these algorithms can be trained using the same techniques, like minibatch gradient descent with backpropagation. Below is a representation of an autoencoder from Mathworks.
 
-![autoencoder_model](content/images/training/autoencoder_model.png)
+![autoencoder_model](../images/training/autoencoder_model.png)
 
 ### Constrained Autoencoders (Undercomplete and Regularized)
 *Information in this section can be found in [Goodfellow, et. al.][1a]*
