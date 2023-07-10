@@ -30,12 +30,15 @@ Generally, the best method for making a neural network or BDT's output independe
 
 1. Add a distance correlation function to the loss function that calculates the non-linear correlation between the NN output and some variables that you care about, e.g. jet mass, that you can force the network to minimize which decorrelates the two variables. ([Disco](https://arxiv.org/pdf/2001.05310.pdf))
 
+## Parametric Cut
+When designing jet taggers, variables of interest for discriminators include N-subjettiness derived quantities. Often, these quantities will be correlated with, for example, the $p_T$ of the jet. One example of this type of correlation is called "mass scuplting" and happens when the distribution of the discriminating variable in background begins to exhibit a shape similar to that of the signal with successive cuts. This correlation can have confounding effects in the tagger and one way to remove these effects is to parametrically cut on the discriminant. 
+
+One such prescription to remove these correlations is described [here](https://arxiv.org/abs/1603.00027) and focuses on removing the $p_T$ dependence in the soft-drop mass variable $\rho$. The authors note that there is a $p_T$ dependence in the N-subjettiness ratio $\tau_2/\tau_1$ as a function of the QCD jet scaling (soft-drop) variable, defined as $\rho = log(m^2)(p_T^2)$, which leads to mass sculpting. In order to alleviate this issue, the authors introduce a modified version of the soft-drop variable, $\rho' = \rho + log(p_T/\mu)$ where $\mu$ is chosen to be 1 GeV. It can also be noted that there is a linear depedence between $\tau_2/\tau_1$ and $\rho'$. Here, the authors remedy this by modelling the linear depedence with $\tau_{21}' + \tau_2/\tau_1 - M \times \rho'$ where $\M$ is fit from the data. Applying both these transformations flattens out the relationship between the ratio and the soft-drop variable and removes the mass sculpting effects. It is imperative that the transformation between variables are smooth, as discontinuous functions may lead to artificial features in the data.
+
+
 
 ## Notes to delete later
 Based on a question we received on [CMSTalk](https://cms-talk.web.cern.ch/t/bdt-score-mass-decorrelation/13184) we should create a new document covering decorrelation methods, an example of which would be decorrelating w.r.t the mass distribution.
-
-1. Follow the [prescription](https://arxiv.org/abs/1603.00027) published by the JetMET group, which talks about designing V taggers. Basically changes the cut on the discriminant as a smooth analytical function of the variable of interest, say M_{X} (hereon referred to as MX).
-    1. You can use a variant of DDT that defines a numerical function for every value of (MX,pt) (or MX,MY) plane; this function is smoothed (which is important, since non-smoothing may result in an artificial bump in data). You can read a lot about this in the documentation supporting EXO-17-001. This is usually called a “DDT map”.
 
 1. Methods used by the "mass parameterized BDT" used in the HH Multi-lepton search (HIG-21-002). This was talked about in an [ML forum presentation](https://indico.cern.ch/event/818774/contributions/3420466/attachments/1840727/3019731/ML_Forum_talk_May8_2019.pdf).
 
