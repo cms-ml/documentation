@@ -94,6 +94,9 @@ Another application of (V)AEs in HEP is data generation, as once the likelihood 
 ](https://arxiv.org/abs/2109.15197)
 - [Variational Autoencoders for Jet Simulation
 ](https://arxiv.org/abs/2009.04842)
+- [Anomaly detection using Deep Autoencoders for the assessment of the quality of the data acquired by the CMS experiment](https://cds.cern.ch/record/2650715/files/Fulltext.pdf)
+- [Autoencoders on FPGAs for real-time, unsupervised new physics detection at 40 MHz
+at the Large Hadron Collider](https://arxiv.org/pdf/2108.03986.pdf)
 
 Finally, the latent space learned by (V)AEs give a parsimonious and information-rich phase space from which one can make inferences. Examples of using (V)AEs to learn approximate and/or compressed representations of data are given below:
 
