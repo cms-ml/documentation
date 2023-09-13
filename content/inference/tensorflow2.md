@@ -510,6 +510,27 @@ std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
         ```
 
 
+### GPU backend
+
+By default the TensorFlow sessions get created for CPU running. Since CMSSW_13_1_X the GPU backend for TensorFlow is
+available in the cmssw release. 
+
+Minimal changes are needed in the inference code to move the model on the GPU. 
+A `tensorflow::Options` struct is available to setup the backend. 
+
+```cpp linenums="1"
+tensorflow::Options options { tensorflow::Backend::cuda};
+
+# Initialize the cache
+tensorflow::SessionCache cache(pbFile, options);
+# or a single session
+const tensorflow::Session* session = tensorflow::createSession(graphDef, options);
+
+``` 
+
+CMSSW modules should add an options in the `PSets` of the producers and analyzers to configure on the fly the
+TensorFlow backend for the sessions created by the plugins. 
+
 ### Optimization
 
 Depending on the use case, the following approaches can optimize the inference performance.
