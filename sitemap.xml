@@ -211,6 +211,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://cms-ml.github.io/documentation/training/Decorrelation.html</loc>
+         <lastmod>2023-12-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://cms-ml.github.io/documentation/training/MLaaS4HEP.html</loc>
          <lastmod>2023-12-05</lastmod>
          <changefreq>daily</changefreq>
