@@ -113,6 +113,7 @@ nav:
     - ML Hackathons: innovation/hackathons.md
   - Resources:
     - Cloud Resources: resources/cloud_resources/index.md
+    - Dataset Resources: resources/dataset_resources/index.md
     - FPGA Resource: resources/fpga_resources/index.md
     - GPU Resources:
       - lxplus-gpu: resources/gpu_resources/cms_resources/lxplus_gpu.md
