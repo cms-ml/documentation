@@ -76,8 +76,7 @@ A set of MC simulated training/testing events for the evaluation of top quark ta
 - Kasieczka, Gregor et al (2019). Dataset used for arXiv:1902.09914 (The Machine Learning Landscape of Top Taggers)
 
 ## More dataset coming in!
-Have any questions? Want your dataset shown on this page? Contact CMS ML dataset benchmarking team!
-Melissa Quinn (melissaquinnan@ucsb.edu), Haoyang Billy Li (hal113@ucsd.edu)
+Have any questions? Want your dataset shown on this page? Contact [CMS ML dataset benchmarking team](cms-conveners-ml-knowledge@cern.ch)!
 
 
 
