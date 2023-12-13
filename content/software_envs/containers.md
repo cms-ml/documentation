@@ -30,8 +30,8 @@ After installing the package, you can then use GPU-based machine learning algori
 2. The second example is modified from the simple MLP example from [`weaver-benchmark`](https://github.com/colizz/weaver-benchmark). The notebook can be found at [toptagging_mlp](../resources/gpu_resources/cms_resources/notebooks/toptagging_mlp.md).
 
 ### Using Docker
-Docker is not currently supported in the interactive node of lxplus (like lxplus-gpu). However, Docker is supported
-on HTCondor for job submission. 
+Docker is currently supported on lxplus9 interactive nodes (through emulation of the CLI with Podman) and
+on HTCondor for job submission.
 
 This option can be very handy for users, as HTCondor can pull images from any public registry, like
 [DockerHub](https://hub.docker.com/) or [GitLab registry](https://gitlab.cern.ch/). 
