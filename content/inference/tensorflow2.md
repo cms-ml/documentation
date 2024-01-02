@@ -369,20 +369,22 @@ public:
     explicit GraphLoadingMT(const edm::ParameterSet&, const tensorflow::SessionCache*);
     ~GraphLoadingMT();
 
-    // an additional static method for initializing the global cache
+    // additional static methods for initializing and closing the global cache
     static std::unique_ptr<tensorflow::SessionCache> initializeGlobalCache(const edm::ParameterSet&);
-    static void globalEndJob(const CacheData*);
+    static void globalEndJob(const tensorflow::SessionCache*);
 ...
 ```
 
 Implement `initializeGlobalCache` to control the behavior of how the cache object is created.
-The destructor of `tensorflow::SessionCache` already handles the closing of the session itself and the deletion of all objects.
+You also need to implement `globalEndJob`, however, it can remain empty as the destructor of `tensorflow::SessionCache` already handles the closing of the session itself and the deletion of all objects.
 
 ```cpp
 std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const edm::ParameterSet& config) {
   std::string graphPath = edm::FileInPath(params.getParameter<std::string>("graphPath")).fullPath();
   return std::make_unique<tensorflow::SessionCache>(graphPath);
 }
+
+void MyPlugin::globalEndJob(const tensorflow::SessionCache* cache) {}
 ```
 
 ??? hint "Custom cache struct"
