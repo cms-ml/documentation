@@ -20,8 +20,9 @@ public:
 
   static void fillDescriptions(edm::ConfigurationDescriptions&);
 
-  // an additional static method for initializing the global cache
+  // additional static methods for initializing and closing the global cache
   static std::unique_ptr<tensorflow::SessionCache> initializeGlobalCache(const edm::ParameterSet&);
+  static void globalEndJob(const tensorflow::SessionCache*);
 
 private:
   void beginJob();
@@ -46,6 +47,8 @@ std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const 
   }
   return std::make_unique<tensorflow::SessionCache>(graphPath, options);
 }
+
+void MyPlugin::globalEndJob(const tensorflow::SessionCache* cache) {}
 
 void MyPlugin::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   // defining this function will lead to a *_cfi file being generated when compiling
