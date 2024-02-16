@@ -124,6 +124,9 @@ Instructions on how to transform and save your model are shown below, depending 
     # convert to binary (.pb extension) protobuf
     # with variables converted to constants
     cmsml.tensorflow.save_graph("graph.pb", model, variables_to_constants=True)
+
+    # note: save_graph was renamed to save_frozen_graph in newer versions
+    #       of cmsml and you might see a deprecation warning
     ```
 
     Following the Keras naming conventions for certain layers, the input will be named `"input"` while the output is named `"sequential/output/Softmax"`.
@@ -172,6 +175,9 @@ Instructions on how to transform and save your model are shown below, depending 
     # convert to binary (.pb extension) protobuf
     # with variables converted to constants
     cmsml.tensorflow.save_graph("graph.pb", cmodel, variables_to_constants=True)
+
+    # note: save_graph was renamed to save_frozen_graph in newer versions
+    #       of cmsml and you might see a deprecation warning
     ```
 
     The input will be named `"x"` while the output is named `"y"`.
