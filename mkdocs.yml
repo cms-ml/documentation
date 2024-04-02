@@ -43,6 +43,7 @@ plugins:
       minify_html: true
   - markdownextradata
   - git-revision-date-localized
+  - termynal
 
 markdown_extensions:
   - admonition
@@ -60,8 +61,8 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys
@@ -86,7 +87,7 @@ markdown_extensions:
   - pymdownx.tilde
 
 extra_javascript:
-  - https://unpkg.com/mermaid@9.3/dist/mermaid.min.js
+  - https://unpkg.com/mermaid@10.9/dist/mermaid.min.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
@@ -144,6 +145,7 @@ nav:
     - Inference:
       - Direct inference:
         - TensorFlow 2: inference/tensorflow2.md
+        - TensorFlow AOT: inference/tensorflow_aot.md
         - PyTorch: inference/pytorch.md
         - PyTorch Geometric: inference/pyg.md
         - ONNX: inference/onnx.md
