@@ -38,7 +38,7 @@ Further info:
 - [Summary gist](https://gist.github.com/riga/f9a18023d9f7fb647d74daa9744bb978) (summarizes the central steps of the compilation process and model usage)
 - [Talk at Core Software Meeting](https://indico.cern.ch/event/1356289/#19-ahead-of-time-compilation-o)
 
-The AOT mechanism was introduced in CMSSW\_14\_1\_X ([cmssw#43941](https://github.com/cms-sw/cmssw/pull/43941), [cmssw#44519](https://github.com/cms-sw/cmssw/pull/44519), [cmsdist#9005](https://github.com/cms-sw/cmsdist/pull/9005)).
+The AOT mechanism was introduced in CMSSW\_14\_1\_0\_pre3 ([cmssw#43941](https://github.com/cms-sw/cmssw/pull/43941), [cmssw#44519](https://github.com/cms-sw/cmssw/pull/44519), [cmsdist#9005](https://github.com/cms-sw/cmsdist/pull/9005)).
 The interface is located at [cmssw/PhysicsTools/TensorFlowAOT](https://github.com/cms-sw/cmssw/tree/master/PhysicsTools/TensorFlowAOT).
 
 !!! info "Note on dynamic batching"
@@ -56,7 +56,7 @@ To run the examples shown below, create a mininmal setup with the following snip
 
 ```shell linenums="1"
 export SCRAM_ARCH="el8_amd64_gcc12"
-export CMSSW_VERSION="CMSSW_14_1_0"
+export CMSSW_VERSION="CMSSW_14_1_0_pre3"
 
 source "/cvmfs/cms.cern.ch/cmsset_default.sh" ""
 
