@@ -31,6 +31,11 @@ action() {
         return "1"
     fi
 
+    # when in a github action runner, declare the mounted repo safe
+    if [ ! -z "%{GITHUB_ACTIONS}" ]; then
+        docker_cmd="git config --global --add safe.directory /documentation; ${docker_cmd}"
+    fi
+
     # start the container
     local cmd="docker run ${docker_args} cmsml/documentation ${docker_cmd}"
     echo -e "command: ${cmd}\n"
