@@ -37,7 +37,7 @@ action() {
     fi
 
     # start the container
-    local cmd="docker run ${docker_args} cmsml/documentation ${docker_cmd}"
+    local cmd="docker run ${docker_args} cmsml/documentation '${docker_cmd}'"
     echo -e "command: ${cmd}\n"
     eval "${cmd}"
 }
