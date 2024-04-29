@@ -22,6 +22,7 @@ RUN pip install --no-cache-dir termynal
 
 # fetch the repository and change the workdir
 RUN git clone https://github.com/cms-ml/documentation.git /documentation
+RUN git config --global --add safe.directory /documentation
 WORKDIR /documentation
 
 # default command
