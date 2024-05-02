@@ -152,6 +152,7 @@ nav:
         - XGBoost: inference/xgboost.md
         - hls4ml: inference/hls4ml.md
         - conifer: inference/conifer.md
+        - MLProf: inference/mlprof.md
       - Inference as a service:
         - Sonic/Triton: inference/sonic_triton.md
         - TFaaS: inference/tfaas.md
