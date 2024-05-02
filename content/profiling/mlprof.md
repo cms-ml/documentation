@@ -5,7 +5,7 @@
 
 In order to facilitate the development of new ML models for production in CMSSW, it is of primordial importance to simplify the measurement of the resource consumption of ML models in CMSSW.
 
-MLProf is a tool for automated ML model performance tests in CMSSW (CMSSW version 13 and above).
+[MLProf](https://github.com/cms-ml/MLProf) is a tool for automated ML model performance tests in CMSSW (CMSSW version 13 and above).
 It allows users to easily test the runtime of their models with different inference engines and CMSSW versions by providing the graphs or SavedModels they want to profile and filling the corresponding yaml file with model/compilation informations.
 Supported inference engines and their requirements are:
 
@@ -102,7 +102,7 @@ law run PlotRuntimes --version test_mlprof
 ## Model file in YAML format
 
 
-MLProf can provide measurements for three inference tools already implemented in CMSSW.
+[MLProf](https://github.com/cms-ml/MLProf) can provide measurements for three inference tools already implemented in CMSSW.
 For an inference in tensorflow, a frozen graph  of the model to be tested is needed (in .pb-format, created for example with [cmsml.tensorflow.save_graph](https://cmsml.readthedocs.io/en/latest/api/tensorflow.html#cmsml.tensorflow.save_graph)).
 For an inference in ONNX, the .onnx file of the model to be tested is needed.
 For an inference in AOT, the model will be compiled using the [CMSSW-AOT tool](https://cms-ml.github.io/documentation/inference/tensorflow_aot.html), therefore a saved_model, for example created with [tf.saved_model.save](https://www.tensorflow.org/api_docs/python/tf/saved_model/save), is needed.
@@ -154,7 +154,7 @@ compilation:  # defines the way the saved_model should be compiled in CMSSW, onl
 
 More information on AOT-compilation and the compilation parameters can be found in the [cms-ml AOT documentation](https://cms-ml.github.io/documentation/inference/tensorflow_aot.html).
 
-A few examples of such configs with working paths for the networks can be found in the "examples" folder, along with the python scripts to create and save these models.
+A few examples of such configs with working paths for the networks can be found in the "[examples](https://github.com/cms-ml/MLProf/tree/master/examples)" folder, along with the python scripts to create and save these models.
 
 ## AOT models
 
@@ -170,7 +170,12 @@ The automatized procedure to run an AOT-compiled model with an MLProf Plugin is 
 - CMSSW is then compiled with the modified MLProf AOT Plugin and the corresponding models.
 - Finally, the inference can run on the compiled models using the MLProf AOT Plugin.
 
-Or shown as a graph:
+Or shown as graphs:
+
+- inference on graphs:
+![image](../images/inference/mlprof/tf_onnx_plugin_mechanism.jpg)
+
+- inference with AOT-compilation:
 ![image](../images/inference/mlprof/AOT_plugin_mechanism.jpg)
 
 All these steps are done in the backgrounds, so the user only needs to provide the model-file and start a meassurement for this to happen.
@@ -194,7 +199,7 @@ flowchart TD
     B --> D[PlotMultiRuntimes]
 ```
 
-It is composed of four major types of tasks:
+It is composed of three major types of tasks:
 
 1. [MeasureRuntime](#measureruntime): This task runs the network as many times as demanded in the arguments for a single batch size and outputs a .csv file with the results of the timing measurements. The parameters from the model-file and the given arguments are parsed to the cmssw environment using the template configs in the repository.
 
