@@ -237,9 +237,9 @@ For AOT-compiled models, the `--tfaot-batch-rules` parameter allows to choose wh
 
     - input-data: str. Define the kind of inputs used during the measurement, either 'random', 'incremental', 'zeros', 'ones', or a path to a root file. default: random
 
-    - cmssw-version: str. The CMSSW version used for the inference. default: `CMSSW_14_1_0_pre3`.
+    - cmssw-version: str. The CMSSW version used for the inference. default: `CMSSW_14_1_0_pre4`.
 
-    - scram-arch: str. The SCRAM architecture used for the inference. default: `slc7_amd64_gcc12`.
+    - scram-arch: str. The SCRAM architecture used for the inference. default: `el9_amd64_gcc12`.
 
     - tfaot-batch-rules: str. The dash-separated batch rules used for the inference on tfaot models with each being in the format `target_size:size_1,size_2,...`. default: empty
 
@@ -254,7 +254,7 @@ law run MeasureRuntime --version test_simple_dnn \
                        --model-file $MLP_BASE/examples/dnn/model_tf_l10u128.yaml \
                        --model-name dnn \
                        --n-calls 500 \
-                       --cmssw-version CMSSW_14_1_0_pre3 \
+                       --cmssw-version CMSSW_14_1_0_pre4 \
                        --batch-size 1
 ```
 
@@ -265,7 +265,7 @@ law run MeasureRuntime --version test_aot_model \
                        --model-file $MLP_BASE/examples/dnn/model_tfaot_l10u128.yaml \
                        --model-name AOT_dnn \
                        --n-calls 500 \
-                       --cmssw-version CMSSW_14_1_0_pre3 \
+                       --cmssw-version CMSSW_14_1_0_pre4 \
                        --batch-size 1
 ```
 
@@ -276,7 +276,7 @@ law run MeasureRuntime --version test_aot_model \
                        --model-file $MLP_BASE/examples/dnn/model_tfaot_l10u256_bs.yaml \
                        --model-name AOT_dnn \
                        --n-calls 500 \
-                       --cmssw-version CMSSW_14_1_0_pre3 \
+                       --cmssw-version CMSSW_14_1_0_pre4 \
                        --batch-size 15 \
                        --tfaot-batch-rules "15:1,2,1,1,2,8"
 ```
@@ -307,9 +307,9 @@ This task merges the .csv output files with the required multiple batch sizes fr
 
     - input-data: str. Define the kind of inputs used during the measurement, either 'random', 'incremental', 'zeros', 'ones', or a path to a root file. default: random
 
-    - cmssw-version: str. The CMSSW version used for the inference. default: `CMSSW_14_1_0_pre3`
+    - cmssw-version: str. The CMSSW version used for the inference. default: `CMSSW_14_1_0_pre4`
 
-    - scram-arch: str. The SCRAM architecture used for the inference. default: `slc7_amd64_gcc12`
+    - scram-arch: str. The SCRAM architecture used for the inference. default: `el9_amd64_gcc12`
 
     - tfaot-batch-rules: str. The dash-separated batch rules used for the inference on tfaot models with each being in the format `target_size:size_1,size_2,...`. default: empty
 
@@ -323,7 +323,7 @@ law run MergeRuntimes --version test_simple_dnn \
                       --model-file $MLP_BASE/examples/dnn/model_tf_l10u128.yaml \
                       --model-name dnn \
                       --n-calls 500 \
-                      --cmssw-version CMSSW_14_1_0_pre3 \
+                      --cmssw-version CMSSW_14_1_0_pre4 \
                       --batch-sizes 1,2,4,8,16,32,64,128,256,512,1024
 ```
 
@@ -368,9 +368,9 @@ The number of inferences behind one plotted data point is given by `n-events * n
 
     - input-data: str. Define the kind of inputs used during the measurement, either 'random', 'incremental', 'zeros', 'ones', or a path to a root file. default: random
 
-    - cmssw-version: str. The CMSSW version used for the inference. default: `CMSSW_14_1_0_pre3`
+    - cmssw-version: str. The CMSSW version used for the inference. default: `CMSSW_14_1_0_pre4`
 
-    - scram-arch: str. The SCRAM architecture used for the inference. default: `slc7_amd64_gcc12`
+    - scram-arch: str. The SCRAM architecture used for the inference. default: `el9_amd64_gcc12`
 
     - file_types: str. Comma-separated types of the output plot files. default: "pdf".
 
@@ -391,9 +391,9 @@ The number of inferences behind one plotted data point is given by `n-events * n
 law run PlotRuntimes --version test_simple_dnn \
                      --model-file $MLP_BASE/examples/dnn/model_tf_l10u128.yaml \
                      --model-name dnn \
-                     --model-label "dnn with CMSSW_14_1_0_pre3" \
+                     --model-label "dnn with CMSSW_14_1_0_pre4" \
                      --n-calls 500 \
-                     --cmssw-version CMSSW_14_1_0_pre3 \
+                     --cmssw-version CMSSW_14_1_0_pre4 \
                      --batch-sizes 1,2,4,8,16,32,64,128,256,512,1024 \
                      --y-log False \
                      --bs-normalized True
@@ -406,7 +406,7 @@ law run MeasureRuntime --version test_aot_model \
                        --model-file $MLP_BASE/examples/dnn/model_tfaot_l10u256_bs.yaml \
                        --model-name AOT_dnn \
                        --n-calls 500 \
-                       --cmssw-version CMSSW_14_1_0_pre3 \
+                       --cmssw-version CMSSW_14_1_0_pre4 \
                        --batch-sizes 1,2,4,8,16\
                        --y-log False \
                        --bs-normalized True \
@@ -433,9 +433,9 @@ The number of inferences behind one plotted data point is given by `n-events * n
 
     - model-files: str. The comma-separated list of the absolute paths of the yaml files containing the informations of the model to be tested. No default value.
 
-    - cmssw-versions: str. The comma-separated list of CMSSW versions used for the inference. default: `CMSSW_14_1_0_pre3`
+    - cmssw-versions: str. The comma-separated list of CMSSW versions used for the inference. default: `CMSSW_14_1_0_pre4`
 
-    - scram-archs: str. The comma-separated list of SCRAM architectures used for the inference. default: `slc7_amd64_gcc12`
+    - scram-archs: str. The comma-separated list of SCRAM architectures used for the inference. default: `el9_amd64_gcc12`
 
     - model-names: str. The comma-separated list of model names. When set, use these names for the path used when storing outputs instead of a hashed version of `--model-file`. default: empty.
 
@@ -509,7 +509,7 @@ To show what you might expect when running these tasks, an example command and t
 ```shell
 law run PlotMultiRuntimes  --version test_several_networks \
                            --model-files "$MLP_BASE/examples/dnn/model_{tf,tfaot,onnx}_l10u256.yaml" \
-                           --cmssw-versions CMSSW_14_1_0_pre3 \
+                           --cmssw-versions CMSSW_14_1_0_pre4 \
                            --batch-sizes 1,2,4,8,16 \
                            --y-log False \
                            --bs-normalized True \
