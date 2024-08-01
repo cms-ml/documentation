@@ -509,7 +509,7 @@ To show what you might expect when running these tasks, an example command and t
 ```shell
 law run PlotMultiRuntimes  --version test_several_networks \
                            --model-files "$MLP_BASE/examples/dnn/model_{tf,tfaot,onnx}_l10u256.yaml" \
-                           --cmssw-versions CMSSW_14_1_0_pre4 \
+                           --cmssw-versions CMSSW_14_1_0_pre3 \
                            --batch-sizes 1,2,4,8,16 \
                            --y-log False \
                            --bs-normalized True \
