@@ -105,6 +105,7 @@ extra:
 
 nav:
   - Home: index.md
+  - Newsletters: newsletter/newsletters.md
 #  - Knowledge Sources:
 #    - AI Ethics Primer:
 #    - CMS Internal:
