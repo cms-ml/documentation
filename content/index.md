@@ -8,6 +8,6 @@ Welcome to the documentation hub for the CMS Machine Learning Group! The goal of
 
 And much more!
 
-We recently launched v1 of the ML Knowledge Newsletter located [here](https://cernbox.cern.ch/s/eo9pBAV7W1AMMpK), and we're also looking for new writers and contributors. If you would like to be featured in this newsletter or would like to nominate someone to be featured, please let us know!
+We recently launched v1 of the ML Knowledge Newsletter located [here](newsletter/newsletters.md), and we're also looking for new writers and contributors. If you would like to be featured in this newsletter or would like to nominate someone to be featured, please let us know!
 
 <span style="font-size:0.8em">If you think we are missing some important information, please contact the [ML Knowledge Subgroup](mailto:cms-conveners-ml-knowledge at cern.ch)!</span>
