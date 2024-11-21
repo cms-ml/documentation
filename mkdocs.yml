@@ -169,3 +169,4 @@ nav:
         - MLaaS4HEP: training/MLaaS4HEP.md
       - Autoencoders: training/autoencoders.md
 #    - Benchmarking:
+    - Profiling: profiling/mlprof.md
