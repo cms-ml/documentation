@@ -150,6 +150,7 @@ nav:
         - PyTorch: inference/pytorch.md
         - PyTorch Geometric: inference/pyg.md
         - ONNX: inference/onnx.md
+        - QONNX: inference/qonnx.md
         - XGBoost: inference/xgboost.md
         - hls4ml: inference/hls4ml.md
         - conifer: inference/conifer.md
@@ -168,4 +169,5 @@ nav:
       - Training as a Service:
         - MLaaS4HEP: training/MLaaS4HEP.md
       - Autoencoders: training/autoencoders.md
+      - HGQ: training/HGQ.md
 #    - Benchmarking:
