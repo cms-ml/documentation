@@ -299,7 +299,7 @@ delete graphDef;
 
     The example assumes the following directory structure:
 
-    ```
+    ```bash
     MySubsystem/MyModule/
     │
     ├── plugins/

@@ -31,7 +31,7 @@ Here is a list of the dependencies:
 
 ### Installation
 The easiest way to install and run [MLaaS4HEP](https://cloud.docker.com/u/veknet/repository/docker/veknet/mlaas4hep) and [TFaaS](https://cloud.docker.com/u/veknet/repository/docker/veknet/tfaas) is to use pre-build docker images
-```
+```bash
 # run MLaaS4HEP docker container
 docker run veknet/mlaas4hep
 # run TFaaS docker container
@@ -43,7 +43,7 @@ MLaaS4HEP python repository provides the `reader.py` module that defines a DataR
 [uproot](https://github.com/scikit-hep/uproot) framework.
 
 Basic usage
-```
+```bash
 # setup the proper environment, e.g.
 # export PYTHONPATH=/path/src/python # path to MLaaS4HEP python framework
 # export PATH=/path/bin:$PATH # path to MLaaS4HEP binaries

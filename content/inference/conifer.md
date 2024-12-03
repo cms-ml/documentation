@@ -19,7 +19,7 @@ All L1T algorithms require bit-exact emulation for performance studies and valid
 Both the conifer FPGA firmware and C++ emulation use Xilinx's arbitrary precision types for fixed-point arithmetic (`hls` external of CMSSW). This is cheaper and faster in the FPGA fabric than floating-point types. An important part of the model preparation process is choosing the proper fixed-point data types to avoid loss of performance compared to the trained model. Input preprocessing, in particular scaling, can help constrain the input variables to a smaller numerical range, but may also have a hardware cost to implement. In C++ the arbitrary precision types are specified like: `ap_fixed<width, integer, rounding mode, saturation mode>`. 
 
 Minimal preparation from Python:
-```
+```python
 import conifer
 model = conifer. ... # convert or load a conifer model
 # e.g. model = conifer.converters.convert_from_xgboost(xgboost_model)
@@ -27,7 +27,7 @@ model.save('my_bdt.json')
 ```
 
 CMSSW C++ user code:
-```
+```c++
 // include the conifer emulation header file
 #include "L1Trigger/Phase2L1ParticleFlow/interface/conifer.h"
 
