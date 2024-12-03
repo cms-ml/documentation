@@ -113,7 +113,7 @@ RDA methods augment the existing dataset by performance some transformation on t
 
 In [Barnard et al., 2016][1e], the authors investigate the effect of parton shower modelling in DNN jet taggers using images of hadronically decaying W bosons. They introduce a method known as zooming to study the scale invariance of these networks. This is the RDA strategy used by [Dolan & Ore, 2021][1a]. Zooming is similar to a normalization procedure such that it standardizes features in signal data, but it aims to not create similar features in background. 
 
-After some standard data processing steps, including jet trimming and clustering via the $k_t$ algorithm, and some further processing to remove spatial symmetries, the resulting jet image depicts the leading subjet and subleading subjet directly below. [Barnard et al., 2016][1e] notes that the separation between the leading and subleading subjets varies linearly as $2m/p_T$ where $m$ and $p_T$ are the mass and transverse momentum of the jet. Standardizing this separation, or removing the linear dependence, would allow the DNN tagger to generalize to a wide range of jet $p_T$. To this end, the authors construct a factor, $R/\DeltaR_{act}$, where $R$ is some fixed value and $\DeltaR_{act}$ is the separation between the leading and subleading subjets. To discriminate between signal and background images with this factor, the authors enlarge the jet images by a scaling factor of $\text{max}(R/s,1)$ where $s = 2m_W/p_T$ and $R$ is the original jet clustering size. This process of jet image enlargement by a linear mass and $p_T$ dependent factor to account for the distane between the leading and subleading jet is known as zooming. This process can be thought of as an RDA technique to augment the data in a domain-specific way.
+After some standard data processing steps, including jet trimming and clustering via the $k_t$ algorithm, and some further processing to remove spatial symmetries, the resulting jet image depicts the leading subjet and subleading subjet directly below. [Barnard et al., 2016][1e] notes that the separation between the leading and subleading subjets varies linearly as $2m/p_T$ where $m$ and $p_T$ are the mass and transverse momentum of the jet. Standardizing this separation, or removing the linear dependence, would allow the DNN tagger to generalize to a wide range of jet $p_T$. To this end, the authors construct a factor, $R/\Delta R_{act}$, where $R$ is some fixed value and $\Delta R_{act}$ is the separation between the leading and subleading subjets. To discriminate between signal and background images with this factor, the authors enlarge the jet images by a scaling factor of $\text{max}(R/s,1)$ where $s = 2m_W/p_T$ and $R$ is the original jet clustering size. This process of jet image enlargement by a linear mass and $p_T$ dependent factor to account for the distane between the leading and subleading jet is known as zooming. This process can be thought of as an RDA technique to augment the data in a domain-specific way.
 
 Advantage of using the zooming technique is that it makes the construction of scale invariant taggers easier. Scale invariant searches which are able to interpolate between the boosted and resolved parts of phase space have the advantage of being applicable over a broad range of masses and kinematics, allowing a single search or analysis to be effective where previously more than one may have been necessary.
 
@@ -168,7 +168,7 @@ Oversampling and undersampling are essentially opposite and roughly equivalent t
 
 It has been shown that the combination of SMOTE and undersampling performs better than only undersampling the majority class. However, over- and undersampling remain popular as it each is much easier to implement alone than in some complex hybrid approach.
 
-**Synthetic Minority Over-sampling Technique (SMOTE)**
+### Synthetic Minority Over-sampling Technique (SMOTE)
 *Text mostly based on [Chawla et al., 2002][2j] and in part on [He et al., 2010][2k]*
 
 In case of Synthetic Minority Over-sampling Technique (SMOTE), the minority class is oversampled by creating synthetic examples along the line segments joining any or all of the $k$-nearest neighbours in the minority class.
@@ -197,7 +197,7 @@ Extend X by SYNTHETIC_SAMPLES
 ```
 
 
-**Adaptive synthetic sampling approach (ADASYN)**
+### Adaptive synthetic sampling approach (ADASYN)
 *Text mostly based on [He et al., 2010][2k]*
 
 Adaptive synthetic sampling approach (ADASYN) is a sampling approach for learning from imbalanced datasets. The main idea is to use a weighted distribution for different minority class examples according to their level of difficulty in learning, where more synthetic data is generated for minority class examples that are harder to learn compared to those minority examples that are easier to learn. Thus, ADASYN improves learning with respect to the data distributions by reducing the bias introduced by the class imbalance and by adaptively shifting the classification boundary toward the difficult examples.

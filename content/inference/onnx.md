@@ -175,7 +175,7 @@ Let's construct the full example.
 
     The example assumes the following directory structure:
 
-    ```
+    ```bash
     MySubsystem/MyModule/
     │
     ├── plugins/
@@ -216,7 +216,7 @@ Let's construct the full example.
 Under `MySubsystem/MyModule/test`, run `#!bash cmsRun my_plugin_cfg.py` to launch our module. You may see the following from the output, which include the input and output vectors in the inference process.
 
 ??? hint "Click to see the output"
-    ```
+    ```bash
     ...
     19-Jul-2022 10:50:41 CEST  Successfully opened file root://xrootd-cms.infn.it//store/mc/RunIISummer20UL18MiniAODv2/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/230000/4C8619B2-D0C0-4647-B946-B33754F4ED16.root
     Begin processing the 1st record. Run 1, Event 27074045, LumiSection 10021 on stream 0 at 19-Jul-2022 10:50:43.494 CEST
@@ -291,7 +291,7 @@ print('output ->', outputs)
 
 Under the directory `MySubsystem/MyModule/test`, run the example with `python3 my_standalone_test.py`. Then we see the output:
 
-```
+```bash
 input -> [45. 46. 47. 48. 49. 50. 51. 52. 53. 54.]
 output -> [[0.9956566  0.00434343]]
 ```
@@ -326,7 +326,7 @@ Please find details in the following block.
     ```
 
     We should see the output as follows
-    ```
+    ```bash
     processing.examples.exampleOrtModule exampleOrtModuleConstr -N 10
     Loading exampleOrtModuleConstr from PhysicsTools.NanoAODTools.postprocessing.examples.exampleOrtModule
     Will write selected trees to outDir
