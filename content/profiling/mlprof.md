@@ -17,7 +17,7 @@ MLProf uses the C++ `<chrono>` library for runtime measurements.
 
 As of today, MLProf can feed the models to be tested different inputs during the measurements, but not custom preprocessed ones.
 MLProf aims at providing a C++ plugin for custom preprocessing of the inputs in the future.
-MLProf also aims at allowing different memory measurements using [IgProf](https://igprof.org/) in the future.
+MLProf also aims at allowing different memory measurements using [IgProf](https://igprof.org/) or a similar profiling software in the future.
 
 
 ## Quickstart
@@ -80,7 +80,7 @@ law run PlotRuntimes --version test_mlprof
     - `i` (interactive: prompt a selection of the tasks to remove up to the given depth)
     - `d` (dry: show which files might be deleted with the same selection options, but do not remove the outputs).
 
-    The `--remove-output` argument does not allow the depth "-1", check the task tree with `--print-output` before selecting the depth you want.
+    The `--remove-output` argument does not allow the depth "-1", check the task tree with `--print-status` before selecting the depth you want.
     The removal mode can be already selected in the command, e.g. with `--remove-output 1,a` (remove all outputs up to depth 1).
 
     Once the output has been removed, it is possible to run the task again.
@@ -116,6 +116,7 @@ If tensorflow or onnx is to be used as inference engine, the yaml file should be
 model:
   name: optional_default_name_of_the_network_for_the_storage_path
   label: optional default label of the network for the plots
+  color: optional color of the network for the plots
   version: optional_version_number # (e.g. "1.0.0")
   inference_engine: name_of_inference_engine  # (either "tf" or "onnx")
   file: path_to_your_pb_or_onnx_model_file
@@ -140,6 +141,7 @@ Hence, the yaml file should be in the following format:
 model:
   name: optional_default_name_of_the_network_for_the_storage_path
   label: optional default label of the network for the plots
+  color: optional color of the network for the plots
   version: version_number  # (e.g. "1.0.0")
   inference_engine: tfaot
   saved_model: path_to_your_saved_model_directory
@@ -182,7 +184,8 @@ All these steps are done in the backgrounds, so the user only needs to provide t
 
 It is possible to test the AOT models with different batch sizes than the ones they were compiled with in CMSSW, using stitching and padding.
 The default behaviour for this procedure is described in the [cms-ml AOT documentation](https://cms-ml.github.io/documentation/inference/tensorflow_aot.html#default-rules-and-optimization).
-Users can also define with compiled models should be stitched together/padded for the inference by using the `--tfaot-batch-rules` parameter described below.
+Users can also define which compiled models should be stitched together/padded for the inference by using the `--tfaot-batch-rules` parameter described below.
+This last option is not available for the PlotMultiRuntimes task at the moment to avoid confusion between the different models, therefore the default behaviour is used for this task.
 
 
 
@@ -210,7 +213,7 @@ It is composed of three major types of tasks:
 Calling the [PlotRuntimes](#plotruntimes) task triggers the whole pipeline with the correct arguments.
 
 The way to give the necessary informations about your model to MLProf is by using a yaml file.
-Its structure is presented below in [Model file in yaml format](#model-file-in-yaml-format).
+Its structure is presented above in [Model file in yaml format](#model-file-in-yaml-format).
 
 
 ## MeasureRuntime
@@ -293,7 +296,7 @@ This task merges the .csv output files with the required multiple batch sizes fr
 
 ??? hint "Click to expand"
 
-    - batch-sizes: int. The comma-separated list of batch sizes to be tested; default: `1,2,4`.
+    - batch-sizes: int. The comma-separated list of batch sizes to be tested. default: `1,2,4`.
 
     - model-file: str. The absolute path of the yaml file containing the informations of the model to be tested. default: `$MLP_BASE/examples/dnn/model_tf_l10u128.yaml`.
 
@@ -340,21 +343,23 @@ The number of inferences behind one plotted data point is given by `n-events * n
 
 ??? hint "Click to expand"
 
-    - y-log: bool. Plot the y-axis values logarithmically; default: `False`.
+    - y-log: bool. Plot the y-axis values logarithmically. default: `False`.
 
-    - x-log: bool. Plot the x-axis values logarithmically; default: `False`.
+    - x-log: bool. Plot the x-axis values logarithmically. default: `False`.
 
     - y-min: float. Minimum y-axis value. default: empty
 
     - y-max: float. Maximum y-axis value. default: empty
 
-    - bs-normalized: bool. Normalize the measured values with the batch size before plotting; default: `True`.
+    - bs-normalized: bool. Normalize the measured values with the batch size before plotting. default: `True`.
 
-    - error-style: str. Style of errors / uncertainties due to averaging; choices: `bars`,`band`; default: `band`.
+    - error-style: str. Style of errors / uncertainties due to averaging. choices: `bars`,`band`. default: `band`.
 
     - top-right-label: str. When set, stick this string as label over the top right corner of the plot. default: empty.
 
-    - batch-sizes: int. The comma-separated list of batch sizes to be tested; default: `1,2,4`.
+    -  default_colors: str. Default color cycle to use for plots. choices: `mpl`, `cms_6`, `atlas_10`. default: `cms_6`.
+
+    - batch-sizes: int. The comma-separated list of batch sizes to be tested. default: `1,2,4`.
 
     - model-file: str. The absolute path of the yaml file containing the informations of the model to be tested. default: `$MLP_BASE/examples/dnn/model_tf_l10u128.yaml`.
 
@@ -383,7 +388,7 @@ The number of inferences behind one plotted data point is given by `n-events * n
 
 
 ### Output:
-- `runtimes_bs_{batch_size_1}_{batch_size_2}_{...}.pdf`: The plot of the runtime measurement against the different batch sizes given.
+- `runtimes_bs_{batch_size_1}_{batch_size_2}_{...}.pdf`: The plot of the runtime measurement against the given batch sizes.
 
 ### Example:
 
@@ -441,21 +446,23 @@ The number of inferences behind one plotted data point is given by `n-events * n
 
     - model-labels: str. The comma-separated list of model labels. When set, use these strings for the model labels in the plots from the plotting tasks. When empty, the `label` fields in the models yaml data are used when existing, else the `name` fields in the models yaml data are used when existing, and model-names otherwise. default: empty.
 
-    - y-log: bool. Plot the y-axis values logarithmically; default: `False`.
+    - y-log: bool. Plot the y-axis values logarithmically. default: `False`.
 
-    - x-log: bool. Plot the x-axis values logarithmically; default: `False`.
+    - x-log: bool. Plot the x-axis values logarithmically. default: `False`.
 
     - y-min: float. Minimum y-axis value. default: empty
 
     - y-max: float. Maximum y-axis value. default: empty
 
-    - bs-normalized: bool. Normalize the measured values with the batch size before plotting; default: `True`.
+    - bs-normalized: bool. Normalize the measured values with the batch size before plotting. default: `True`.
 
-    - error-style: str. Style of errors / uncertainties due to averaging; choices: `bars`,`band`; default: `band`.
+    - error-style: str. Style of errors / uncertainties due to averaging. choices: `bars`,`band`. default: `band`.
 
     - top-right-label: str. When set, stick this string as label over the top right corner of the plot. default: empty.
 
-    - batch-sizes: int. The comma-separated list of batch sizes to be tested; default: `1,2,4`.
+    -  default_colors: str. Default color cycle to use for plots. choices: `mpl`, `cms_6`, `atlas_10`. default: `cms_6`.
+
+    - batch-sizes: int. The comma-separated list of batch sizes to be tested. default: `1,2,4`.
 
     - n-events: int. The number of events to read from each input file for averaging measurements. default: `1`
 
@@ -470,7 +477,7 @@ The number of inferences behind one plotted data point is given by `n-events * n
     - view_cmd: str. A command to execute after the task has run to visualize plots right in the terminal (e.g. "imgcat" if installed). default: empty.
 
 ### Output:
-- `runtimes_{param_1}_{param_2}_{...}_bs_{batch_size_1}_{batch_size_2}_{...}.pdf`: The plot of the runtime measurements against the different batch sizes given.
+- `runtimes_{param_1}_{param_2}_{...}_bs_{batch_size_1}_{batch_size_2}_{...}.pdf`: The plot of the runtime measurements against the given batch sizes.
 
 ### Example:
 
