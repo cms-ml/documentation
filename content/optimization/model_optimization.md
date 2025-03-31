@@ -187,7 +187,7 @@ The third main issue is that for complex problems one would ideally like to take
 
 ## Alternatives to Gaussian processes: Tree-based models
 
-Gaussian Processes model directly $P(hyperpar | data)$ byt are not the only suitable surrogate models for Bayesian optimization
+Gaussian Processes model directly $P(hyperpar | data)$ but are not the only suitable surrogate models for Bayesian optimization
 
 The so-called *Tree-structured Parzen Estimator* (TPE), described in [Bergstra et al](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf), models separately $P(data | hyperpar)$ and $P(hyperpar)$, to then obtain the posterior by explicit application of the Bayes theorem
 TPEs exploit the fact that the choice of hyperparameters is intrinsically graph-structured, in the sense that e.g. you first choose the number of layers, then choose neurons per layer, etc.

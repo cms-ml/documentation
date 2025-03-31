@@ -20,8 +20,9 @@ public:
 
   static void fillDescriptions(edm::ConfigurationDescriptions&);
 
-  // an additional static method for initializing the global cache
+  // additional static methods for initializing and closing the global cache
   static std::unique_ptr<tensorflow::SessionCache> initializeGlobalCache(const edm::ParameterSet&);
+  static void globalEndJob(const tensorflow::SessionCache*);
 
 private:
   void beginJob();
@@ -35,11 +36,19 @@ private:
   const tensorflow::Session* session_;
 };
 
-std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const edm::ParameterSet& config) {
+std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const edm::ParameterSet& params) {
   // this method is supposed to create, initialize and return a SessionCache instance
   std::string graphPath = edm::FileInPath(params.getParameter<std::string>("graphPath")).fullPath();
-  return std::make_unique<tensorflow::SessionCache>(graphPath);
+  // Setup the TF backend by configuration
+  if (params.getParameter<std::string>("tf_backend") == "cuda"){
+    tensorflow::Options options { tensorflow::Backend::cuda};
+  }else {
+    tensorflow::Options options { tensorflow::Backend::cpu};
+  }
+  return std::make_unique<tensorflow::SessionCache>(graphPath, options);
 }
+
+void MyPlugin::globalEndJob(const tensorflow::SessionCache* cache) {}
 
 void MyPlugin::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   // defining this function will lead to a *_cfi file being generated when compiling

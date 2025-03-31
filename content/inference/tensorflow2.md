@@ -124,6 +124,9 @@ Instructions on how to transform and save your model are shown below, depending 
     # convert to binary (.pb extension) protobuf
     # with variables converted to constants
     cmsml.tensorflow.save_graph("graph.pb", model, variables_to_constants=True)
+
+    # note: save_graph was renamed to save_frozen_graph in newer versions
+    #       of cmsml and you might see a deprecation warning
     ```
 
     Following the Keras naming conventions for certain layers, the input will be named `"input"` while the output is named `"sequential/output/Softmax"`.
@@ -172,6 +175,9 @@ Instructions on how to transform and save your model are shown below, depending 
     # convert to binary (.pb extension) protobuf
     # with variables converted to constants
     cmsml.tensorflow.save_graph("graph.pb", cmodel, variables_to_constants=True)
+
+    # note: save_graph was renamed to save_frozen_graph in newer versions
+    #       of cmsml and you might see a deprecation warning
     ```
 
     The input will be named `"x"` while the output is named `"y"`.
@@ -369,20 +375,22 @@ public:
     explicit GraphLoadingMT(const edm::ParameterSet&, const tensorflow::SessionCache*);
     ~GraphLoadingMT();
 
-    // an additional static method for initializing the global cache
+    // additional static methods for initializing and closing the global cache
     static std::unique_ptr<tensorflow::SessionCache> initializeGlobalCache(const edm::ParameterSet&);
-    static void globalEndJob(const CacheData*);
+    static void globalEndJob(const tensorflow::SessionCache*);
 ...
 ```
 
 Implement `initializeGlobalCache` to control the behavior of how the cache object is created.
-The destructor of `tensorflow::SessionCache` already handles the closing of the session itself and the deletion of all objects.
+You also need to implement `globalEndJob`, however, it can remain empty as the destructor of `tensorflow::SessionCache` already handles the closing of the session itself and the deletion of all objects.
 
 ```cpp
 std::unique_ptr<tensorflow::SessionCache> MyPlugin::initializeGlobalCache(const edm::ParameterSet& config) {
   std::string graphPath = edm::FileInPath(params.getParameter<std::string>("graphPath")).fullPath();
   return std::make_unique<tensorflow::SessionCache>(graphPath);
 }
+
+void MyPlugin::globalEndJob(const tensorflow::SessionCache* cache) {}
 ```
 
 ??? hint "Custom cache struct"
@@ -509,6 +517,27 @@ std::cout << outputs[0].matrix<float>()(0, 5) << std::endl;
         --8<-- "content/inference/code/tensorflow/tensorflow2_cfg.py"
         ```
 
+
+### GPU backend
+
+By default the TensorFlow sessions get created for CPU running. Since CMSSW_13_1_X the GPU backend for TensorFlow is
+available in the cmssw release. 
+
+Minimal changes are needed in the inference code to move the model on the GPU. 
+A `tensorflow::Options` struct is available to setup the backend. 
+
+```cpp linenums="1"
+tensorflow::Options options { tensorflow::Backend::cuda};
+
+# Initialize the cache
+tensorflow::SessionCache cache(pbFile, options);
+# or a single session
+const tensorflow::Session* session = tensorflow::createSession(graphDef, options);
+
+``` 
+
+CMSSW modules should add an options in the `PSets` of the producers and analyzers to configure on the fly the
+TensorFlow backend for the sessions created by the plugins. 
 
 ### Optimization
 
