@@ -168,5 +168,8 @@ nav:
       - Decorrelation: training/Decorrelation.md
       - Training as a Service:
         - MLaaS4HEP: training/MLaaS4HEP.md
+    - Models and Usecases:
+      - Overview: models/overview.md
       - Autoencoders: training/autoencoders.md
+
 #    - Benchmarking:
