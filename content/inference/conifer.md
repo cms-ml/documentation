@@ -14,24 +14,33 @@
 
 ## Emulation in CMSSW
 
-All L1T algorithms require bit-exact emulation for performance studies and validation of the hardware system. For conifer this is provided with a single header file at `L1Trigger/Phase2L1ParticleFlow/interface/conifer.h`. The user must also provide the BDT JSON file exported from the conifer Python tool for their model. JSON loading in CMSSW uses the `nlohmann/json` external.
+All L1T algorithms require bit-exact emulation for performance studies and validation of the hardware system. For conifer this is provided with a [single header file](https://github.com/thesps/conifer/blob/master/conifer/backends/cpp/include/conifer.h) that is a CMSSW external `conifer.h`. The user must also provide the BDT JSON file exported from the conifer Python tool for their model. Usually the model JSON file should be saved at [`cms-data`](https://github.com/cms-data). JSON loading in CMSSW uses the `nlohmann/json` external.
 
 Both the conifer FPGA firmware and C++ emulation use Xilinx's arbitrary precision types for fixed-point arithmetic (`hls` external of CMSSW). This is cheaper and faster in the FPGA fabric than floating-point types. An important part of the model preparation process is choosing the proper fixed-point data types to avoid loss of performance compared to the trained model. Input preprocessing, in particular scaling, can help constrain the input variables to a smaller numerical range, but may also have a hardware cost to implement. In C++ the arbitrary precision types are specified like: `ap_fixed<width, integer, rounding mode, saturation mode>`. 
 
 Minimal preparation from Python:
-```
+```python
 import conifer
 model = conifer. ... # convert or load a conifer model
 # e.g. model = conifer.converters.convert_from_xgboost(xgboost_model)
 model.save('my_bdt.json')
 ```
 
-CMSSW C++ user code:
-```
-// include the conifer emulation header file
-#include "L1Trigger/Phase2L1ParticleFlow/interface/conifer.h"
+Include the conifer and HLS external in your package's `BuildFile.xml`:
 
-... model setup
+```xml
+<use name="conifer"/>
+<use name="hls"/>
+```
+
+CMSSW C++ user code:
+```c++
+// include the conifer emulation header file
+#include "conifer.h"
+// include the HLS types header file
+#include "ap_fixed.h"
+
+// ... model setup
 // define the input/threshold and score types
 // important: this needs to match the firmware settings for bit-exactness!
 // note: can use native types like float/double for development/debugging
@@ -42,7 +51,7 @@ typedef ap_fixed<12,3,AP_RND_CONV,AP_SAT> score_t;
 // 'true' to use balanced add-tree score aggregation (needed for bit-exactness)
 bdt = conifer::BDT<input_t, score_t, true>("my_bdt.json");
 
-... inference
+// ... inference
 // prepare the inputs, vector length same as model n_features
 std::vector<input_t> inputs = ... 
 // run inference, scores vector length same as model n_classes (or 1 for binary classification/regression)
