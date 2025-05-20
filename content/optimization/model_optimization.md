@@ -11,7 +11,7 @@ The mathematical formalism for the problem of learning is briefly explained in [
 The first illustration, elaborated from an image by [the huawei forums](https://forum.huawei.com/enterprise/en/machine-learning-training-method-gradient-descent-method/thread/708303-895) shows the general idea behind learning through gradient descent in a multidimensional parameter space, where the minimum of a loss function is found by following the function's gradient until the minimum.
 
 <figure>
-<img src="images/gradientdescent.png" width="60%"/>
+<img src="../images/optimization/gradientdescent.png" width="60%"/>
 <figcaption>The cartoon illustrates the general idea behind gradient descent to find the minimum of a function in a multidimensional parameter space (figure elaborated from an image by <a href="https://forum.huawei.com/enterprise/en/machine-learning-training-method-gradient-descent-method/thread/708303-895">the huawei forums</a>).</figcaption>
 </figure>
 
@@ -29,7 +29,7 @@ The second illustration, also elaborated from an image by [the huawei forums](ht
 for each point in the hyperparameters space (that is, for each configuration of the model), the individual model is optimized as usual. The global minimum over the hyperparameters space is then sought.
 
 <figure>
-<img src="images/gradientdescent.png" width="60%"/>
+<img src="../images/optimization/gradientdescent.png" width="60%"/>
 <figcaption>The cartoon illustrates the general idea behind gradient descent to optimize the model complexity (in terms of the choice of hyperparameters) multidimensional parameter and hyperparameter space (figure elaborated from an image by <a href="https://forum.huawei.com/enterprise/en/machine-learning-training-method-gradient-descent-method/thread/708303-895">the huawei forums</a>).</figcaption>
 </figure>
 
@@ -48,7 +48,7 @@ If you are doing any kind of hyperparamters optimization, **thou shalt NOT use t
 The most simple hyperparameters optimization algorithm is the *grid search*, where you train all the models in the hyperparameters space to build the full landscape of the global loss function, as illustrated in [Goodfellow, Bengio, Courville: "Deep Learning"](https://www.deeplearningbook.org/).
 
 <figure>
-<img src="images/grid.png" width="60%"/>
+<img src="../images/optimization/grid.png" width="60%"/>
 <figcaption>The cartoon illustrates the general idea behind grid search (image taken from <a href="https://www.deeplearningbook.org">Goodfellow, Bengio, Courville: "Deep Learning"</a>).</figcaption>
 </figure>
 
@@ -78,7 +78,7 @@ random search is exponentially more efficient, because it tests a unique value f
 Random search also work best when done iteratively. The differences between grid and random search are again illustrated in [Goodfellow, Bengio, Courville: "Deep Learning"](https://www.deeplearningbook.org/).
 
 <figure>
-<img src="images/gridrandom.png" width="60%"/>
+<img src="../images/optimization/gridrandom.png" width="60%"/>
 <figcaption>The cartoon illustrates the general idea behind random search, as opposed to grid search (image taken from <a href="https://www.deeplearningbook.org/">Goodfellow, Bengio, Courville: "Deep Learning"</a>).</figcaption>
 </figure>
 
@@ -94,7 +94,7 @@ Unfortunately, the gradient is seldom available (either because it has a prohibi
 A diagram illustrating the way gradient-based model optimization works has been prepared by [Bengio, doi:10.1162/089976600300015187](https://doi.org/10.1162/089976600300015187).
 
 <figure>
-<img src="images/modelbased.png" width="60%"/>
+<img src="../images/optimization/modelbased.png" width="60%"/>
 <figcaption>The diagram illustrates the way model optimization can be recast as a model selection problem, where a model selection criterion involves a differentiable validation set error (image taken from <a href="https://doi.org/10.1162/089976600300015187">Bengio, doi:10.1162/089976600300015187</a>).</figcaption>
 </figure>
 
@@ -105,7 +105,7 @@ The surrogate is typically built as a Bayesian regression model, when one estima
 The pseudocode for the SMBO algorithm is illustrated by [Bergstra et al](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf).
 
 <figure>
-<img src="images/smbo.png" width="60%"/>
+<img src="../images/optimization/smbo.png" width="60%"/>
 <figcaption>The diagram illustrates the pseudocode for the Sequential Model-based Global Optimization (image taken from <a href="https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf">Bergstra et al</a>).</figcaption>
 </figure>
 
@@ -129,7 +129,7 @@ A GP is therefore fully described by its mean and its covariance function.
 An illustration of Gaussian processes is given in [Kevin Jamieson's CSE599 lecture notes](https://courses.cs.washington.edu/courses/cse599i/18wi/).
 
 <figure>
-<img src="images/gausproc.png" width="60%"/>
+<img src="../images/optimization/gausproc.png" width="60%"/>
 <figcaption>The diagram illustrates the evolution of a Gaussian process, when adding interpolating points (image taken from <a href="https://courses.cs.washington.edu/courses/cse599i/18wi/">Kevin Jamieson's CSE599 lecture notes</a>).</figcaption>
 </figure>
 
@@ -162,16 +162,16 @@ To choose the next sampling location, a certain acquisition function is computed
 At each iteration, more noisy samples are added, until the distance between consecutive sampling locations is minimized (or, equivalently, a measure of the value of the best selected sample is maximized).
 
 <figure>
-<img src="images/bo_1.png" width="60%"/>
+<img src="../images/optimization/bo_1.png" width="60%"/>
 </figure>
 <figure>
-<img src="images/bo_2.png" width="60%"/>
+<img src="../images/optimization/bo_2.png" width="60%"/>
 </figure>
 <figure>
-<img src="images/bo_3.png" width="60%"/>
+<img src="../images/optimization/bo_3.png" width="60%"/>
 </figure>
 <figure>
-<img src="images/bo_4.png" width="60%"/>
+<img src="../images/optimization/bo_4.png" width="60%"/>
 <figcaption>Practical illustration of Bayesian Optimization (images taken from <a href="http://krasserm.github.io/2018/03/21/bayesian-optimization/">a tutorial on BO by Martin Krasser]</a>).</figcaption>
 </figure>
 
@@ -187,14 +187,14 @@ The third main issue is that for complex problems one would ideally like to take
 
 ## Alternatives to Gaussian processes: Tree-based models
 
-Gaussian Processes model directly $P(hyperpar | data)$ byt are not the only suitable surrogate models for Bayesian optimization
+Gaussian Processes model directly $P(hyperpar | data)$ but are not the only suitable surrogate models for Bayesian optimization
 
 The so-called *Tree-structured Parzen Estimator* (TPE), described in [Bergstra et al](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf), models separately $P(data | hyperpar)$ and $P(hyperpar)$, to then obtain the posterior by explicit application of the Bayes theorem
 TPEs exploit the fact that the choice of hyperparameters is intrinsically graph-structured, in the sense that e.g. you first choose the number of layers, then choose neurons per layer, etc.
 TPEs run over this generative process by replacing the hyperparameters priors with nonparametric densities. These generative nonparametric densities are built by classifying them into those that result in worse/better loss than the current proposal.
 
 TPEs have been used in CMS already around 2017 in a VHbb analysis (see [repository by Sean-Jiun Wang](https://github.com/swang373/vhbb_optimization)) and in a charged Higgs to tb search ([HIG-18-004, doi:10.1007/JHEP01(2020)096](http://dx.doi.org/10.1007/JHEP01(2020)096)).
- 
+
 ## Implementations of Bayesian Optimization
 
 

@@ -11,33 +11,46 @@ repo_name: cms-ml/documentation
 repo_url: https://github.com/cms-ml/documentation
 
 use_directory_urls: false
-copyright: Copyright &copy; 2020 CMS Machine Learning Group
+copyright: Copyright &copy; 2020-2023 CMS Machine Learning Group
 
 theme:
   name: material
   logo: images/logo.png
   favicon: images/favicon.png
   palette:
-    scheme: preference
-    primary: indigo
-    accent: orange
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
   features:
     - instant
+    - navigation.sections
 
 plugins:
   - search:
-      min_search_length: 2
+      lang: en
   - minify:
       minify_html: true
   - markdownextradata
   - git-revision-date-localized
+  - termynal
 
 markdown_extensions:
-  - markdown.extensions.admonition
-  - markdown.extensions.attr_list
-  - markdown.extensions.def_list
-  - markdown.extensions.footnotes
-  - markdown.extensions.meta
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
   - markdown.extensions.toc:
       permalink: true
   - pymdownx.arithmatex:
@@ -48,8 +61,8 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys
@@ -65,15 +78,16 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_div_format
-  - pymdownx.tabbed
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.tilde
 
 extra_javascript:
-  - https://unpkg.com/mermaid@8.6/dist/mermaid.min.js
-  - javascripts/mathjax.js
+  - https://unpkg.com/mermaid@10.9/dist/mermaid.min.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
@@ -85,12 +99,13 @@ extra:
     - icon: fontawesome/brands/docker
       link: https://hub.docker.com/orgs/cmsml/repositories
     - icon: fontawesome/solid/comment-dots
-      link: https://hypernews.cern.ch/HyperNews/CMS/get/machine-learning.html
+      link: https://cms-talk.web.cern.ch/c/physics/ml/104
     - icon: fontawesome/solid/envelope
-      link: mailto:hn-cms-machine-learning@cern.ch
+      link: mailto:cms-conveners-ml-knowledge@cern.ch
 
 nav:
   - Home: index.md
+  - Newsletters: newsletter/newsletters.md
 #  - Knowledge Sources:
 #    - AI Ethics Primer:
 #    - CMS Internal:
@@ -99,26 +114,45 @@ nav:
     - ML Journal Club: innovation/journal_club.md
     - ML Hackathons: innovation/hackathons.md
   - Resources:
-    - Cloud Resources: Resources/Cloud_Resources/index.md
-    - FPGA Resource: Resources/FPGA_Resources/index.md
-    - GPU Resources: Resources/GPU_Resources/index.md
-  - Tutorials:
+    - Cloud Resources: resources/cloud_resources/index.md
+    - Dataset Resources: resources/dataset_resources/index.md
+    - FPGA Resource: resources/fpga_resources/index.md
+    - GPU Resources:
+      - lxplus-gpu: resources/gpu_resources/cms_resources/lxplus_gpu.md
+      - CERN HTCondor: resources/gpu_resources/cms_resources/lxplus_htcondor.md
+      - SWAN: resources/gpu_resources/cms_resources/swan.md
+      - ml.cern.ch: resources/gpu_resources/cms_resources/ml_cern_ch.md
+  - Guides:
+    - Software environments:
+      - LCG environments: software_envs/lcg_environments.md
+      - Using containers: software_envs/containers.md
     - Optimization:
       - Model optimization: optimization/model_optimization.md
       - Feature importance: optimization/importance.md
       - Data augmentation: optimization/data_augmentation.md
-    - Validation:
-      - Overtraining: validation/overtraining.md
-      - Cross validation: validation/cross_validation.md
+    - General Advice:
+      - Introduction: general_advice/intro.md
+      - Before training:
+        - Domains: general_advice/before/domains.md
+        - Features: general_advice/before/features.md
+        - Inputs: general_advice/before/inputs.md
+        - Model: general_advice/before/model.md
+        - Metrics & Losses: general_advice/before/metrics.md
+      - During training:
+        - Overfitting: general_advice/during/overfitting.md
+        - Cross-validation: general_advice/during/xvalidation.md
+        - Optimisation problems: general_advice/during/opt.md
+      - After training: general_advice/after/after.md
     - Inference:
       - Direct inference:
-        - TensorFlow 1: inference/tensorflow1.md
         - TensorFlow 2: inference/tensorflow2.md
+        - TensorFlow AOT: inference/tensorflow_aot.md
         - PyTorch: inference/pytorch.md
         - PyTorch Geometric: inference/pyg.md
         - ONNX: inference/onnx.md
         - XGBoost: inference/xgboost.md
         - hls4ml: inference/hls4ml.md
+        - conifer: inference/conifer.md
       - Inference as a service:
         - Sonic/Triton: inference/sonic_triton.md
         - TFaaS: inference/tfaas.md
@@ -131,6 +165,8 @@ nav:
         - ParticleNet: inference/particlenet.md
     - Training:
       - Bayesian Neural Network: training/BayesianNN.md
+      - Decorrelation: training/Decorrelation.md
       - Training as a Service:
         - MLaaS4HEP: training/MLaaS4HEP.md
+      - Autoencoders: training/autoencoders.md
 #    - Benchmarking:

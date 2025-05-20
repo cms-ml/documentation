@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.10
 
 # ports
 EXPOSE 8000
@@ -17,9 +17,12 @@ RUN pip install --no-cache-dir mkdocs-markdownextradata-plugin
 RUN pip install --no-cache-dir mkdocs-git-revision-date-localized-plugin
 RUN pip install --no-cache-dir mkdocs-awesome-pages-plugin
 RUN pip install --no-cache-dir mkdocs-minify-plugin
+RUN pip install --no-cache-dir mkdocs-video
+RUN pip install --no-cache-dir termynal
 
 # fetch the repository and change the workdir
 RUN git clone https://github.com/cms-ml/documentation.git /documentation
+RUN git config --global --add safe.directory /documentation
 WORKDIR /documentation
 
 # default command
