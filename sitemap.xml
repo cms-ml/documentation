@@ -216,6 +216,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://cms-ml.github.io/documentation/training/BayesianNN.html</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://cms-ml.github.io/documentation/training/Decorrelation.html</loc>
          <lastmod>2025-05-20</lastmod>
          <changefreq>daily</changefreq>
