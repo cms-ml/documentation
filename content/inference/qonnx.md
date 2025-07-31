@@ -8,7 +8,7 @@ Text taken and adopted from the QONNX [README.md](https://github.com/fastmachine
 
 <img align="left" src="https://xilinx.github.io/finn/img/TFC_1W2A.onnx.png" alt="QONNX example" style="margin-right: 20px" width="200"/>
 
-QONNX (Quantized ONNX) introduces three new custom operators -- [`Quant`](docs/qonnx-custom-ops/quant_op.md), [`BipolarQuant`](docs/qonnx-custom-ops/bipolar_quant_op.md), and [`Trunc`](docs/qonnx-custom-ops/trunc_op.md) -- in order to represent arbitrary-precision uniform quantization in [ONNX](onnx.md). This enables:
+QONNX (Quantized ONNX) introduces three new custom operators -- `Quant`, `BipolarQuant`, and `Trunc` -- in order to represent arbitrary-precision uniform quantization in [ONNX](onnx.md). This enables:
 
 * Representation of binary, ternary, 3-bit, 4-bit, 6-bit or any other quantization.
 * Quantization is an operator itself, and can be applied to any parameter or layer input.
