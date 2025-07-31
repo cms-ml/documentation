@@ -96,6 +96,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://cms-ml.github.io/documentation/inference/qonnx.html</loc>
+         <lastmod>2025-07-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://cms-ml.github.io/documentation/inference/sonic_triton.html</loc>
          <lastmod>2025-07-31</lastmod>
          <changefreq>daily</changefreq>
@@ -222,6 +227,11 @@
     </url>
     <url>
          <loc>https://cms-ml.github.io/documentation/training/Decorrelation.html</loc>
+         <lastmod>2025-07-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://cms-ml.github.io/documentation/training/HGQ.html</loc>
          <lastmod>2025-07-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
