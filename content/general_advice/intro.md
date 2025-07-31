@@ -23,9 +23,9 @@ Therefore, this section is intended to **review potential issues on the ML side 
 
 The General Advice chapter is divided into into 3 sections. Things become logically aligned if presented from the perspective of the training procedure (fitting/loss minimisation part). That is, the sections will group validation items as they need to be investigated:
 
-* Before training
-* During training
-* After training
+* [Before training](./before/domains.md)
+* [During training](./during/overfitting.md)
+* [After training](./after/after.md)
 
 ---   
 

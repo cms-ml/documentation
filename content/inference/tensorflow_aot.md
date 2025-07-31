@@ -140,7 +140,7 @@ The following files should have been created upon success.
 
 ??? hint "SavedModel files"
 
-    ```
+    ```bash
     /path/to/saved_model
     │
     ├── variables/
@@ -270,7 +270,7 @@ Upon success, all generated files can be found in `$CMSSW_BASE/tfaot/test` and s
 
 ???+ hint "Generated files"
 
-    ```
+    ```bash
     ${CMSSW_BASE}/tfaot/test
     │
     ├── lib/
@@ -398,7 +398,7 @@ std::tie(out1, out2) = model.run<tfaot::DoubleArrays, tfaot::Int32Arrays>(
 
     The example assumes the following directory structure:
 
-    ```
+    ```bash
     MySubsystem/MyModule/
     │
     ├── plugins/
