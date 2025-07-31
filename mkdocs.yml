@@ -172,3 +172,4 @@ nav:
       - Autoencoders: training/autoencoders.md
       - HGQ: training/HGQ.md
 #    - Benchmarking:
+    - Profiling: profiling/mlprof.md
