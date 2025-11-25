@@ -17,7 +17,7 @@ action() {
     local docker_args="--rm -v \"${root_dir}\":/documentation"
     local docker_cmd=""
     if [ "${mode}" = "build" ]; then
-        docker_cmd="mkdocs build --strict"
+        docker_cmd="pip install --no-cache-dir mkdocs-include-markdown-plugin && mkdocs build --strict"
         docker_args="${docker_args} -t"
     elif [ "${mode}" = "serve" ]; then
         local host_port="${2:-8000}"
