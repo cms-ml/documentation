@@ -1,0 +1,6 @@
+---
+Introduction
+---
+The very basic idea of any multivariate analysis or supervised machine learning (ML) tool for classification is to make a more optimal use of a set of discriminating variables xi than each of these variables, either individually or two-by-two or three-by-three, which is the highest dimension a human can geometrically represent. An ML can at least make a more optimal chain of decisions via 1-dimensional (1D) cuts (like Boosted Decision Trees - BDTs) than human based 1D or 2D decisions. This is exactly what BDTs do, where each tree applies an ensemble of 1D cuts, and where the forest of trees effectively applies cuts of higher dimensions. It can also exploit the differences of correlation among the input variables xi for S and B events (like Deep Neural Networks - NNs).
+
+In this tutorial, we will first go through the basic ideas of a NN, then cover its different metrics, and then cover how events/samples should be treated. In each section, we will provide code snippets as to illustrate the practice of each covered point. To not overload the flow of the tutorial, these pieces of code will be just snippets, and full example codes will be provided in the last section.

@@ -35,6 +35,11 @@ theme:
   features:
     - instant
     - navigation.sections
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
 
 plugins:
   - search:
@@ -44,6 +49,7 @@ plugins:
   - markdownextradata
   - git-revision-date-localized
   - termynal
+  - include-markdown
 
 markdown_extensions:
   - admonition
@@ -122,6 +128,8 @@ nav:
       - CERN HTCondor: resources/gpu_resources/cms_resources/lxplus_htcondor.md
       - SWAN: resources/gpu_resources/cms_resources/swan.md
       - ml.cern.ch: resources/gpu_resources/cms_resources/ml_cern_ch.md
+  - Tutorials:
+    - NN in CMS: tutorials/nn_in_cms.md
   - Guides:
     - Software environments:
       - LCG environments: software_envs/lcg_environments.md
