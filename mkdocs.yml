@@ -130,6 +130,7 @@ nav:
       - ml.cern.ch: resources/gpu_resources/cms_resources/ml_cern_ch.md
   - Tutorials:
     - NN in CMS: tutorials/nn_in_cms.md
+    - Dataset publication: tutorials/dataset_publication.md
   - Guides:
     - Software environments:
       - LCG environments: software_envs/lcg_environments.md
