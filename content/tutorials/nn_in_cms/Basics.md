@@ -192,7 +192,7 @@ i=1
 while i < len(architecture):
     model.add(Dense(int(architecture[i]), activation=activ, kernel_initializer=ini))
     i=i+1
-model.add(Dense(1, activation='sigmoid')) # Output layer: 1 node, with sigmoid
+model.add(Dense(1, activation='sigmoid')) # Output layer: 1 node, with sigmoid.
 model.compile(**compileArgs)
 model.summary()
 ```
