@@ -1,0 +1,46 @@
+name: Deploy branch preview
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - modernize-ui
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Pull docker image 🐳
+        run: docker pull cmsml/documentation
+
+      - name: Build 🔧
+        run: ./docker/run.sh build
+
+      - name: Determine preview folder 📂
+        run: echo "FOLDER=${GITHUB_REF_NAME//\//-}" >> "$GITHUB_ENV"
+
+      - name: Deploy preview 🚀
+        env:
+          PAGES_BRANCH: gh-pages
+          SITE_DIR: site
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone -b $PAGES_BRANCH https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git gh-pages-preview-folder
+
+          rsync -q -av --checksum --delete --progress $SITE_DIR/. gh-pages-preview-folder/$FOLDER --exclude .ssh --exclude .git --exclude .github --exclude '*.gz'
+
+          cd gh-pages-preview-folder
+          git config user.name $GITHUB_ACTOR
+          git config user.email $GITHUB_ACTOR@users.noreply.github.com
+
+          git status --porcelain
+          git add --all .
+          git diff --staged --quiet || git commit -m "Preview deploy of '$GITHUB_REF_NAME' from @ $GITHUB_SHA 🚀"
+
+          git push

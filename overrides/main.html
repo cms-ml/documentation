@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block announce %}
+<p class="cms-announce">
+  <span class="cms-announce__icon">{% include ".icons/material/bullhorn-outline.svg" %}</span>
+  <strong>ML Knowledge Newsletter v3 is out!</strong>
+  <a href="{{ base_url }}/newsletter/newsletters.html">Read it here</a>
+  <span class="cms-announce__note">— we're always looking for new writers and contributors</span>
+</p>
+{% endblock %}
+
+{% block hero %}
+{% if page.is_homepage %}
+<div class="cms-hero">
+  <p class="cms-hero__eyebrow">CMS Machine Learning Group</p>
+  <h1 class="cms-hero__title">Welcome to the CMS ML documentation hub</h1>
+  <p class="cms-hero__subtitle">The goal of this page is to provide CMS analyzers a centralized place to gather machine learning information relevant to their work. However, we are not seeking to rewrite external documentation. Whenever applicable, we will link to external documentation, such as the iML group's <a href="https://iml-wg.github.io/HEPML-LivingReview/">HEP Living Review</a> or their <a href="https://github.com/iml-wg/HEP-ML-Resources">ML Resources</a> repository. What you will find here:</p>
+  <a class="md-button md-button--primary" href="general_advice/intro.html">Explore the guides</a>
+  <a class="md-button" href="newsletter/newsletters.html">ML Knowledge Newsletter</a>
+</div>
+{% endif %}
+{% endblock %}

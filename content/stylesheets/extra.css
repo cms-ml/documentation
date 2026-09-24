@@ -1,0 +1,316 @@
+/* ----------------------------------------------------------------------------
+ * CMS ML Documentation — custom theme extensions
+ * Design language: CERN/CMS blue identity, dark navy hero, card-based layout
+ * -------------------------------------------------------------------------- */
+
+/* Palette: CERN blue primary, orange accent -------------------------------- */
+
+:root {
+  --md-primary-fg-color: #0053a1;
+  --md-primary-fg-color--light: #2b74c4;
+  --md-primary-fg-color--dark: #003c74;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: #eef4fb;
+  --md-accent-fg-color: #e07b00;
+  --md-typeset-a-color: #0053a1;
+  --cms-hero-bg: linear-gradient(
+      160deg,
+      #050d1f 0%,
+      #082a52 55%,
+      #0053a1 135%
+    );
+  --cms-card-bg: #ffffff;
+  --cms-card-border: rgba(2, 32, 71, 0.14);
+  --cms-card-shadow: rgba(2, 18, 43, 0.16);
+  --cms-banner-bg: #eef4fb;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #6db3ff;
+  --md-primary-fg-color--light: #9cc9ff;
+  --md-primary-fg-color--dark: #3e8ee8;
+  --md-accent-fg-color: #ffb055;
+  --md-typeset-a-color: #6db3ff;
+  --md-default-bg-color: #0d1424;
+  --md-default-bg-color--light: #16203a;
+  --md-default-bg-color--lighter: #1d2a4a;
+  --md-default-bg-color--darkest: #070c18;
+  --cms-card-bg: #141e33;
+  --cms-card-border: rgba(120, 170, 255, 0.16);
+  --cms-card-shadow: rgba(0, 0, 0, 0.45);
+  --cms-banner-bg: #16203a;
+}
+
+/* Layout: full-width grid ---------------------------------------------------- */
+
+.md-grid {
+  max-width: 100%;
+}
+
+/* Body text: slightly larger on wide screens for readability ----------------- */
+
+@media screen and (min-width: 76.1875em) {
+  .md-typeset {
+    font-size: 0.88rem;
+    line-height: 1.75;
+  }
+}
+
+/* Announcement banner ---------------------------------------------------------- */
+
+.md-banner {
+  background: linear-gradient(90deg, #04182f 0%, #0a2d55 100%);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.md-banner .md-banner__inner {
+  font-size: 0.8rem;
+  margin: 0.55rem auto;
+}
+
+.md-banner strong {
+  color: #ffffff;
+}
+
+.md-banner a {
+  color: #ffb055;
+  font-weight: 600;
+}
+
+.md-banner a:hover {
+  color: #ffc47e;
+}
+
+.cms-announce {
+  margin: 0;
+}
+
+.cms-announce__icon {
+  color: #ffb055;
+}
+
+.cms-announce__icon svg {
+  width: 1.05em;
+  height: 1.05em;
+  vertical-align: -0.15em;
+}
+
+.cms-announce__note {
+  opacity: 0.75;
+}
+
+/* Header -------------------------------------------------------------------- */
+
+.md-header {
+  box-shadow: 0 2px 12px rgba(2, 18, 43, 0.25);
+}
+
+.md-header .md-header__title {
+  font-weight: 600;
+}
+
+/* Hero (rendered from the theme template, directly below the header) -------- */
+
+/* Hide the edit/view-source buttons on the landing page (they would
+ * otherwise overlap the top of the card grid) */
+.md-content__inner:has(> .cms-cards) .md-content__button {
+  display: none;
+}
+
+.cms-hero {
+  position: relative;
+  margin: 0 0 2.4rem;
+  padding: 3.25rem 1.25rem 2.75rem;
+  overflow: hidden;
+  text-align: center;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 72% -10%,
+      rgba(77, 151, 255, 0.32),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 55% at 12% 115%,
+      rgba(224, 123, 0, 0.2),
+      transparent 55%
+    ),
+    var(--cms-hero-bg);
+  border-radius: 0 0 1rem 1rem;
+}
+
+.cms-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.07) 1px,
+    transparent 1.4px
+  );
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+.cms-hero > * {
+  position: relative;
+}
+
+.cms-hero__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #9cc7ff;
+}
+
+.cms-hero__title {
+  margin: 0 auto 1rem;
+  max-width: 24ch;
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.12;
+  color: #ffffff;
+}
+
+.cms-hero__subtitle {
+  margin: 0 auto 1.6rem;
+  max-width: 55rem;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.cms-hero__subtitle a {
+  color: #9cc7ff;
+}
+
+.cms-hero .md-button {
+  margin: 0.4rem 0.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.cms-hero .md-button:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+.cms-hero .md-button--primary {
+  color: #003c74;
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.cms-hero .md-button--primary:hover {
+  background-color: #e8f1fb;
+  border-color: #e8f1fb;
+}
+
+@media screen and (min-width: 76.1875em) {
+  .cms-hero {
+    padding: 4rem 3rem 3.5rem;
+  }
+}
+
+/* Card grid (homepage) -------------------------------------------------------- */
+
+.cms-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0 0 0.8rem;
+}
+
+.cms-cards > p {
+  display: contents;
+}
+
+.cms-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.35rem 1.3rem 1.25rem;
+  background-color: var(--cms-card-bg);
+  border: 1px solid var(--cms-card-border);
+  border-radius: 0.65rem;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.cms-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.55rem 1.4rem var(--cms-card-shadow);
+  border-color: var(--md-primary-fg-color);
+  text-decoration: none;
+}
+
+.cms-card:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+.cms-card__icon {
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--md-primary-fg-color);
+}
+
+.cms-card__title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+}
+
+.cms-card:hover .cms-card__title {
+  color: var(--md-primary-fg-color);
+}
+
+.cms-card__desc {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+.cms-more {
+  margin: 0 0 2rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Newsletter banner (homepage) ------------------------------------------------- */
+
+.cms-banner {
+  margin: 0 0 1.6rem;
+  padding: 1.1rem 1.3rem;
+  background-color: var(--cms-banner-bg);
+  border-left: 0.25rem solid var(--md-primary-fg-color);
+  border-radius: 0.5rem;
+}
+
+.cms-banner p {
+  margin: 0;
+}
+
+.cms-banner .twemoji {
+  font-size: 1.35em;
+  vertical-align: -0.22em;
+  margin-right: 0.3rem;
+  color: var(--md-primary-fg-color);
+}
+
+/* Accessibility --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .cms-card,
+  .cms-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
