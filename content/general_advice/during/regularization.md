@@ -32,6 +32,27 @@ With sufficiently strong L1 regularization, some of these weights can be made to
 
 This results in a sparse representation. Therefore, L1 can be particularly useful when the goal is for the model to implicitly select a subset of relevant features.
 
+??? tip "PyTorch L1 Regularization API"
+
+    L1 regularization can be added to the loss function by computing the sum of the absolute values of the model weights:
+
+    ```python
+    class L1_regularization(nn.Module):
+        def forward(self, model):
+            return sum(
+                torch.sum(torch.abs(param)) for name, param in model.named_parameters() if "weight" in name
+            )
+    ```
+
+    The L1 penalty can then be added to the original loss function:
+
+    ```python
+    l1 = L1_regularization()
+    loss = original_loss + l1_lambda * l1(model)
+    ```
+
+    Here, `l1_lambda` controls the strength of the L1 regularization.
+
 
 
 ### L2 Regularization
@@ -64,6 +85,26 @@ The idea is to prevent certain weights from becoming too large and to reduce the
 
 In some implementations, such as PyTorch, the effect of L2 regularization can be controlled by the optimizer’s **weight_decay** parameter. However, **weight_decay** and L2 regularization are not necessarily equivalent for all optimization algorithms, especially in the case of adaptive optimizers such as Adam.
 
+??? tip "PyTorch L2 Regularization API"
+
+    L2 regularization can be added to the loss function by computing the sum of the squared model weights:
+
+    ```python
+    class L2_regularization(nn.Module):
+        def forward(self, model):
+            return sum(
+                torch.sum(param**2) for name, param in model.named_parameters() if "weight" in name
+            )
+    ```
+
+    The L2 penalty can then be added to the original loss function:
+
+    ```python
+    l2 = L2_regularization()
+    loss = original_loss + l2_lambda * l2(model)
+    ```
+
+    Here, `l2_lambda` controls the strength of the L2 regularization.
 
 
 ### Dropout
@@ -116,9 +157,21 @@ During inference, however, dropout is disabled, and the entire network is used.
 
 Dropout prevents the network from becoming overly dependent on certain neurons or specific combinations of neurons. It forces the network to learn representations that are more robust and distributed. Dropout can be particularly useful when the network has many parameters and is highly prone to overfitting.
 
+??? tip "PyTorch Dropout API"
+    Dropout can be implemented in PyTorch using the `nn.Dropout` API.
+
+    ```python
+    import torch.nn as nn
+
+    # Dropout with a probability of 20%
+    dropout = nn.Dropout(p=0.2)
+
+    # Apply dropout to the hidden-layer output
+    x = dropout(x)
+    ```
 
 
-??? example "Example"
+??? example "Example: Performance Comparison of Regularization Methods"
 
     Consider the case where we want to discriminate a BSM signal from the SM process in the final state with two charged leptons in events that pass the **baseline selection** defined below.
 
