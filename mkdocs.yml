@@ -148,6 +148,7 @@ nav:
         - Metrics & Losses: general_advice/before/metrics.md
       - During training:
         - Overfitting: general_advice/during/overfitting.md
+        - Regularization: general_advice/during/regularization.md
         - Cross-validation: general_advice/during/xvalidation.md
         - Optimisation problems: general_advice/during/opt.md
       - After training: general_advice/after/after.md
