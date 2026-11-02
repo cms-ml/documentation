@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: recursive
           persist-credentials: false
-	  lfs: true
+          lfs: true
 
       - name: Pull docker image 🐳
         run: docker pull cmsml/documentation
