@@ -29,6 +29,9 @@ jobs:
           SITE_DIR: site
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "--- site (vor rsync):"
+          head -c 120 $SITE_DIR/images/favicon.png | cat -v; echo
+
           git clone -b $PAGES_BRANCH https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git gh-pages-deployment-folder
           rsync -q -av --checksum --progress $SITE_DIR/. gh-pages-deployment-folder --exclude .ssh --exclude .git --exclude .github --exclude '*.gz'
 
@@ -40,6 +43,11 @@ jobs:
           git add --all .
           git commit -m "Deploying from @ $GITHUB_SHA 🚀"
 
-          git lfs migrate export --include="*"
+          echo "--- deploy-ordner:"; head -c 120 images/favicon.png | cat -v; echo
+          echo "--- im Commit:";     git cat-file -p HEAD:images/favicon.png | head -c 120 | cat -v; echo
+          echo "--- attributes:";    cat .gitattributes 2>/dev/null || echo "keine"
+          echo "--- lfs objekt da?"; ls -la .git/lfs/objects/db/1e/ 2>/dev/null || echo "fehlt"
+          git lfs ls-files -l | grep favicon || true
 
+          git lfs migrate export --include="*"
           git push -f
