@@ -7,46 +7,69 @@ docs_dir: content
 site_dir: site
 edit_uri: blob/master/content
 
+# watch theme override templates during `mkdocs serve` so changes trigger rebuilds
+watch:
+  - overrides
+
 repo_name: cms-ml/documentation
 repo_url: https://github.com/cms-ml/documentation
 
 use_directory_urls: false
-copyright: Copyright &copy; 2020-2023 CMS Machine Learning Group
+copyright: Copyright &copy; 2020-2026 CMS Machine Learning Group
 
 theme:
   name: material
+  custom_dir: overrides
   logo: images/logo.png
   favicon: images/favicon.png
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+  # "custom" lets content/stylesheets/extra.css define the CMS colors
   palette:
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: indigo
-      accent: orange
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: orange
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
   features:
-    - instant
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
+    - navigation.path
+    - navigation.top
+    - navigation.footer
     - announce.dismiss
     - content.action.edit
     - content.action.view
     - content.code.annotate
     - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
 
 plugins:
   - search:
       lang: en
   - minify:
       minify_html: true
-  - markdownextradata
   - git-revision-date-localized
   - termynal
   - include-markdown
@@ -56,6 +79,7 @@ markdown_extensions:
   - attr_list
   - def_list
   - footnotes
+  - md_in_html
   - meta
   - markdown.extensions.toc:
       permalink: true
@@ -74,8 +98,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.magiclink:
       repo_url_shorthand: true
-      user: squidfunk
-      repo: mkdocs-material
+      user: cms-ml
+      repo: documentation
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.snippets:
@@ -92,13 +116,14 @@ markdown_extensions:
       clickable_checkbox: true
   - pymdownx.tilde
 
+extra_css:
+  - stylesheets/extra.css
+
 extra_javascript:
-  - https://unpkg.com/mermaid@10.9/dist/mermaid.min.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 extra:
-  FOO: BAR
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/cms-ml
@@ -181,3 +206,6 @@ nav:
       - Autoencoders: training/autoencoders.md
       - HGQ: training/HGQ.md
 #    - Benchmarking:
+  - Skills Marketplace:
+    - Overview: marketplace/index.md
+    - Contributing: marketplace/contributing.md

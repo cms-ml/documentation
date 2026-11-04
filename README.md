@@ -13,14 +13,7 @@ Images and other binary resources are versioned through [Git LFS](https://git-lf
 
 In a new python environment `python -m venv venv && source venv/bin/activate` run the following for installing the dependecies:
 ```shell
-pip install mkdocs
-pip install mkdocs-material
-pip install pymdown-extensions
-pip install mkdocs-minify-plugin
-pip install mkdocs-markdownextradata-plugin
-pip install mkdocs-include-markdown-plugin
-pip install mkdocs-git-revision-date-localized-plugin
-pip install termynal
+pip install -r requirements.txt
 ```
 
 You can then build the documentation locally via

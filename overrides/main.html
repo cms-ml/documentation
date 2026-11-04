@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block announce %}
+<p class="cms-announce">
+  <span class="cms-announce__tag">New</span>
+  The <strong>CMS skills marketplace</strong> brings tested CMS analysis skills to AI coding agents.
+  <a href="{{ base_url }}/marketplace/index.html">Get started</a>
+  <span class="cms-announce__sep" aria-hidden="true">·</span>
+  <span class="cms-announce__extra">ML Knowledge Newsletter v3 is out:
+    <a href="{{ base_url }}/newsletter/newsletters.html">read it here</a></span>
+</p>
+{% endblock %}
+
+{% block hero %}
+{% if page.is_homepage %}
+<section class="cms-hero">
+  <div class="cms-hero__inner">
+    <p class="cms-hero__eyebrow">CMS Machine Learning Group</p>
+    <h1 class="cms-hero__title">Welcome to the CMS ML documentation hub</h1>
+    <p class="cms-hero__subtitle">A central place for CMS analyzers to find machine learning information relevant to their work, from training best practices to running models in CMSSW.</p>
+    <div class="cms-hero__actions">
+      <a class="md-button md-button--primary" href="{{ base_url }}/general_advice/intro.html">
+        {% include ".icons/material/book-open-page-variant-outline.svg" %}
+        Explore the guides
+      </a>
+      <a class="md-button" href="{{ base_url }}/marketplace/index.html">
+        {% include ".icons/material/puzzle-outline.svg" %}
+        Skills marketplace
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{#- The hero already holds the page title, so the home page skips the
+    automatic heading and the edit buttons. -#}
+{% block content %}
+{% if page.is_homepage %}
+{{ page.content }}
+{% else %}
+{{ super() }}
+{% endif %}
+{% endblock %}
