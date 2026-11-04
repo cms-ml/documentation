@@ -1,71 +1,92 @@
 /* ----------------------------------------------------------------------------
- * CMS ML Documentation — custom theme extensions
- * Design language: CERN/CMS blue identity, dark navy hero, card-based layout
+ * CMS ML Documentation — custom theme
+ * CERN/CMS blue identity, navy header and hero, card-based home page.
+ * mkdocs.yml sets the palette to "custom", so the colors below take effect.
  * -------------------------------------------------------------------------- */
 
-/* Palette: CERN blue primary, orange accent -------------------------------- */
+/* Colors ---------------------------------------------------------------------- */
 
 :root {
+  --cms-navy-950: #040b1a;
+  --cms-navy-900: #071630;
+  --cms-navy-800: #0a2347;
+  --cms-header-bg: var(--cms-navy-900);
+}
+
+/* Light scheme (Material reads these from <body>, hence :root > *) */
+:root > * {
   --md-primary-fg-color: #0053a1;
   --md-primary-fg-color--light: #2b74c4;
   --md-primary-fg-color--dark: #003c74;
   --md-primary-bg-color: #ffffff;
-  --md-primary-bg-color--light: #eef4fb;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
   --md-accent-fg-color: #e07b00;
+  --md-accent-fg-color--transparent: rgba(224, 123, 0, 0.1);
+  --md-accent-bg-color: #ffffff;
+  --md-accent-bg-color--light: rgba(255, 255, 255, 0.7);
   --md-typeset-a-color: #0053a1;
-  --cms-hero-bg: linear-gradient(
-      160deg,
-      #050d1f 0%,
-      #082a52 55%,
-      #0053a1 135%
-    );
-  --cms-card-bg: #ffffff;
-  --cms-card-border: rgba(2, 32, 71, 0.14);
-  --cms-card-shadow: rgba(2, 18, 43, 0.16);
-  --cms-banner-bg: #eef4fb;
+  --md-footer-bg-color: var(--cms-navy-900);
+  --md-footer-bg-color--dark: var(--cms-navy-950);
+
+  --cms-surface: #ffffff;
+  --cms-surface-muted: #f5f8fc;
+  --cms-tint: #eaf2fb;
+  --cms-border: rgba(2, 32, 71, 0.12);
+  --cms-border-strong: rgba(2, 32, 71, 0.22);
+  --cms-shadow: rgba(2, 18, 43, 0.12);
 }
 
+/* Dark scheme */
 [data-md-color-scheme="slate"] {
   --md-primary-fg-color: #6db3ff;
   --md-primary-fg-color--light: #9cc9ff;
   --md-primary-fg-color--dark: #3e8ee8;
+  --md-primary-bg-color: #04122a;
+  --md-primary-bg-color--light: rgba(4, 18, 42, 0.7);
   --md-accent-fg-color: #ffb055;
+  --md-accent-fg-color--transparent: rgba(255, 176, 85, 0.12);
+  --md-accent-bg-color: #04122a;
+  --md-accent-bg-color--light: rgba(4, 18, 42, 0.7);
   --md-typeset-a-color: #6db3ff;
-  --md-default-bg-color: #0d1424;
-  --md-default-bg-color--light: #16203a;
-  --md-default-bg-color--lighter: #1d2a4a;
-  --md-default-bg-color--darkest: #070c18;
-  --cms-card-bg: #141e33;
-  --cms-card-border: rgba(120, 170, 255, 0.16);
-  --cms-card-shadow: rgba(0, 0, 0, 0.45);
-  --cms-banner-bg: #16203a;
+  --md-default-bg-color: hsla(222, 42%, 9%, 1);
+  --md-default-bg-color--light: hsla(222, 42%, 9%, 0.54);
+  --md-default-bg-color--lighter: hsla(222, 42%, 9%, 0.26);
+  --md-default-bg-color--lightest: hsla(222, 42%, 9%, 0.07);
+  --md-code-bg-color: #101a2e;
+
+  --cms-surface: #111b30;
+  --cms-surface-muted: #0e1729;
+  --cms-tint: #15264a;
+  --cms-border: rgba(120, 170, 255, 0.14);
+  --cms-border-strong: rgba(120, 170, 255, 0.3);
+  --cms-shadow: rgba(0, 0, 0, 0.45);
 }
 
-/* Layout: full-width grid ---------------------------------------------------- */
+/* Layout -------------------------------------------------------------------- */
 
+/* Wider than Material's default, but capped so lines stay readable */
 .md-grid {
-  max-width: 100%;
+  max-width: 80rem;
 }
 
-/* Body text: slightly larger on wide screens for readability ----------------- */
-
-@media screen and (min-width: 76.1875em) {
+@media screen and (min-width: 76.25em) {
   .md-typeset {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     line-height: 1.75;
   }
 }
 
-/* Announcement banner ---------------------------------------------------------- */
+/* Announcement bar ---------------------------------------------------------- */
 
 .md-banner {
-  background: linear-gradient(90deg, #04182f 0%, #0a2d55 100%);
-  color: rgba(255, 255, 255, 0.85);
+  background-color: var(--cms-navy-950);
+  color: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .md-banner .md-banner__inner {
-  font-size: 0.8rem;
-  margin: 0.55rem auto;
+  margin: 0.5rem auto;
+  font-size: 0.72rem;
 }
 
 .md-banner strong {
@@ -85,156 +106,368 @@
   margin: 0;
 }
 
-.cms-announce__icon {
+.cms-announce__tag {
+  display: inline-block;
+  margin-right: 0.45rem;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid rgba(255, 176, 85, 0.45);
+  border-radius: 999px;
   color: #ffb055;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: 0.08em;
 }
 
-.cms-announce__icon svg {
-  width: 1.05em;
-  height: 1.05em;
-  vertical-align: -0.15em;
+.cms-announce__sep {
+  margin: 0 0.5rem;
+  opacity: 0.4;
 }
 
-.cms-announce__note {
-  opacity: 0.75;
+@media screen and (max-width: 59.9844em) {
+  .cms-announce__extra,
+  .cms-announce__sep {
+    display: none;
+  }
 }
 
-/* Header -------------------------------------------------------------------- */
+/* Header and tabs ----------------------------------------------------------- */
+
+.md-header,
+.md-tabs {
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.72);
+  background-color: var(--cms-header-bg);
+  color: #ffffff;
+}
 
 .md-header {
-  box-shadow: 0 2px 12px rgba(2, 18, 43, 0.25);
+  box-shadow: none;
 }
 
-.md-header .md-header__title {
+.md-header--shadow {
+  box-shadow:
+    0 0 0.2rem rgba(0, 0, 0, 0.1),
+    0 0.2rem 0.8rem rgba(2, 10, 26, 0.35);
+}
+
+.md-header__title {
   font-weight: 600;
 }
 
-/* Hero (rendered from the theme template, directly below the header) -------- */
-
-/* Hide the edit/view-source buttons on the landing page (they would
- * otherwise overlap the top of the card grid) */
-.md-content__inner:has(> .cms-cards) .md-content__button {
-  display: none;
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.6rem;
+  width: auto;
+  border-radius: 0.3rem;
 }
+
+.md-tabs__link {
+  font-weight: 500;
+}
+
+.md-tabs__item {
+  position: relative;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: #ffffff;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.md-tabs__item--active::after {
+  content: "";
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0;
+  left: 0.6rem;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background-color: #ffb055;
+}
+
+@media screen and (min-width: 60em) {
+  .md-search__form {
+    border-radius: 0.45rem;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .md-search__form:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+/* Mobile drawer title uses the header color too */
+.md-nav--primary .md-nav__title[for="__drawer"] {
+  background-color: var(--cms-header-bg);
+  color: #ffffff;
+}
+
+/* Typography ------------------------------------------------------------------ */
+
+.md-typeset h1 {
+  margin-bottom: 1rem;
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h2 {
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+}
+
+.md-typeset dt {
+  font-weight: 600;
+}
+
+.md-typeset code {
+  border-radius: 0.25rem;
+}
+
+.md-typeset pre > code {
+  border-radius: 0.45rem;
+}
+
+.md-typeset .highlight span.filename {
+  border-radius: 0.45rem 0.45rem 0 0;
+}
+
+.md-typeset .highlight span.filename + pre > code {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--cms-border);
+  border-radius: 0.5rem;
+  font-size: 0.7rem;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--cms-surface-muted);
+}
+
+/* Keep identifiers in the first column (skill names, options) on one line */
+.md-typeset table:not([class]) td:first-child > code {
+  white-space: nowrap;
+}
+
+/* Buttons ------------------------------------------------------------------- */
+
+.md-typeset .md-button {
+  padding: 0.55em 1.3em;
+  border-width: 1px;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.md-typeset .md-button > .twemoji {
+  margin-right: 0.35em;
+}
+
+.cms-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.2rem 0 0;
+}
+
+.md-typeset .cms-actions > p {
+  display: contents;
+}
+
+/* Sidebar navigation ------------------------------------------------------ */
+
+.md-nav__link--active {
+  font-weight: 600;
+}
+
+/* Hero (rendered from overrides/main.html on the home page only) ------------- */
 
 .cms-hero {
   position: relative;
-  margin: 0 0 2.4rem;
-  padding: 3.25rem 1.25rem 2.75rem;
   overflow: hidden;
-  text-align: center;
   color: #ffffff;
   background:
     radial-gradient(
-      ellipse 80% 60% at 72% -10%,
-      rgba(77, 151, 255, 0.32),
+      ellipse 70% 80% at 78% -20%,
+      rgba(77, 151, 255, 0.35),
       transparent 60%
     ),
     radial-gradient(
-      ellipse 70% 55% at 12% 115%,
-      rgba(224, 123, 0, 0.2),
+      ellipse 60% 70% at 8% 120%,
+      rgba(224, 123, 0, 0.22),
       transparent 55%
     ),
-    var(--cms-hero-bg);
-  border-radius: 0 0 1rem 1rem;
+    linear-gradient(170deg, #050d1f 0%, #082a52 70%, #0b3a72 120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* Faint dot grid that fades out toward the edges */
 .cms-hero::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image: radial-gradient(
-    rgba(255, 255, 255, 0.07) 1px,
+    rgba(255, 255, 255, 0.09) 1px,
     transparent 1.4px
   );
   background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 80% at 50% 40%,
+    #000 30%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 80% at 50% 40%,
+    #000 30%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
-.cms-hero > * {
+.cms-hero__inner {
   position: relative;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1rem 2.8rem;
+  text-align: center;
 }
 
 .cms-hero__eyebrow {
-  margin: 0 0 0.75rem;
-  font-size: 0.72rem;
+  margin: 0 0 0.9rem;
+  color: #9cc7ff;
+  font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #9cc7ff;
 }
 
 .cms-hero__title {
-  margin: 0 auto 1rem;
-  max-width: 24ch;
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
-  font-weight: 800;
-  line-height: 1.12;
+  max-width: 20ch;
+  margin: 0 auto 0.9rem;
   color: #ffffff;
+  font-size: clamp(1.6rem, 4.2vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .cms-hero__subtitle {
-  margin: 0 auto 1.6rem;
-  max-width: 55rem;
-  font-size: 1.15rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.95);
+  max-width: 36rem;
+  margin: 0 auto 1.7rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+  line-height: 1.65;
 }
 
-.cms-hero__subtitle a {
-  color: #9cc7ff;
+.cms-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
 }
 
+/* The hero sits outside .md-typeset, so its buttons are styled from scratch */
 .cms-hero .md-button {
-  margin: 0.4rem 0.5rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.65em 1.35em;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0.55rem;
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
-.cms-hero .md-button:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+.cms-hero .md-button svg {
+  width: 1.15em;
+  height: 1.15em;
+  fill: currentColor;
+}
+
+.cms-hero .md-button:hover,
+.cms-hero .md-button:focus-visible {
   border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .cms-hero .md-button--primary {
-  color: #003c74;
-  background-color: #ffffff;
   border-color: #ffffff;
+  background-color: #ffffff;
+  color: #003c74;
 }
 
-.cms-hero .md-button--primary:hover {
-  background-color: #e8f1fb;
-  border-color: #e8f1fb;
+.cms-hero .md-button--primary:hover,
+.cms-hero .md-button--primary:focus-visible {
+  border-color: #e3eefb;
+  background-color: #e3eefb;
+  color: #003c74;
 }
 
-@media screen and (min-width: 76.1875em) {
-  .cms-hero {
-    padding: 4rem 3rem 3.5rem;
+@media screen and (min-width: 76.25em) {
+  .cms-hero__inner {
+    padding: 4.2rem 1rem 3.8rem;
   }
 }
 
-/* Card grid (homepage) -------------------------------------------------------- */
+/* Home page sections ---------------------------------------------------------- */
+
+.md-typeset .cms-section-label {
+  margin: 0.4rem 0 0.9rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Card grid */
 
 .cms-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: 1rem;
-  margin: 0 0 0.8rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+  margin: 0 0 2rem;
 }
 
-.cms-cards > p {
+@media screen and (min-width: 45em) {
+  .cms-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 76.25em) {
+  .cms-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.md-typeset .cms-cards > p {
   display: contents;
 }
 
-.cms-card {
+.md-typeset .cms-card {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  padding: 1.35rem 1.3rem 1.25rem;
-  background-color: var(--cms-card-bg);
-  border: 1px solid var(--cms-card-border);
-  border-radius: 0.65rem;
+  gap: 0.4rem;
+  padding: 1.2rem 1.25rem 1.15rem;
+  border: 1px solid var(--cms-border);
+  border-radius: 0.75rem;
+  background-color: var(--cms-surface);
   color: inherit;
   text-decoration: none;
   transition:
@@ -243,73 +476,238 @@
     border-color 0.18s ease;
 }
 
-.cms-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0.55rem 1.4rem var(--cms-card-shadow);
-  border-color: var(--md-primary-fg-color);
-  text-decoration: none;
+.md-typeset .cms-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--cms-border-strong);
+  box-shadow: 0 0.6rem 1.4rem var(--cms-shadow);
+  color: inherit;
 }
 
-.cms-card:focus-visible {
+.md-typeset .cms-card:focus-visible {
   outline: 2px solid var(--md-accent-fg-color);
   outline-offset: 2px;
 }
 
 .cms-card__icon {
-  font-size: 1.7rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-bottom: 0.35rem;
+  border-radius: 0.55rem;
+  background-color: var(--cms-tint);
   color: var(--md-primary-fg-color);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.md-typeset .cms-card__icon .twemoji {
+  vertical-align: middle;
 }
 
 .cms-card__title {
-  font-size: 1.02rem;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   color: var(--md-default-fg-color);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.cms-card:hover .cms-card__title {
+.cms-card__title::after {
+  content: "→";
   color: var(--md-primary-fg-color);
+  opacity: 0;
+  transform: translateX(-0.25rem);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.cms-card:hover .cms-card__title::after,
+.cms-card:focus-visible .cms-card__title::after {
+  opacity: 1;
+  transform: none;
 }
 
 .cms-card__desc {
-  font-size: 0.82rem;
-  line-height: 1.5;
   color: var(--md-default-fg-color--light);
+  font-size: 0.74rem;
+  line-height: 1.55;
 }
 
-.cms-more {
+/* Marketplace spotlight */
+
+.cms-spotlight {
+  --md-code-fg-color: #e6edf7;
+  --md-code-bg-color: rgba(2, 8, 20, 0.55);
+  --md-code-bg-color--light: rgba(255, 255, 255, 0.06);
+  --md-code-bg-color--lighter: transparent;
+  --md-default-fg-color--light: rgba(255, 255, 255, 0.7);
+  --md-default-fg-color--lightest: rgba(255, 255, 255, 0.35);
+  --md-accent-fg-color: #ffb055;
+
+  display: grid;
+  /* minmax(0, …) lets the code block scroll instead of widening the panel */
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 1.4rem;
   margin: 0 0 2rem;
-  text-align: center;
-  font-weight: 600;
-  color: var(--md-default-fg-color--light);
+  padding: 1.5rem 1.4rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background:
+    radial-gradient(
+      ellipse 55% 90% at 100% 0%,
+      rgba(77, 151, 255, 0.3),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 45% 70% at 0% 100%,
+      rgba(224, 123, 0, 0.2),
+      transparent 60%
+    ),
+    linear-gradient(150deg, #071630 0%, #0a2a55 100%);
+  color: rgba(255, 255, 255, 0.82);
 }
 
-/* Newsletter banner (homepage) ------------------------------------------------- */
-
-.cms-banner {
-  margin: 0 0 1.6rem;
-  padding: 1.1rem 1.3rem;
-  background-color: var(--cms-banner-bg);
-  border-left: 0.25rem solid var(--md-primary-fg-color);
-  border-radius: 0.5rem;
+@media screen and (min-width: 60em) {
+  .cms-spotlight {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 2.2rem;
+    padding: 2.2rem 2.4rem;
+  }
 }
 
-.cms-banner p {
+.md-typeset .cms-spotlight h2 {
+  margin: 0.6rem 0 0.6rem;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset .cms-spotlight p {
+  margin: 0 0 0.6rem;
+}
+
+.md-typeset .cms-spotlight a:not(.md-button) {
+  color: #9cc7ff;
+}
+
+.md-typeset .cms-spotlight .headerlink {
+  display: none;
+}
+
+.md-typeset .cms-spotlight .md-button {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+.md-typeset .cms-spotlight .md-button:hover,
+.md-typeset .cms-spotlight .md-button:focus-visible {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.md-typeset .cms-spotlight .md-button--primary {
+  border-color: #ffffff;
+  background-color: #ffffff;
+  color: #003c74;
+}
+
+.md-typeset .cms-spotlight .md-button--primary:hover,
+.md-typeset .cms-spotlight .md-button--primary:focus-visible {
+  border-color: #e3eefb;
+  background-color: #e3eefb;
+  color: #003c74;
+}
+
+.md-typeset .cms-spotlight .highlight {
   margin: 0;
 }
 
-.cms-banner .twemoji {
-  font-size: 1.35em;
-  vertical-align: -0.22em;
-  margin-right: 0.3rem;
-  color: var(--md-primary-fg-color);
+.md-typeset .cms-spotlight pre > code {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.72rem;
+  line-height: 1.8;
+}
+
+.md-typeset .cms-spotlight .cms-spotlight__code-label {
+  margin: 0 0 0.45rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cms-pill {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border: 1px solid rgba(255, 176, 85, 0.4);
+  border-radius: 999px;
+  background-color: rgba(255, 176, 85, 0.12);
+  color: #ffb055;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Newsletter banner */
+
+.cms-banner {
+  margin: 0 0 2rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--cms-border);
+  border-radius: 0.75rem;
+  background-color: var(--cms-surface-muted);
+}
+
+.md-typeset .cms-banner p {
+  margin: 0;
+}
+
+.md-typeset .cms-banner .twemoji {
+  margin-right: 0.35rem;
+  color: var(--md-accent-fg-color);
+  font-size: 1.25em;
+  vertical-align: -0.2em;
+}
+
+/* About text at the bottom of the home page */
+
+.md-typeset .cms-about {
+  margin: 0 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--cms-border);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.78rem;
+}
+
+.md-typeset .cms-about p {
+  margin: 0 0 0.5rem;
+}
+
+/* Content pages ------------------------------------------------------------ */
+
+/* Larger intro paragraph under a page title */
+.md-typeset .cms-lead {
+  color: var(--md-default-fg-color--light);
+  font-size: 1.05em;
 }
 
 /* Accessibility --------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .cms-card,
-  .cms-card:hover {
+  .md-typeset .cms-card,
+  .md-typeset .cms-card:hover,
+  .cms-card__title::after {
     transition: none;
     transform: none;
   }

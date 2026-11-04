@@ -2,21 +2,43 @@
 
 {% block announce %}
 <p class="cms-announce">
-  <span class="cms-announce__icon">{% include ".icons/material/bullhorn-outline.svg" %}</span>
-  <strong>ML Knowledge Newsletter v3 is out!</strong>
-  <a href="{{ base_url }}/newsletter/newsletters.html">Read it here</a>
-  <span class="cms-announce__note">— we're always looking for new writers and contributors</span>
+  <span class="cms-announce__tag">New</span>
+  The <strong>CMS skills marketplace</strong> brings tested CMS analysis skills to AI coding agents.
+  <a href="{{ base_url }}/marketplace/index.html">Get started</a>
+  <span class="cms-announce__sep" aria-hidden="true">·</span>
+  <span class="cms-announce__extra">ML Knowledge Newsletter v3 is out:
+    <a href="{{ base_url }}/newsletter/newsletters.html">read it here</a></span>
 </p>
 {% endblock %}
 
 {% block hero %}
 {% if page.is_homepage %}
-<div class="cms-hero">
-  <p class="cms-hero__eyebrow">CMS Machine Learning Group</p>
-  <h1 class="cms-hero__title">Welcome to the CMS ML documentation hub</h1>
-  <p class="cms-hero__subtitle">The goal of this page is to provide CMS analyzers a centralized place to gather machine learning information relevant to their work. However, we are not seeking to rewrite external documentation. Whenever applicable, we will link to external documentation, such as the iML group's <a href="https://iml-wg.github.io/HEPML-LivingReview/">HEP Living Review</a> or their <a href="https://github.com/iml-wg/HEP-ML-Resources">ML Resources</a> repository. What you will find here:</p>
-  <a class="md-button md-button--primary" href="general_advice/intro.html">Explore the guides</a>
-  <a class="md-button" href="newsletter/newsletters.html">ML Knowledge Newsletter</a>
-</div>
+<section class="cms-hero">
+  <div class="cms-hero__inner">
+    <p class="cms-hero__eyebrow">CMS Machine Learning Group</p>
+    <h1 class="cms-hero__title">Welcome to the CMS ML documentation hub</h1>
+    <p class="cms-hero__subtitle">A central place for CMS analyzers to find machine learning information relevant to their work, from training best practices to running models in CMSSW.</p>
+    <div class="cms-hero__actions">
+      <a class="md-button md-button--primary" href="{{ base_url }}/general_advice/intro.html">
+        {% include ".icons/material/book-open-page-variant-outline.svg" %}
+        Explore the guides
+      </a>
+      <a class="md-button" href="{{ base_url }}/marketplace/index.html">
+        {% include ".icons/material/puzzle-outline.svg" %}
+        Skills marketplace
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{#- The hero already holds the page title, so the home page skips the
+    automatic heading and the edit buttons. -#}
+{% block content %}
+{% if page.is_homepage %}
+{{ page.content }}
+{% else %}
+{{ super() }}
 {% endif %}
 {% endblock %}
