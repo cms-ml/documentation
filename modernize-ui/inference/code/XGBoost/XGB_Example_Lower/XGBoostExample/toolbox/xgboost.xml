@@ -1,0 +1,10 @@
+<tool name="xgboost" version="0.80">
+  <lib name="xgboost"/>
+  <client>
+    <environment name="LIBDIR" default="/cvmfs/cms.cern.ch/$SCRAM_ARCH/external/py2-xgboost/0.80-ikaegh/lib/python2.7/site-packages/xgboost/lib"/>
+    <environment name="INCLUDE" default="/cvmfs/cms.cern.ch/$SCRAM_ARCH/external/py2-xgboost/0.80-ikaegh/lib/python2.7/site-packages/xgboost/include/"/>
+  </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <runtime name="PATH" value="$INCLUDE" type="path"/>
+  <use name="rabit"/>
+</tool>
