@@ -1,0 +1,83 @@
+{
+  "repository": "cms-ml/marketplace",
+  "source": "https://docs.github.com/rest/metrics/traffic#get-repository-clones",
+  "updated": "2026-11-07T09:17Z",
+  "window": {
+    "days": 14,
+    "end": "2026-11-06",
+    "count": 240,
+    "uniques": 99
+  },
+  "days": [
+    {
+      "date": "2026-10-24",
+      "count": 3,
+      "uniques": 3
+    },
+    {
+      "date": "2026-10-25",
+      "count": 16,
+      "uniques": 6
+    },
+    {
+      "date": "2026-10-26",
+      "count": 2,
+      "uniques": 2
+    },
+    {
+      "date": "2026-10-27",
+      "count": 13,
+      "uniques": 5
+    },
+    {
+      "date": "2026-10-28",
+      "count": 7,
+      "uniques": 5
+    },
+    {
+      "date": "2026-10-29",
+      "count": 25,
+      "uniques": 16
+    },
+    {
+      "date": "2026-10-30",
+      "count": 14,
+      "uniques": 8
+    },
+    {
+      "date": "2026-10-31",
+      "count": 11,
+      "uniques": 5
+    },
+    {
+      "date": "2026-11-01",
+      "count": 6,
+      "uniques": 4
+    },
+    {
+      "date": "2026-11-02",
+      "count": 14,
+      "uniques": 8
+    },
+    {
+      "date": "2026-11-03",
+      "count": 3,
+      "uniques": 3
+    },
+    {
+      "date": "2026-11-04",
+      "count": 93,
+      "uniques": 35
+    },
+    {
+      "date": "2026-11-05",
+      "count": 1,
+      "uniques": 1
+    },
+    {
+      "date": "2026-11-06",
+      "count": 32,
+      "uniques": 15
+    }
+  ]
+}
