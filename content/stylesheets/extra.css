@@ -694,6 +694,172 @@
   margin: 0 0 0.5rem;
 }
 
+/* Marketplace clone tracker (drawn by javascripts/clone-stats.js) ------------- */
+
+:root > * {
+  --cms-chart-bar: #0053a1;
+  --cms-chart-bar-active: #2b74c4;
+  --cms-chart-band: rgba(2, 32, 71, 0.05);
+  --cms-chart-grid: rgba(2, 32, 71, 0.1);
+}
+
+[data-md-color-scheme="slate"] {
+  --cms-chart-bar: #3e8ee8;
+  --cms-chart-bar-active: #6db3ff;
+  --cms-chart-band: rgba(120, 170, 255, 0.07);
+  --cms-chart-grid: rgba(120, 170, 255, 0.12);
+}
+
+.cms-clones {
+  margin: 1.2rem 0 1.5rem;
+}
+
+.cms-clones__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cms-clones__stat,
+.cms-clones__card {
+  border: 1px solid var(--cms-border);
+  border-radius: 0.6rem;
+  background-color: var(--cms-surface);
+}
+
+.cms-clones__stat {
+  padding: 0.75rem 1rem;
+}
+
+.cms-clones__value {
+  display: block;
+  color: var(--md-default-fg-color);
+  font-size: 1.35rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.cms-clones__label {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.cms-clones__card {
+  padding: 0.9rem 1rem 0.6rem;
+}
+
+.md-typeset .cms-clones__title {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.cms-clones__frame {
+  position: relative;
+}
+
+.cms-clones__frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.cms-clones__grid {
+  stroke: var(--cms-chart-grid);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.cms-clones__axis,
+.cms-clones__peak {
+  fill: var(--md-default-fg-color--light);
+  font-family: var(--md-text-font-family);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cms-clones__peak {
+  fill: var(--md-default-fg-color);
+  font-weight: 600;
+}
+
+.cms-clones__bar {
+  fill: var(--cms-chart-bar);
+}
+
+.cms-clones__hit {
+  fill: transparent;
+}
+
+.cms-clones__column {
+  outline: none;
+}
+
+.cms-clones__column.is-active .cms-clones__hit {
+  fill: var(--cms-chart-band);
+}
+
+.cms-clones__column.is-active .cms-clones__bar {
+  fill: var(--cms-chart-bar-active);
+}
+
+/* The tooltip repeats the peak value, so its label steps aside */
+.cms-clones__column.is-active .cms-clones__peak {
+  opacity: 0;
+}
+
+.cms-clones__column:focus-visible .cms-clones__hit {
+  stroke: var(--md-accent-fg-color);
+  stroke-width: 2;
+}
+
+.cms-clones__tooltip {
+  position: absolute;
+  z-index: 2;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--cms-border-strong);
+  border-radius: 0.4rem;
+  background-color: var(--md-default-bg-color);
+  box-shadow: 0 0.3rem 0.8rem var(--cms-shadow);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.64rem;
+  line-height: 1.45;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+}
+
+.cms-clones__tooltip[hidden] {
+  display: none;
+}
+
+.cms-clones__tooltip strong {
+  color: var(--md-default-fg-color);
+  font-size: 0.8rem;
+}
+
+.cms-clones__tooltip-date {
+  margin-top: 0.1rem;
+  opacity: 0.8;
+}
+
+.md-typeset .cms-clones__updated {
+  margin: 0.2rem 0 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.62rem;
+  text-align: right;
+}
+
+.md-typeset .cms-clones__data table:not([class]) td,
+.md-typeset .cms-clones__data table:not([class]) th {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Content pages ------------------------------------------------------------ */
 
 /* Larger intro paragraph under a page title */

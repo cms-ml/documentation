@@ -162,6 +162,19 @@ For a complete, ready-to-paste example, try the [dimuon resonances prompt](https
 
 Every skill and agent in the marketplace is validated by an analysis that uses it, run by an agent, with the outputs committed to the repository. Each validation records the prompt given to the agent and a `SKILLS_USED.md` noting where the skills helped and where they fell short. The reference example is [validation/dijet-2016](https://github.com/cms-ml/marketplace/tree/master/validation/dijet-2016), a b-tagged dijet search on 2016 Open Data.
 
+## Marketplace clones
+
+Adding the marketplace with `/plugin marketplace add` clones its repository, so clones are a rough measure of how many people are trying it out.
+
+<div class="cms-clones" data-src="data/clones.json">
+<p>The clone chart needs JavaScript. The numbers are in <a href="data/clones.json">clones.json</a>.</p>
+</div>
+
+??? note "About these numbers"
+    The numbers come from GitHub's traffic statistics for [cms-ml/marketplace](https://github.com/cms-ml/marketplace). Someone who clones on two different days counts as a unique cloner on both days, and the repository's own CI checks add a few clones of their own.
+
+    GitHub only keeps the last 14 days of traffic, so a scheduled job saves it twice a week. The record starts on October 24, 2026; earlier traffic had already expired.
+
 ## Get involved
 
 The marketplace grows through contributions from CMS members. If a skill gave you a wrong answer, open an [issue](https://github.com/cms-ml/marketplace/issues). If you have expertise worth sharing, [write a skill](contributing.md).
