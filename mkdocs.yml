@@ -208,4 +208,5 @@ nav:
 #    - Benchmarking:
   - Skills Marketplace:
     - Overview: marketplace/index.md
+    - Validation: marketplace/validation.md
     - Contributing: marketplace/contributing.md
