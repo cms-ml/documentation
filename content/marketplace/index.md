@@ -39,6 +39,8 @@ You don't call skills by name. Describe the physics task, and the agent picks up
     | `cmssw` | Release areas, architectures and containers, EDM modules, `cmsRun` configs, EDM file tools |
     | `hepdata` | HEPData records with `hepdata_lib`, validated offline, following CMS requirements |
     | `hist` | Histograms with `hist` and `mplhep` for CMS (weights, normalisation, UHI, CMS-style plots) |
+    | `muon-tag-and-probe` | Muon ID, isolation and trigger efficiencies and scale factors from Z → μμ tag and probe, compared with the Muon POG correctionlib values |
+    | `nanoaod-skimming` | Skimming and slimming NanoAOD (uproot or RDataFrame) with golden JSON, genEventSumw bookkeeping and luminosity accounting |
     | `trigger-efficiency` | Trigger turn-ons and offline thresholds from NanoAOD (reference method, Clopper-Pearson, plateau rule) |
     | `vector-awkward` | Four-vector kinematics on NanoAOD with `vector` and Awkward (masses, ΔR, m~T~, boosts) |
 
@@ -53,7 +55,19 @@ You don't call skills by name. Describe the physics task, and the agent picks up
 
     | Skill | Use it for |
     | --- | --- |
+    | `cmsconnect-lpc` | Field notes for CMS Connect and large productions on the LPC pool: wrapper pitfalls, microarchitecture, site vetoes, GEN productions |
     | `lpc-condor` | HTCondor batch jobs on cmslpc: inputs over XRootD, outputs to EOS, checking and resubmitting failed jobs |
+
+=== "af-cern-lxplus"
+
+    Skills for CMS work on CERN lxplus.
+
+    | Skill | Use it for |
+    | --- | --- |
+    | `crab` | CRAB on EL9: setup, sizing, sites, exit codes, recovery tasks |
+    | `eos-xrootd` | EOS and XRootD at CERN and FNAL: URLs, verified copies, FUSE pitfalls, quotas |
+    | `lxplus-access` | Reaching lxplus from agents: Kerberos, node pinning, node-local `/tmp`, shell pitfalls |
+    | `lxplus-htcondor` | CERN lxbatch HTCondor: memory, CPU and GPU requests, flavours, holds, EosSubmit, stage-out |
 
 === "hep-python-tools"
 
@@ -77,6 +91,7 @@ A `cms-ml` plugin for ML workflows, covering weaver training and ONNX, TensorFlo
     /plugin install cms@cms-marketplace
     /plugin install hep-python-tools@cms-marketplace
     /plugin install af-fnal-lpc@cms-marketplace
+    /plugin install af-cern-lxplus@cms-marketplace
     ```
 
 === "From a terminal"
@@ -86,6 +101,7 @@ A `cms-ml` plugin for ML workflows, covering weaver training and ONNX, TensorFlo
     claude plugin install cms@cms-marketplace
     claude plugin install hep-python-tools@cms-marketplace
     claude plugin install af-fnal-lpc@cms-marketplace   # LPC users: condor batch jobs
+    claude plugin install af-cern-lxplus@cms-marketplace # lxplus users: lxbatch, EOS, CRAB
     claude plugin list                                  # each should show "enabled"
     ```
 
@@ -160,7 +176,20 @@ For a complete, ready-to-paste example, try the [dimuon resonances prompt](https
 
 ## How skills are validated
 
-Every skill and agent in the marketplace is validated by an analysis that uses it, run by an agent, with the outputs committed to the repository. Each validation records the prompt given to the agent and a `SKILLS_USED.md` noting where the skills helped and where they fell short. The reference example is [validation/dijet-2016](https://github.com/cms-ml/marketplace/tree/master/validation/dijet-2016), a b-tagged dijet search on 2016 Open Data.
+Every skill and agent in the marketplace is validated by an analysis that uses it, run by an agent, with the outputs committed to the repository. Each validation records the prompt given to the agent and a `SKILLS_USED.md` noting where the skills helped and where they fell short. Those notes go back into the skill before it is merged.
+
+| Validation | Tests | Result |
+| --- | --- | --- |
+| b-tagged dijet search, 2016 Open Data | `cms-analysis-coder`, `trigger-efficiency`, `hepdata`, core skills | Turn-on, fits, signal injection and a HEPData record from 142 files |
+| Comparison with CMS results | `cms-results-validator` | 21 tests against 6 CMS HEPData records |
+| Muon tag and probe | `muon-tag-and-probe` | Tight ID scale factors within 0.1% of the Muon POG |
+| NanoAOD skimming | `nanoaod-skimming` | 33/33 checks, including a cutflow with N-1; Z peak data/MC 0.945 |
+| Batch jobs on cmslpc and lxplus | `lpc-condor`, `af-cern-lxplus` skills | All jobs exit 0; identical counts at both sites |
+
+<div class="cms-actions" markdown>
+[:material-chart-line: Validation results and plots](validation.md){ .md-button .md-button--primary }
+[:fontawesome-brands-github: validation/ on GitHub](https://github.com/cms-ml/marketplace/tree/master/validation){ .md-button }
+</div>
 
 ## Get involved
 
